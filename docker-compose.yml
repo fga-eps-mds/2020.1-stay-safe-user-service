@@ -1,0 +1,27 @@
+version: '3.6'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    depends_on:
+      - db
+    container_name: api-server
+    volumes:
+      - ./src:/app
+    ports:
+      - "8083:8083"
+
+  db:
+    environment:
+      POSTGRES_USER: postgres 
+      POSTGRES_PASSWORD: mysecret
+      POSTGRES_DB: stay-safe
+    image: postgres
+    container_name: database
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+     - 5432:5432
+
