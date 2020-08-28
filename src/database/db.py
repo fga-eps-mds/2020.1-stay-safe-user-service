@@ -65,4 +65,4 @@ def delete(model, identifier):
         logger.error(error)
         session.rollback()
 
-        return "User not found!", 400
+        return "User not found!", 404
