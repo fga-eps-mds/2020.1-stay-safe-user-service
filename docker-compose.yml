@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
+    environment:
+      - SQLALCHEMY_DB_URL=postgresql+psycopg2://postgres:mysecret@database:5432/stay-safe
     depends_on:
       - db
     container_name: api-server
