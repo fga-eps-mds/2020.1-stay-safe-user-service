@@ -17,9 +17,13 @@ def insert_one(element):
     try:
         session.add(element)
         session.commit()
+
+        return "User created successfully!", 201
     except Exception as error:
         logger.error(error)
         session.rollback()
+
+        return str(error), 400
 
 
 def get_all(model):
@@ -27,12 +31,12 @@ def get_all(model):
         data = session.query(model).all()
         session.commit()
 
-        return data
+        return data, 200
     except Exception as error:
         logger.error(error)
         session.rollback()
 
-        return None
+        return str(error), 400
 
 
 def get_one(model, identifier):
@@ -40,12 +44,12 @@ def get_one(model, identifier):
         data = session.query(model).get(identifier)
         session.commit()
 
-        return data
+        return data, 200
     except Exception as error:
         logger.error(error)
         session.rollback()
 
-        return None
+        return str(error), 200
 
 
 def delete(model, identifier):
@@ -54,8 +58,11 @@ def delete(model, identifier):
     try:
         data = session.query(model).get(identifier)
         session.delete(data)
-
         session.commit()
+
+        return "User deleted successfully!", 200
     except Exception as error:
         logger.error(error)
         session.rollback()
+
+        return "User not found!", 400
