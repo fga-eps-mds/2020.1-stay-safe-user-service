@@ -1,3 +1,29 @@
+def validate_user(body):
+  if(validate_fields(body, 'username', 'email', 'full_name', 'password')):
+    return "Campos não encontrados"
+  
+  if(validate_fields_types(body, [('username', str), ('email', str), ('full_name', str), ('password', str)])):
+    return "Campos não batem com seu respectivo tipo(string)."
+  
+  if (not validate_fields_length(body)):
+    return "Campos com tamanhos errados"
+
+  return False
+
+def validate_fields_length(json):
+  if (len(json['username']) < 3 or len(json['username']) > 20):
+    return False
+
+  if (len(json['email']) < 6 or len(json['email']) > 50):
+    return False
+    
+  if (len(json['password']) < 6 or len(json['password']) > 20):
+    return False
+
+  if (len(json['full_name']) < 1 or len(json['full_name']) > 200):
+    return False
+
+  return True
 
 def validate_fields(json, *fields):
     '''Validates if the json has the right attributes
