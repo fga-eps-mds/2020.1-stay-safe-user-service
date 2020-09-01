@@ -10,9 +10,10 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'user_stay_safe'
 
-    cpf = Column(String, primary_key=True)
-    name = Column(String)
+    username = Column(String, primary_key=True)
     email = Column(String)
+    password = Column(String)
+    full_name = Column(String)
 
 
-Base.metadata.create_all(db)  # create tables
+Base.metadata.create_all(db)

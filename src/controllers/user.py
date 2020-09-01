@@ -4,7 +4,7 @@ from utils.formatters import get_row_dict
 
 
 def create_user(body):
-    user = User(cpf=body['cpf'], name=body['name'], email=body['email'])
+    user = User(username=body['username'], full_name=body['full_name'], email=body['email'], password=body['password'])
     result, code = db.insert_one(user)
 
     return result, code
@@ -22,8 +22,8 @@ def get_all_users():
         return [], 200
 
 
-def get_one_user(cpf):
-    result, code = db.get_one(User, cpf)
+def get_one_user(username):
+    result, code = db.get_one(User, username)
     if result:
         if code >= 200:  # if successful, returns the data
             user = get_row_dict(result)  # converts row to dict
@@ -33,7 +33,7 @@ def get_one_user(cpf):
         return "User not found!", 404
 
 
-def delete_user(cpf):
-    result, code = db.delete(User, cpf)
+def delete_user(username):
+    result, code = db.delete(User, username)
 
     return result, code

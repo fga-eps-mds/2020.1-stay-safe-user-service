@@ -19,13 +19,13 @@ def get_post_rubric():
     return create_response(response, status)
 
 
-@user_blueprint.route('/users/<string:user_cpf>',
+@user_blueprint.route('/users/<string:user_username>',
                       methods=['GET', 'PUT', 'DELETE'])
-def user_by_cpf(user_cpf):
+def user_by_username(user_username):
     if request.method == 'GET':
-        response, status = controller.get_one_user(user_cpf)
+        response, status = controller.get_one_user(user_username)
 
     elif request.method == 'DELETE':
-        response, status = controller.delete_user(user_cpf)
+        response, status = controller.delete_user(user_username)
 
     return create_response(response, status)
