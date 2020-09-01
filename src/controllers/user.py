@@ -4,17 +4,15 @@ from utils.formatters import get_row_dict
 
 
 def create_user(body):
-    user = User(username=body['username'], full_name=body['full_name'], email=body['email'], password=body['password'])
+    user = User(username=body['username'], email=body['email'], password=body['password'], full_name=body['full_name'])
     result, code = db.insert_one(user)
 
     return result, code
 
-
 def get_all_users():
     result, code = db.get_all(User)
-
     if result:
-        if code >= 200:  # if successful, returns the data
+        if code == 200:  # if successful, returns the data
             users = [get_row_dict(u) for u in result]  # converts rows to dict
             return users, code
         return result, code  # else, returns database error and error code
