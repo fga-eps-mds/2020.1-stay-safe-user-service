@@ -1,15 +1,15 @@
 
 def validate_fields(json, *fields):
-    '''Valida se o json possui os campos informados
-    Para verificar se há um dicionário dentro de outro, separe as chaves por /
+    '''Validates if the json has the right attributes
+    To verify a dict inside a dict, separate the keys with /
     Ex: validate_fields({'msg': {'content':'Hello World'}}, 'msg/content')
 
-    Parâmetros:
-        - json a ser validado -> dict
-        - campos a serem verificados -> *str
+    Parameters:
+        - JSON to be validated-> dict
+        - fields to be verified -> *str
 
-    Retorno:
-        - Lista com os campos não encontrados ou lista vazia
+    Return:
+        - Lists attributes not found or empty list
     '''
 
     try:
@@ -29,18 +29,18 @@ def validate_fields(json, *fields):
                     errors.append(f[0])
         return errors
     except Exception:
-        return ['json inválido']
+        return ['Invalid JSON']
 
 
 def validate_fields_types(json, params):
-    '''Valida os tipos dos campos em um json
+    '''Validates the fields types in a JSON
 
-    Parâmetros:
-        - json
-        - params -> lista de tupla composta por campo e valor
+    Parameters:
+        - JSON
+        - params -> tuple list composed by a field and a value
 
-    Retorno:
-        - lista com erros encontrados ou lista vazia
+    Return:
+        - Lists attributes not found or empty list
     '''
     errors = []
     for field, value_type in params:
