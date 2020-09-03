@@ -20,12 +20,15 @@ def get_post_rubric():
 
 
 @user_blueprint.route('/users/<string:user_username>',
-                      methods=['GET', 'PUT', 'DELETE'])
+                      methods=['GET', 'PUT', 'PATCH', 'DELETE'])
 def user_by_username(user_username):
     if request.method == 'GET':
         response, status = controller.get_one_user(user_username)
 
     elif request.method == 'DELETE':
         response, status = controller.delete_user(user_username)
+
+    elif request.method == 'PUT' or request.method == 'PATCH':
+        response, status = controller.edit_user(user_username, request.json)
 
     return create_response(response, status)
