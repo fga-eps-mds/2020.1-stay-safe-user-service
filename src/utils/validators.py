@@ -1,29 +1,68 @@
-def validate_user(body):
-  if(validate_fields(body, 'username', 'email', 'full_name', 'password')):
-    return "Campos não encontrados"
-  
-  if(validate_fields_types(body, [('username', str), ('email', str), ('full_name', str), ('password', str)])):
-    return "Campos não batem com seu respectivo tipo(string)."
-  
-  if (not validate_fields_length(body)):
-    return "Campos com tamanhos errados"
+from validate_email import validate_email
 
+def validate_user(body):
+  fields = validate_fields(body, 'username', 'email', 'full_name', 'password')
+  if(fields):
+    error = "Campo(s) "
+    error += str(fields)
+    error += " não encontrados"
+    return error
+
+  fields = validate_fields_types(body, [('username', str), ('email', str), ('full_name', str), ('password', str)])
+  if(fields):
+    error = "Campo(s) "
+    error += str(fields)
+    error += " não batem com seu respectivo tipo."
+    return error
+  
+  fields = validate_fields_length(body)
+  if (fields):
+    error = "Campo(s) "
+    error += str(fields)
+    error += " com tamanhos errados."
+    return error
+
+  if(not validate_email(body['email'])):
+    return "Email inválido"
+
+  username_is_valid = validate_username(body['username'])
+  if (username_is_valid):
+    return username_is_valid
+
+  if (body['password'].isalpha()):
+    return "A senha deve conter pelo meno um número."
+    
+  return False
+
+def validate_username(username):
+  errors = []
+  if (username.count(' ') > 0):
+    errors.append("O username não pode conter espaços.")
+
+  if (not username.isalnum()):
+    errors.append("O username pode conter apenas letras e números.")
+
+  if (errors):
+    return errors
   return False
 
 def validate_fields_length(json):
+  errors = []
   if (len(json['username']) < 3 or len(json['username']) > 20):
-    return False
+    errors.append('username')
 
   if (len(json['email']) < 6 or len(json['email']) > 50):
-    return False
+    errors.append('email')
     
   if (len(json['password']) < 6 or len(json['password']) > 20):
-    return False
+    errors.append('password')
 
   if (len(json['full_name']) < 1 or len(json['full_name']) > 200):
-    return False
+    errors.append('full_name')
 
-  return True
+  if (errors):
+    return errors
+  return False
 
 def validate_fields(json, *fields):
     '''Validates if the json has the right attributes
