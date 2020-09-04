@@ -1,10 +1,9 @@
 import unittest
 import pytest 
-from database.models 
-from database import db
+from database.models import User
+from controllers import user as controller
 
-
-class User_test():
+class TestUser():
     def setUp(self):
         user = User(
                 full_name = 'Mosoeusn Bararandir',
@@ -54,4 +53,3 @@ class User_test():
         response = self.session.delete(user)
         self.session.flush()
         self.assertIsNone(user)
-        
