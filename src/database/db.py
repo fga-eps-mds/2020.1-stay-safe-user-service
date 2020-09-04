@@ -49,22 +49,19 @@ def get_one(model, identifier):
 
         return str(error), 404
 
-# def update(model, identifier, params):
-#     try:
-#         data = session.query(model).get(identifier)
-#         for param in params:
-#             data = {**data, param: params[param]}
-#             # data.full_name = "Saraaaa Magalhaes"
+def update(model, identifier, params):
+    try:
+        data = session.query(model).get(identifier)
+        session.commit()
+        for param in params:
+            setattr(data, param, params[param])
+        session.commit()
+        return data, 200
+    except Exception as error:
+        logger.error(error)
+        session.rollback()
 
-#         session.commit()
-        
-#         return [], 200
-
-#     except Exception as error:
-#         logger.error(error)
-#         session.rollback()
-
-#         return str(error), 400
+        return str(error), 400
 
 def delete(model, identifier):
     session = Session()
