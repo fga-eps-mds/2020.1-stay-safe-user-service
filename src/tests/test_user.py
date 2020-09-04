@@ -1,7 +1,8 @@
 import unittest
 import pytest 
-from database.models import User
+from database.models 
 from database import db
+
 
 class User_test():
     def setUp(self):
@@ -43,4 +44,11 @@ class User_test():
         """
         Testing delete users
         """
+        user = self.session.query(User).filter(
+            User.username == 'Roiknebyu'
+        )
+
+        response = self.session.delete(user)
+        self.session.flush()
+        self.assertIsNone(user)
         
