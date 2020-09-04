@@ -35,6 +35,8 @@ class User_test():
         """
         Testing get one users
         """
+        data = self.session.query(User).get_one(User, 'Roiknebyu')
+        self.assertEqual(data, self.user)
 
     def test_update_user():
         """
