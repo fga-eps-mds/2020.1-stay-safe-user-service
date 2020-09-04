@@ -29,6 +29,6 @@ def user_by_username(user_username):
         response, status = controller.delete_user(user_username)
 
     elif request.method == 'PUT' or request.method == 'PATCH':
-        response, status = controller.edit_user(user_username, request.json)
+        response, status = controller.update_user(user_username, request.json)
 
     return create_response(response, status)

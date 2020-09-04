@@ -2,7 +2,6 @@ from database.models import User
 from database import db
 from utils.formatters import get_row_dict
 from utils.validators import validate_create_user, validate_update_user
-from settings import logger
 
 def create_user(body):
     
@@ -36,7 +35,7 @@ def get_one_user(username):
     else:
         return "User not found!", 404
 
-def edit_user(username, body):
+def update_user(username, body):
     params = {}
     if 'email' in body:
         params['email'] = body['email']
