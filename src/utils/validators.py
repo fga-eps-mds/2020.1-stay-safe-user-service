@@ -30,7 +30,7 @@ def validate_create_user(body):
     return username_is_valid
 
   if (body['password'].isalpha()):
-    return "A senha deve conter pelo meno um número."
+    return "A senha deve conter pelo menos um número."
     
   return False
 
