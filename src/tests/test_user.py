@@ -23,6 +23,7 @@ class User_test():
         Testing create user
         """
         data = self.session.query(User).get(self.user.username)
+        self.session.flush()
         assertEqual(data, self.user)
 
     def test_get_all_users():
