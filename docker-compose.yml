@@ -14,6 +14,7 @@ services:
       - ./src:/app
     ports:
       - "8083:8083"
+    restart: on-failure
 
   db:
     environment:
