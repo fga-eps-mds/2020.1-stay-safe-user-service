@@ -1,5 +1,6 @@
 from validate_email import validate_email
 
+
 def validate_create_user(body):
   fields = validate_fields(body, 'username', 'email', 'full_name', 'password')
   if(fields):

@@ -27,13 +27,11 @@ def get_all_users():
 
 def get_one_user(username):
     result, code = db.get_one(User, username)
-    if result:
-        if code == 200:  # if successful, returns the data
-            user = get_row_dict(result)  # converts row to dict
-            return user, 200
-        return result, code  # else, returns database error and error code
-    else:
-        return "User not found!", 404
+        
+    if code == 200:  # if successful, returns the data
+        user = get_row_dict(result)  # converts row to dict
+        return user, 200
+    return result, code  # else, returns database error and error code
 
 def update_user(username, body):
     params = {}
@@ -52,11 +50,10 @@ def update_user(username, body):
 
     result, code = db.update(User, username, params)
 
-    if result:
-        if code == 200:  # if successful, returns the data
-            user = get_row_dict(result)  # converts row to dict
-            return user, code
-        return result, code  # else, returns database error and error code
+    if code == 200:  # if successful, returns the data
+        user = get_row_dict(result)  # converts row to dict
+        return user, code
+    return result, code  # else, returns database error and error code
 
 
 def delete_user(username):
