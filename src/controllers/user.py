@@ -55,10 +55,9 @@ def update_user(username, body):
     if result:
         if code == 200:  # if successful, returns the data
             user = get_row_dict(result)  # converts row to dict
-            return user, 200
+            return user, code
         return result, code  # else, returns database error and error code
-    else:
-        return "User not found!", 404
+
 
 def delete_user(username):
     result, code = db.delete(User, username)

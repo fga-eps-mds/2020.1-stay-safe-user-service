@@ -44,7 +44,7 @@ def get_post_rubric():
 
 
 @user_blueprint.route('/users/<string:user_username>',
-                      methods=['GET', 'PUT', 'PATCH', 'DELETE'])
+                      methods=['GET', 'PATCH', 'DELETE'])
 @validate_header
 def user_by_username(user_username):
     if request.method == 'GET':
@@ -53,7 +53,7 @@ def user_by_username(user_username):
     elif request.method == 'DELETE':
         response, status = controller.delete_user(user_username)
 
-    elif request.method == 'PUT' or request.method == 'PATCH':
+    elif request.method == 'PATCH':
         response, status = controller.update_user(user_username, request.json)
 
     return create_response(response, status)

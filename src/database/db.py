@@ -53,10 +53,13 @@ def update(model, identifier, params):
     try:
         data = session.query(model).get(identifier)
         session.commit()
-        for param in params:
-            setattr(data, param, params[param])
-        session.commit()
-        return data, 200
+        if data: 
+            for param in params:
+                setattr(data, param, params[param])
+            session.commit()
+            return data, 200
+        else:
+            return "Not Found!", 404
     except Exception as error:
         logger.error(error)
         session.rollback()
