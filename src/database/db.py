@@ -52,12 +52,13 @@ def get_one(model, identifier):
 
         return str(error), 400
 
+
 def update(model, identifier, params):
     try:
         data = session.query(model).get(identifier)
         session.commit()
-        
-        if data: 
+
+        if data:
             for param in params:
                 setattr(data, param, params[param])
             session.commit()
@@ -70,12 +71,13 @@ def update(model, identifier, params):
 
         return str(error), 400
 
+
 def delete(model, identifier):
     session = Session()
 
     try:
         data = session.query(model).get(identifier)
-        
+
         if data:
             session.delete(data)
             session.commit()

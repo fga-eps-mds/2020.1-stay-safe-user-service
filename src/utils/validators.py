@@ -2,105 +2,117 @@ from validate_email import validate_email
 
 
 def validate_create_user(body):
-  fields = validate_fields(body, 'username', 'email', 'full_name', 'password')
-  if(fields):
-    error = "Campo(s) "
-    error += str(fields)
-    error += " não encontrados"
-    return error
+    fields = validate_fields(
+        body, 'username', 'email', 'full_name', 'password'
+    )
+    if(fields):
+        error = "Campo(s) "
+        error += str(fields)
+        error += " não encontrados"
+        return error
 
-  fields = validate_fields_types(body, [('username', str), ('email', str), ('full_name', str), ('password', str)])
-  if(fields):
-    error = "Campo(s) "
-    error += str(fields)
-    error += " não batem com seu respectivo tipo."
-    return error
-  
-  fields = validate_fields_length(body)
-  if (fields):
-    error = "Campo(s) "
-    error += str(fields)
-    error += " com tamanhos errados."
-    return error
+    fields = validate_fields_types(
+        body,
+        [
+            ('username', str), ('email', str),
+            ('full_name', str), ('password', str)
+        ]
+    )
+    if(fields):
+        error = "Campo(s) "
+        error += str(fields)
+        error += " não batem com seu respectivo tipo."
+        return error
 
-  if(not validate_email(body['email'])):
-    return "Email inválido"
+    fields = validate_fields_length(body)
+    if (fields):
+        error = "Campo(s) "
+        error += str(fields)
+        error += " com tamanhos errados."
+        return error
 
-  username_is_valid = validate_username(body['username'])
-  if (username_is_valid):
-    return username_is_valid
-
-  if (body['password'].isalpha()):
-    return "A senha deve conter pelo menos um número."
-    
-  return False
-
-def validate_update_user(body, params):
-  fields = []
-  for param in params:
-    fields.append((param, str))
-  is_valid = validate_fields_types(body, fields)
-  if(is_valid):
-    error = "Campo(s) "
-    error += str(fields)
-    error += " não batem com seu respectivo tipo."
-    return error
-
-  fields = validate_fields_length(body)
-  if (fields):
-    error = "Campo(s) "
-    error += str(fields)
-    error += " com tamanhos errados."
-    return error
-
-  if(not validate_fields(body, 'email')):
     if(not validate_email(body['email'])):
-      return "Email inválido"
+        return "Email inválido"
 
-  if(not validate_fields(body, 'username')):
     username_is_valid = validate_username(body['username'])
     if (username_is_valid):
-      return username_is_valid
+        return username_is_valid
 
-  if (not validate_fields(body, 'password')):
     if (body['password'].isalpha()):
-      return "A senha deve conter pelo menos um número."
-    
-  return False
+        return "A senha deve conter pelo menos um número."
+
+    return False
+
+
+def validate_update_user(body, params):
+    fields = []
+    for param in params:
+        fields.append((param, str))
+
+    is_valid = validate_fields_types(body, fields)
+    if(is_valid):
+        error = "Campo(s) "
+        error += str(fields)
+        error += " não batem com seu respectivo tipo."
+        return error
+
+    fields = validate_fields_length(body)
+    if (fields):
+        error = "Campo(s) "
+        error += str(fields)
+        error += " com tamanhos errados."
+        return error
+
+    if(not validate_fields(body, 'email')):
+        if(not validate_email(body['email'])):
+            return "Email inválido"
+
+    if(not validate_fields(body, 'username')):
+        username_is_valid = validate_username(body['username'])
+        if (username_is_valid):
+            return username_is_valid
+
+    if (not validate_fields(body, 'password')):
+        if (body['password'].isalpha()):
+            return "A senha deve conter pelo menos um número."
+
+    return False
+
 
 def validate_username(username):
-  errors = []
-  if (username.count(' ') > 0):
-    errors.append("O username não pode conter espaços.")
+    errors = []
+    if (username.count(' ') > 0):
+        errors.append("O username não pode conter espaços.")
 
-  if (not username.isalnum()):
-    errors.append("O username pode conter apenas letras e números.")
+    if (not username.isalnum()):
+        errors.append("O username pode conter apenas letras e números.")
 
-  if (errors):
-    return errors
-  return False
+    if (errors):
+        return errors
+    return False
+
 
 def validate_fields_length(json):
-  errors = []
-  if (not validate_fields(json, 'username')):
-    if (len(json['username']) < 3 or len(json['username']) > 20):
-      errors.append('username')
+    errors = []
+    if (not validate_fields(json, 'username')):
+        if (len(json['username']) < 3 or len(json['username']) > 20):
+            errors.append('username')
 
-  if (not validate_fields(json, 'email')):
-    if (len(json['email']) < 6 or len(json['email']) > 50):
-      errors.append('email')
-    
-  if (not validate_fields(json, 'password')):
-    if (len(json['password']) < 6 or len(json['password']) > 20):
-      errors.append('password')
+    if (not validate_fields(json, 'email')):
+        if (len(json['email']) < 6 or len(json['email']) > 50):
+            errors.append('email')
 
-  if (not validate_fields(json, 'full_name')):
-    if (len(json['full_name']) < 1 or len(json['full_name']) > 200):
-      errors.append('full_name')
+    if (not validate_fields(json, 'password')):
+        if (len(json['password']) < 6 or len(json['password']) > 20):
+            errors.append('password')
 
-  if (errors):
-    return errors
-  return False
+    if (not validate_fields(json, 'full_name')):
+        if (len(json['full_name']) < 1 or len(json['full_name']) > 200):
+            errors.append('full_name')
+
+        return errors
+    return False
+
 
 def validate_fields(json, *fields):
     '''Validates if the json has the right attributes

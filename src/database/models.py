@@ -5,12 +5,14 @@ from .db import db
 
 Base = declarative_base()
 
+
 class User(Base):
     __tablename__ = 'user_stay_safe'
 
-    username = Column(String, primary_key=True)
-    email = Column(String, nullable=False)
-    password = Column(String, nullable=False)
-    full_name = Column(String, nullable=False)
+    username = Column(String(20), primary_key=True)
+    email = Column(String(50), nullable=False, unique=True)
+    password = Column(String(20), nullable=False)
+    full_name = Column(String(200), nullable=False)
+
 
 Base.metadata.create_all(db)
