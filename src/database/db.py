@@ -18,7 +18,7 @@ def insert_one(element):
         session.add(element)
         session.commit()
 
-        return "User created successfully!", 201
+        return "Created successfully!", 201
     except Exception as error:
         logger.error(error)
         session.rollback()
@@ -30,12 +30,10 @@ def get_all(model):
     try:
         data = session.query(model).all()
         session.commit()
-
         return data, 200
     except Exception as error:
         logger.error(error)
         session.rollback()
-
         return str(error), 400
 
 
@@ -44,12 +42,34 @@ def get_one(model, identifier):
         data = session.query(model).get(identifier)
         session.commit()
 
-        return data, 200
+        if data:
+            return data, 200
+
+        return "Not Found!", 404
     except Exception as error:
         logger.error(error)
         session.rollback()
 
-        return str(error), 200
+        return str(error), 400
+
+
+def update(model, identifier, params):
+    try:
+        data = session.query(model).get(identifier)
+        session.commit()
+
+        if data:
+            for param in params:
+                setattr(data, param, params[param])
+            session.commit()
+            return data, 200
+
+        return "Not Found!", 404
+    except Exception as error:
+        logger.error(error)
+        session.rollback()
+
+        return str(error), 400
 
 
 def delete(model, identifier):
@@ -57,12 +77,15 @@ def delete(model, identifier):
 
     try:
         data = session.query(model).get(identifier)
-        session.delete(data)
-        session.commit()
 
-        return "User deleted successfully!", 200
+        if data:
+            session.delete(data)
+            session.commit()
+            return "Deleted successfully!", 204
+
+        return "Not Found!", 404
     except Exception as error:
         logger.error(error)
         session.rollback()
 
-        return "User not found!", 404
+        return str(error), 400
