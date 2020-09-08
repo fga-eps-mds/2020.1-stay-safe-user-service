@@ -1,6 +1,6 @@
+from functools import wraps
 from flask import Blueprint, request
 from flask_cors import CORS
-from functools import wraps
 
 from controllers import user as controller
 from utils.formatters import create_response
@@ -12,19 +12,19 @@ CORS(user_blueprint)
 def validate_header(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
-        TYPE_ERROR = ('Unsupported media type', 415)
+        type_error = ('Unsupported media type', 415)
         header_values = ['*/*', 'application/json']
         header_keys = ['Accept', 'Content-Type']
         header = request.headers
         rm = request.method
-
-        if rm == 'POST' or rm == 'PUT' or rm == 'PATCH':
+        methods = ['POST', 'PUT', 'PATCH']
+        if rm in methods:
             if not request.data:
-                return create_response(*TYPE_ERROR)
-            elif not all(h in header for h in header_keys):
-                return create_response(*TYPE_ERROR)
-            elif not all(header[h] in header_values for h in header_keys):
-                return create_response(*TYPE_ERROR)
+                return create_response(*type_error)
+            if not all(h in header for h in header_keys):
+                return create_response(*type_error)
+            if not all(header[h] in header_values for h in header_keys):
+                return create_response(*type_error)
 
         return func(*args, **kwargs)
 

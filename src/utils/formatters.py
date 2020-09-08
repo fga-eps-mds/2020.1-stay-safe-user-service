@@ -8,9 +8,9 @@ def create_response(content, status=500):
        'application/json' for use with json responses.
     """
 
-    if isinstance(content, dict) or isinstance(content, list):
+    if isinstance(content, (dict, list)):
         return jsonify(content), status
-    elif isinstance(content, str):
+    if isinstance(content, str):
         if status >= 400:
             content = {'error': content}
         else:

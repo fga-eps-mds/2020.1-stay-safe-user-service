@@ -7,7 +7,7 @@ from utils.validators import validate_create_user, validate_update_user
 def create_user(body):
 
     errors = validate_create_user(body)
-    if (errors):
+    if errors:
         return errors, 400
 
     user = User(
@@ -28,8 +28,7 @@ def get_all_users():
             users = [get_row_dict(u) for u in result]  # converts rows to dict
             return users, code
         return result, code  # else, returns database error and error code
-    else:
-        return [], 200
+    return [], 200
 
 
 def get_one_user(username):
@@ -43,17 +42,14 @@ def get_one_user(username):
 
 def update_user(username, body):
     params = {}
-    if 'email' in body:
-        params['email'] = body['email']
-    if 'username' in body:
-        params['username'] = body['username']
-    if 'full_name' in body:
-        params['full_name'] = body['full_name']
-    if 'password' in body:
-        params['password'] = body['password']
+    fields = ['email', 'username', 'full_name', 'password']
+
+    for field in fields:
+        if field in body:
+            params[field] = body[field]
 
     errors = validate_update_user(body, params)
-    if (errors):
+    if errors:
         return errors, 400
 
     result, code = db.update(User, username, params)
