@@ -1,5 +1,8 @@
-from sqlalchemy import Column, String
+import datetime
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, DateTime, Boolean, ARRAY, Enum
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 
 from .db import db
 
@@ -13,6 +16,20 @@ class User(Base):
     email = Column(String(50), nullable=False, unique=True)
     password = Column(String(20), nullable=False)
     full_name = Column(String(200), nullable=False)
+    occurrence = relationship("Occurrence")
 
+class Occurrence(Base):
+    __tablename__ = 'occurrence_stay_safe'
+
+    id_occurrence = Column(Integer, primary_key=True)
+    user = Column(String, ForeignKey(User.username))
+    occurrence_date_time = Column(DateTime, nullable=False)
+    register_date_time = Column(DateTime, server_default=func.now(), nullable=False)
+    physical_aggression = Column(Boolean, nullable=False)
+    victim = Column(Boolean, nullable=False)
+    police_report = Column(Boolean, nullable=False)
+    gun = Column(Enum('null', 'fire', 'white', name='gun'), nullable=False)
+    location = Column(ARRAY(Float, as_tuple=True), nullable=False)
+    occurence_type = Column(Enum('Latrocínio', 'Roubo a transeunte', 'Roubo de Veículo', 'Roubo de Residência', 'Estupro', name='occurence_type'), nullable=False)
 
 Base.metadata.create_all(db)
