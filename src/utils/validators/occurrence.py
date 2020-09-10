@@ -70,7 +70,7 @@ def validate_occurrence_date_time(occurrence_date_time):
     return True
 
 def validate_gun(gun):
-    available_guns = [None, 'white', 'fire']
+    available_guns = ["null", 'white', 'fire']
     if (not gun in available_guns):
      return False
     return True

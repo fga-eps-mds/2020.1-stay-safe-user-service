@@ -30,6 +30,6 @@ class Occurrence(Base):
     police_report = Column(Boolean, nullable=False)
     gun = Column(Enum('null', 'fire', 'white', name='gun'), nullable=False)
     location = Column(ARRAY(Float), nullable=False)
-    occurence_type = Column(Enum('Latrocínio', 'Roubo a transeunte', 'Roubo de Veículo', 'Roubo de Residência', 'Estupro', name='occurence_type'), nullable=False)
+    occurrence_type = Column(Enum('Latrocínio', 'Roubo a transeunte', 'Roubo de Veículo', 'Roubo de Residência', 'Estupro', name='occurrence_type'), nullable=False)
 
 Base.metadata.create_all(db)

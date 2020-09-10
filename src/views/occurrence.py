@@ -5,7 +5,7 @@ from flask_cors import CORS
 from controllers import occurrence as controller
 from utils.formatters import create_response
 
-occurrence_blueprint = Blueprint('occurence', __name__, url_prefix='/api')
+occurrence_blueprint = Blueprint('occurrence', __name__, url_prefix='/api')
 CORS(occurrence_blueprint)
 
 

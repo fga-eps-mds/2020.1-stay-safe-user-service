@@ -24,7 +24,7 @@ def create_occurrence(body, header):
         police_report = body['police_report'],
         gun = body['gun'],
         location = body['location'],
-        occurence_type = body['occurence_type']
+        occurrence_type = body['occurrence_type']
     )
     result, code = db.insert_one(occurrence)
 
@@ -52,7 +52,7 @@ def get_one_occurrence(id):
 
 def update_occurrence(id, body):
     params = {}
-    fields = ['occurrence_date_time', 'physical_aggression', 'victim', 'police_report', 'gun', 'location', 'occurence_type']
+    fields = ['occurrence_date_time', 'physical_aggression', 'victim', 'police_report', 'gun', 'location', 'occurrence_type']
 
     for field in fields:
         if field in body:
