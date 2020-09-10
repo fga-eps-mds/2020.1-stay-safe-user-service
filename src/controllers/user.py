@@ -1,7 +1,7 @@
 from database.models import User
 from database import db
 from utils.formatters import get_row_dict
-from utils.validators import validate_create_user, validate_update_user
+from utils.validators.user import validate_create_user, validate_update_user
 
 
 def create_user(body):

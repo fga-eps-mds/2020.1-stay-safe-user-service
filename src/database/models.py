@@ -23,13 +23,13 @@ class Occurrence(Base):
 
     id_occurrence = Column(Integer, primary_key=True)
     user = Column(String, ForeignKey(User.username))
-    occurrence_date_time = Column(DateTime, nullable=False)
     register_date_time = Column(DateTime, server_default=func.now(), nullable=False)
+    occurrence_date_time = Column(DateTime, nullable=False)
     physical_aggression = Column(Boolean, nullable=False)
     victim = Column(Boolean, nullable=False)
     police_report = Column(Boolean, nullable=False)
     gun = Column(Enum('null', 'fire', 'white', name='gun'), nullable=False)
-    location = Column(ARRAY(Float, as_tuple=True), nullable=False)
+    location = Column(ARRAY(Float), nullable=False)
     occurence_type = Column(Enum('Latrocínio', 'Roubo a transeunte', 'Roubo de Veículo', 'Roubo de Residência', 'Estupro', name='occurence_type'), nullable=False)
 
 Base.metadata.create_all(db)

@@ -2,21 +2,23 @@ from database.models import Occurrence
 from database import db
 from utils.formatters import get_row_dict
 import datetime
-# from utils.validators import validate_create_user, validate_update_user
+import jwt
+from settings import logger
+from utils.validators.occurrence import validate_create_occurrence, validate_update_occurrence
 
 
-def create_occurrence(body):
+def create_occurrence(body, header):
 
-    # THE VALIDATION IT WILL BE CREATED AFTER THE ROUTES
-    # errors = validate_create_user(body)
-    # if errors:
-    #     return errors, 400
+    errors = validate_create_occurrence(body)
+    if errors:
+        return errors, 400
 
+    username = jwt.decode(header['Authorization'].split(' ')[1], 'secret', algorithms=['HS256'])['user']
     occurrence = Occurrence(
         # REQUIRES THE AUTHENTICATION ISSUE
         # FOR NOW IT WILL BE USED A USER THAT ALREADY EXISTS ON THE DB
-        user = body['user'],
-        occurrence_date_time = datetime.datetime.strptime(body['occurrence_date_time'], '%d/%m/%y %H:%M:%S'),
+        user = username,
+        occurrence_date_time = datetime.datetime.strptime(body['occurrence_date_time'], '%d-%m-%y %H:%M:%S'),
         physical_aggression = body['physical_aggression'],
         victim = body['victim'],
         police_report = body['police_report'],
@@ -50,7 +52,7 @@ def get_one_occurrence(id):
 
 def update_occurrence(id, body):
     params = {}
-    fields = ['email', 'id', 'full_name', 'password']
+    fields = ['occurrence_date_time', 'physical_aggression', 'victim', 'police_report', 'gun', 'location', 'occurence_type']
 
     for field in fields:
         if field in body:
@@ -60,9 +62,13 @@ def update_occurrence(id, body):
     if errors:
         return errors, 400
 
+    return "BOA", 200
+
+
     result, code = db.update(Occurrence, id, params)
 
     if code == 200:  # if successful, returns the data
+    
         occurrence = get_row_dict(result)  # converts row to dict
         return occurrence, code
     return result, code  # else, returns database error and error code

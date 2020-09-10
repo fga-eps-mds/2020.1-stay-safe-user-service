@@ -38,7 +38,7 @@ def get_post_rubric():
         response, status = controller.get_all_occurrences()
 
     elif request.method == 'POST':
-        response, status = controller.create_occurrence(request.json)
+        response, status = controller.create_occurrence(request.json, request.headers)
 
     return create_response(response, status)
 
