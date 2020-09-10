@@ -1,50 +1,63 @@
+user = {
+    'full_name': 'Amanda Magalhaes',
+    'username': 'ghjklasdf',
+    'email': 'anderson2222@uorak.com',
+    'password': '292mcXEAuz'
+}
+
 correct_occurrences = [
     {
-        "occurrence_date_time": "05-09-20 00:00:00",
-        "physical_aggression": True,
-        "victim": True,
-        "police_report": False,
-        "gun": "fire",
+        "gun": "Fire",
+        "user": "ghjklasdf",
+        "id_occurrence": -1,
         "location": [
             -15.989564,
             -48.044175
         ],
-        "occurrence_type": "Latrocínio"
+        "occurrence_date_time": "2020-09-05 00:00:00",
+        "occurrence_type": "Latrocínio",
+        "physical_aggression": True,
+        "police_report": False,
+        "victim": True
     },
     {
-        "occurrence_date_time": "04-08-20 00:00:00",
+        "gun": "None",
+        "user": "ghjklasdf",
+        "id_occurrence": -1,
+        "location": [
+            -15.989564,
+            -48.044175
+        ],
+        "occurrence_date_time": "2020-04-08 00:00:00",
+        "occurrence_type": "Roubo de Veículo",
         "physical_aggression": False,
-        "victim": False,
         "police_report": True,
-        "gun": "null",
-        "location": [
-            -15.989564,
-            -48.044175
-        ],
-        "occurrence_type": "Roubo de Veículo"
+        "victim": False
     },
     {
-        "occurrence_date_time": "15-06-20 00:00:00",
-        "physical_aggression": True,
-        "victim": True,
-        "police_report": False,
-        "gun": "white",
+        "gun": "White",
+        "user": "ghjklasdf",
+        "id_occurrence": -1,
         "location": [
             -15.989564,
             -48.044175
         ],
-        "occurrence_type": "Roubo de Residência"
+        "occurrence_date_time": "2020-06-04 00:00:00",
+        "occurrence_type": "Roubo de Residência",
+        "physical_aggression": True,
+        "police_report": False,
+        "victim": True
     },
 ]
 
 wrong_occurrences = [
     {
         # invalid date
-        "occurrence_date_time": "09-05-18 00:00:00",
+        "occurrence_date_time": "2018-05-09 00:00:00",
         "physical_aggression": True,
         "victim": True,
         "police_report": False,
-        "gun": "fire",
+        "gun": "Fire",
         "location": [
             -15.989564,
             -48.044175
@@ -53,11 +66,11 @@ wrong_occurrences = [
     },
     {
         # invalid gun
-        "occurrence_date_time": "04-08-20 00:00:00",
+        "occurrence_date_time": "2000-08-04 00:00:00",
         "physical_aggression": False,
         "victim": False,
         "police_report": True,
-        "gun": "faca",
+        "gun": "Faca",
         "location": [
             -15.989564,
             -48.044175
@@ -65,12 +78,12 @@ wrong_occurrences = [
         "occurrence_type": "Roubo de Veículo"
     },
     {
-        # invalid occurrecncy_type
-        "occurrence_date_time": "15-06-20 00:00:00",
+        # invalid occurrency_type
+        "occurrence_date_time": "2000-06-15 00:00:00",
         "physical_aggression": True,
         "victim": True,
         "police_report": False,
-        "gun": "white",
+        "gun": "White",
         "location": [
             -15.989564,
             -48.044175
@@ -80,7 +93,6 @@ wrong_occurrences = [
 ]
 
 correct_occurrence_update = {
-    "id_occurrency": 1
     "police_report": True,
     "occurrence_type": "Roubo de Residência"
 }
