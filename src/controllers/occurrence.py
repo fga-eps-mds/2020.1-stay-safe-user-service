@@ -13,12 +13,10 @@ def create_occurrence(body, header):
     if errors:
         return errors, 400
 
-    username = jwt.decode(header['Authorization'].split(' ')[1], 'secret', algorithms=['HS256'])['user']
+    username = jwt.decode(header['Authorization'], 'secret', algorithms=['HS256'])['user']
     occurrence = Occurrence(
-        # REQUIRES THE AUTHENTICATION ISSUE
-        # FOR NOW IT WILL BE USED A USER THAT ALREADY EXISTS ON THE DB
         user = username,
-        occurrence_date_time = datetime.datetime.strptime(body['occurrence_date_time'], '%d-%m-%y %H:%M:%S'),
+        occurrence_date_time = datetime.datetime.strptime(body['occurrence_date_time'], '%Y-%m-%d %H:%M:%S'),
         physical_aggression = body['physical_aggression'],
         victim = body['victim'],
         police_report = body['police_report'],
@@ -62,13 +60,9 @@ def update_occurrence(id, body):
     if errors:
         return errors, 400
 
-    return "BOA", 200
-
-
     result, code = db.update(Occurrence, id, params)
 
     if code == 200:  # if successful, returns the data
-    
         occurrence = get_row_dict(result)  # converts row to dict
         return occurrence, code
     return result, code  # else, returns database error and error code

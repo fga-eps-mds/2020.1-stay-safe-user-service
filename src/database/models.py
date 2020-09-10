@@ -28,7 +28,7 @@ class Occurrence(Base):
     physical_aggression = Column(Boolean, nullable=False)
     victim = Column(Boolean, nullable=False)
     police_report = Column(Boolean, nullable=False)
-    gun = Column(Enum('null', 'fire', 'white', name='gun'), nullable=False)
+    gun = Column(Enum('None', 'Fire', 'White', name='gun'), nullable=False)
     location = Column(ARRAY(Float), nullable=False)
     occurrence_type = Column(Enum('Latrocínio', 'Roubo a transeunte', 'Roubo de Veículo', 'Roubo de Residência', 'Estupro', name='occurrence_type'), nullable=False)
 

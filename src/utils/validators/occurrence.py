@@ -64,13 +64,15 @@ def validate_update_occurrence(body, params):
 
 
 def validate_occurrence_date_time(occurrence_date_time):
-    delta_time = datetime.datetime.now() - datetime.datetime.strptime(occurrence_date_time, '%d-%m-%y %H:%M:%S')
+    delta_time = datetime.datetime.now() - datetime.datetime.strptime(occurrence_date_time, '%Y-%m-%d %H:%M:%S')
     if (delta_time.days > 365):
+     return False
+    if (delta_time.days < 0):
      return False
     return True
 
 def validate_gun(gun):
-    available_guns = ["null", 'white', 'fire']
+    available_guns = ["None", 'White', 'Fire']
     if (not gun in available_guns):
      return False
     return True
