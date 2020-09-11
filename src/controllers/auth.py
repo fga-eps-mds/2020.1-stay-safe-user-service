@@ -1,27 +1,42 @@
+import jwt
 import string
 import random
-from  utils.formatters import create_response
+import datetime
+from settings import logger
+from flask import request
+from .user import get_one_user
+from views import user
+from utils.formatters import create_response
+from werkzeug.security import check_password_hash
 
-def generateRandomString(tamanho):
+def generate_random_key(size):
     random_str = string.ascii_letters + string.digits + string.ascii_uppercase
-    key = ''.join(random.choice(random_str)) for i in range(tamanho)
+    key = ''.join(random.choice(random_str) for i in range(size))
     return key
 
-def auth(authorization):
-    auth = request.authorization
+def authentication(auth):
     if not auth or not auth.username or not auth.password:
-        return create_response({'message': 'could not verify', 'WWW-Authenticate': 'Basic auth=' 'Login required'}, 401)
+        return 'Login required', 401
 
-    user, _ = get_one_user(auth.username)
-
-    if not user:
-        return create_response({'message': 'user not found', 'data': {}}, 401)
+    result, status = get_one_user(auth.username)
     
-    if user and check_password_hash(user.password, auth.password):
-        token = jwt.encode({'username': user.name, 'exp': datetime.datetime.now() + datetime.timedelta(hours=12) },
-        app.config['key'])
-        return create_response({'message': 'Validated successfully', 'token': token.decode('UTF-8'),
-                'exp': datetime.datetime.now() + datetime.timedelta(hours = 12)})
+    if status != 200:
+        return result,status
 
-    return create_response({'message': 'could not verify', 'WWW-Authenticate': 'Basic auth="Login required"'}, 401)
+    user =  result
+
+    if auth.password == user['password']:        
+        token = jwt.encode(
+            {
+                'username': user['username'], 
+                'exp': datetime.datetime.now() + datetime.timedelta(hours=12) 
+            },
+            generate_random_key(10)
+        )
+        return  {
+                    'msg': 'Validated successfully', 'token': token.decode('UTF-8'),
+                    'exp': datetime.datetime.now() + datetime.timedelta(hours = 12)
+                }, 200
+
+    return 'Invalid password', 401
 
