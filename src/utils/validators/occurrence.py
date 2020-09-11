@@ -1,6 +1,5 @@
 from utils.validators.general import validate_fields, validate_fields_types
 import datetime
-from settings import logger
 
 def validate_create_occurrence(body):
     fields = [

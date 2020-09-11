@@ -1,6 +1,5 @@
 from flask import jsonify
 import datetime
-from settings import logger
 
 def create_response(content, status=500):
     """
