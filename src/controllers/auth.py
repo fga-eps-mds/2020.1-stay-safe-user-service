@@ -28,14 +28,12 @@ def authentication(auth):
     if auth.password == user['password']:        
         token = jwt.encode(
             {
-                'username': user['username'], 
-                'exp': datetime.datetime.now() + datetime.timedelta(hours=12) 
+                'username': user['username'] 
             },
             generate_random_key(10)
         )
         return  {
-                    'msg': 'Validated successfully', 'token': token.decode('UTF-8'),
-                    'exp': datetime.datetime.now() + datetime.timedelta(hours = 12)
+                    'msg': 'Validated successfully', 'token': token.decode('UTF-8')
                 }, 200
 
     return 'Invalid password', 401
