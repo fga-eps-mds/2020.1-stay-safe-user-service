@@ -8,6 +8,7 @@ services:
     environment:
       - SQLALCHEMY_DB_URL=postgresql+psycopg2://postgres:mysecret@database:5432/stay-safe
       - PYTHONPATH=.
+      - SECRET_KEY=Ztt9A2h97bRtVE4Mot9aVA
     depends_on:
       - db
     container_name: api-server

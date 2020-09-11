@@ -16,6 +16,7 @@ def load_configuration():
 
     return config
 
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 logging.basicConfig(
     format=('%(asctime)s,%(msecs)-3d - %(name)-12s - %(levelname)-8s => '
