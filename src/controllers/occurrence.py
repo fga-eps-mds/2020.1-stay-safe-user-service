@@ -3,7 +3,6 @@ from database import db
 from utils.formatters import get_row_dict
 import datetime
 import jwt
-from settings import logger
 from utils.validators.occurrence import validate_create_occurrence, validate_update_occurrence
 
 
