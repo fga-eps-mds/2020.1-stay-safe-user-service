@@ -1,10 +1,12 @@
 from utils.validators.general import validate_fields, validate_fields_types
 import datetime
 
+
 def validate_create_occurrence(body):
     fields = [
-        ('physical_aggression', bool), ('victim', bool), ('police_report', bool),
-        ('gun', str), ('location', list), ('occurrence_type', str)
+        ('physical_aggression', bool), ('victim', bool),
+        ('police_report', bool), ('gun', str),
+        ('location', list), ('occurrence_type', str)
     ]
 
     required_fields = [f[0] for f in fields]
@@ -22,10 +24,10 @@ def validate_create_occurrence(body):
     if not validate_occurrence_date_time(body['occurrence_date_time']):
         # return validate_occurrence_date_time(body['occurrence_date_time']
         return "Data de Ocorrẽncia inválida."
-       
+
     if not validate_gun(body['gun']):
         return "Arma inválida."
-    
+
     if not validate_occurrence_type(body['occurrence_type']):
         return "Tipo de Ocorrência inválida."
 
@@ -39,8 +41,8 @@ def validate_update_occurrence(body, params):
     }
     fields = []
     for param in params:
-     if param != 'occurrence_date_time':
-        fields.append((param, available_fields_types[param]))
+        if param != 'occurrence_date_time':
+            fields.append((param, available_fields_types[param]))
 
     wrong_fields = validate_fields_types(body, fields)
     if wrong_fields:
@@ -49,37 +51,42 @@ def validate_update_occurrence(body, params):
 
     if 'occurrence_date_time' in body:
         if not validate_occurrence_date_time(body['occurrence_date_time']):
-         return "Data de Ocorrẽncia inválida."
+            return "Data de Ocorrẽncia inválida."
 
     if 'gun' in body:
         if not validate_gun(body['gun']):
-         return "Arma inválida."
+            return "Arma inválida."
 
     if 'occurrence_type' in body:
         if not validate_occurrence_type(body['occurrence_type']):
-         return "Tipo de Ocorrência inválida."
+            return "Tipo de Ocorrência inválida."
 
     return None
 
 
 def validate_occurrence_date_time(occurrence_date_time):
-    delta_time = datetime.datetime.now() - datetime.datetime.strptime(occurrence_date_time, '%Y-%m-%d %H:%M:%S')
+    delta_time = datetime.datetime.now() - datetime.datetime.strptime(
+                            occurrence_date_time, '%Y-%m-%d %H:%M:%S')
     if (delta_time.days > 365):
-     return False
+        return False
     if (delta_time.days < 0):
-     return False
+        return False
     return True
+
 
 def validate_gun(gun):
     available_guns = ["None", 'White', 'Fire']
-    if (not gun in available_guns):
-     return False
+    if (gun not in available_guns):
+        return False
     return True
 
+
 def validate_occurrence_type(occurrence_type):
-    available_occurrence_type = ['Latrocínio', 'Roubo a transeunte', 'Roubo de Veículo', 'Roubo de Residência', 'Estupro']
-    if (not occurrence_type in available_occurrence_type):
-     return False
+    available_occurrence_type = ['Latrocínio', 'Roubo a transeunte',
+                                 'Roubo de Veículo', 'Roubo de Residência',
+                                 'Estupro']
+    if (occurrence_type not in available_occurrence_type):
+        return False
     return True
 
 

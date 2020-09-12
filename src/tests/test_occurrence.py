@@ -11,10 +11,13 @@ from tests.mock_occurrences import (
     correct_occurrence_update,
     user
 )
+
 from database import db
 from database.models import Occurrence
 
+
 class TestOccurrence(unittest.TestCase):
+
     def setUp(self):
         # getting the db size before tests
         self.db_len = len(db.session.query(Occurrence).all())
@@ -23,26 +26,30 @@ class TestOccurrence(unittest.TestCase):
         result, status = user_controller.create_user(user)
         self.assertEqual(result, "Created successfully!")
         self.assertEqual(status, 201)
-        token = jwt.encode({'user': user['username']}, 'secret', algorithm='HS256')
-        
+        token = jwt.encode(
+            {'user': user['username']}, 'secret', algorithm='HS256')
+
         self.header = {
-         'Authorization': token
+            'Authorization': token
         }
         # creates 3 occurrences
         for occurrence in correct_occurrences:
-            result, status = controller.create_occurrence(occurrence, self.header)
+            result, status = controller.create_occurrence(
+                occurrence, self.header)
             self.assertEqual(result, "Created successfully!")
             self.assertEqual(status, 201)
-        
+
         result, status = controller.get_all_occurrences()
         self.assertEqual(status, 200)
         for index in range(3):
-            correct_occurrences[index]['id_occurrence'] = result[index + self.db_len]['id_occurrence']
+            correct_occurrences[index]['id_occurrence'] = \
+                result[index + self.db_len]['id_occurrence']
 
     def tearDown(self):
         # deleting all 3 occurrences
         for occurrence in correct_occurrences:
-            result, status = controller.delete_occurrence(occurrence['id_occurrence'])
+            result, status = controller.delete_occurrence(
+                occurrence['id_occurrence'])
             self.assertEqual(status, 204)
             self.assertEqual(result, "Deleted successfully!")
 
@@ -65,7 +72,8 @@ class TestOccurrence(unittest.TestCase):
 
         # tests whether invalid occurrences will not be created
         for occurrence in wrong_occurrences:
-            response, status = controller.create_occurrence(occurrence, self.header)
+            response, status = controller.create_occurrence(
+                occurrence, self.header)
             self.assertEqual(status, 400)
 
     def test_get_all_occurrences(self):
@@ -74,7 +82,7 @@ class TestOccurrence(unittest.TestCase):
         """
         result, status = controller.get_all_occurrences()
         self.assertEqual(status, 200)
-        
+
         new_db_len = len(result)
         self.assertEqual(new_db_len, self.db_len + 3)
 
@@ -83,7 +91,8 @@ class TestOccurrence(unittest.TestCase):
         Testing get one occurrences
         """
         for occurrence in correct_occurrences:
-            result, status = controller.get_one_occurrence(occurrence['id_occurrence'])
+            result, status = controller.get_one_occurrence(
+                occurrence['id_occurrence'])
             self.assertEqual(status, 200)
             del result['register_date_time']
             self.assertEqual(result, occurrence)

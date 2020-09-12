@@ -38,13 +38,14 @@ def get_post_rubric():
         response, status = controller.get_all_occurrences()
 
     elif request.method == 'POST':
-        response, status = controller.create_occurrence(request.json, request.headers)
+        response, status = controller.create_occurrence(request.json,
+                                                        request.headers)
 
     return create_response(response, status)
 
 
 @occurrence_blueprint.route('/occurrences/<int:occurrence_id>',
-                      methods=['GET', 'PATCH', 'DELETE'])
+                            methods=['GET', 'PATCH', 'DELETE'])
 @validate_header
 def occurrence_by_id(occurrence_id):
     if request.method == 'GET':
@@ -54,6 +55,7 @@ def occurrence_by_id(occurrence_id):
         response, status = controller.delete_occurrence(occurrence_id)
 
     elif request.method == 'PATCH':
-        response, status = controller.update_occurrence(occurrence_id, request.json)
+        response, status = controller.update_occurrence(occurrence_id,
+                                                        request.json)
 
     return create_response(response, status)
