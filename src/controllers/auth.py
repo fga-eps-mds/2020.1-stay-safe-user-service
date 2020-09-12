@@ -12,17 +12,17 @@ from utils.formatters import create_response
 
 
 def authentication(auth):
-    if not auth or not auth.username or not auth.password:
+    if not auth or not auth['username'] or not auth['password']:
         return 'Login required', 401
 
-    result, status = get_one_user(auth.username)
+    result, status = get_one_user(auth['username'])
     
     if status != 200:
         return result,status
 
     user =  result
 
-    if safe_str_cmp(auth.password.encode('utf-8'), user['password'].encode('utf-8')):
+    if safe_str_cmp(auth['password'].encode('utf-8'), user['password'].encode('utf-8')):
         token = jwt.encode(
             {
                 'username': user['username'],
