@@ -2,17 +2,14 @@ import jwt
 import string
 import random
 import datetime
-from settings import logger
+from werkzeug.security import safe_str_cmp
+
+from settings import logger, SECRET_KEY
 from flask import request
 from .user import get_one_user
 from views import user
 from utils.formatters import create_response
-from werkzeug.security import check_password_hash
 
-def generate_random_key(size):
-    random_str = string.ascii_letters + string.digits + string.ascii_uppercase
-    key = ''.join(random.choice(random_str) for i in range(size))
-    return key
 
 def authentication(auth):
     if not auth or not auth.username or not auth.password:
@@ -25,15 +22,16 @@ def authentication(auth):
 
     user =  result
 
-    if auth.password == user['password']:        
+    if safe_str_cmp(auth.password.encode('utf-8'), user['password'].encode('utf-8')):
         token = jwt.encode(
             {
-                'username': user['username'] 
+                'username': user['username'],
             },
-            generate_random_key(10)
+            SECRET_KEY
         )
         return  {
-                    'msg': 'Validated successfully', 'token': token.decode('UTF-8')
+                    'msg': 'Validated successfully',
+                    'token': token.decode('UTF-8'),
                 }, 200
 
     return 'Invalid password', 401
