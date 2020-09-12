@@ -1,22 +1,20 @@
 import unittest
 from controllers import user
 from controllers.auth import authentication
-from database import db
-from database.models import User
-from views.auth import make_auth
+
 
 class TestAuth(unittest.TestCase):
     def setUp(self):
-        self.user = User(
-        username= 'derfel.cadarn',
-        email= 'derfel.baj@gmail.com',
-        password= 'Tempestadegigante1',
-        full_name= 'Derfel Cadarn'
-        )
-        user.create_user(user)
+        self.user = {
+        'full_name':'Derfel Cadarn',
+        'username':'derfelcadarn2',
+        'email':'derfel.baj@gmail.com',
+        'password':'Tempestadegigante1'
+        }
+        result, status = user.create_user(self.user)
 
     def tearDown(self):
-        user.delete_user(self.user.username)
+        user.delete_user(self.user['username'])
 
     def test_authentication(self):
         result, status = authentication(
@@ -35,5 +33,5 @@ class TestAuth(unittest.TestCase):
             }
         )
         self.assertEqual(status, 200)
-        self.assertEqual(result, 'Validated successfully')
+        self.assertEqual(result['msg'], 'Validated successfully')
 
