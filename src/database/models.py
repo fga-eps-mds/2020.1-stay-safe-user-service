@@ -23,7 +23,7 @@ class Occurrence(Base):
 
     id_occurrence = Column(Integer, primary_key=True)
     user = Column(String, ForeignKey(User.username))
-    register_date_time = Column(DateTime, server_default=func.current_timestamp(), nullable=False)
+    register_date_time = Column(DateTime, default=datetime.datetime.now, nullable=False)
     occurrence_date_time = Column(DateTime, nullable=False)
     physical_aggression = Column(Boolean, nullable=False)
     victim = Column(Boolean, nullable=False)

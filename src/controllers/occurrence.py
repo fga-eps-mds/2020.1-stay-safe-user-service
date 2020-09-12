@@ -4,7 +4,7 @@ from utils.formatters import get_row_dict
 import datetime
 import jwt
 from utils.validators.occurrence import validate_create_occurrence, validate_update_occurrence
-
+from settings import logger, SECRET_KEY
 
 def create_occurrence(body, header):
 
@@ -12,20 +12,25 @@ def create_occurrence(body, header):
     if errors:
         return errors, 400
 
-    username = jwt.decode(header['Authorization'], 'secret', algorithms=['HS256'])['user']
-    occurrence = Occurrence(
-        user = username,
-        occurrence_date_time = datetime.datetime.strptime(body['occurrence_date_time'], '%Y-%m-%d %H:%M:%S'),
-        physical_aggression = body['physical_aggression'],
-        victim = body['victim'],
-        police_report = body['police_report'],
-        gun = body['gun'],
-        location = body['location'],
-        occurrence_type = body['occurrence_type']
-    )
-    result, code = db.insert_one(occurrence)
+    try:
+        username = jwt.decode(header['Authorization'], SECRET_KEY, algorithms=['HS256'])['username']
+        occurrence = Occurrence(
+            user = username,
+            occurrence_date_time = datetime.datetime.strptime(body['occurrence_date_time'], '%Y-%m-%d %H:%M:%S'),
+            physical_aggression = body['physical_aggression'],
+            victim = body['victim'],
+            police_report = body['police_report'],
+            gun = body['gun'],
+            location = body['location'],
+            occurrence_type = body['occurrence_type']
+        )
+        result, code = db.insert_one(occurrence)
 
-    return result, code
+        return result, code
+    except Exception as error:
+        logger.error(error)
+        return str(error), 401
+
 
 
 def get_all_occurrences():
