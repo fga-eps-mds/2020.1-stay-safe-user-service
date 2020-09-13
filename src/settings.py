@@ -18,6 +18,9 @@ def load_configuration():
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
+
 logging.basicConfig(
     format=('%(asctime)s,%(msecs)-3d - %(name)-12s - %(levelname)-8s => '
             '%(message)s'),

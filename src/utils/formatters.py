@@ -1,4 +1,5 @@
 from flask import jsonify
+import datetime
 
 
 def create_response(content, status=500):
@@ -28,6 +29,10 @@ def get_row_dict(row):
 
     d = {}
     for column in row.__table__.columns:
-        d[column.name] = str(getattr(row, column.name))
+        attr = getattr(row, column.name)
+        if (type(attr) == datetime.datetime):
+            d[column.name] = str(attr)
+        else:
+            d[column.name] = attr
 
     return d
