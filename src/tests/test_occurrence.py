@@ -1,5 +1,6 @@
 import unittest
 import jwt
+from settings import SECRET_KEY
 
 from controllers import (
     occurrence as controller,
@@ -27,7 +28,7 @@ class TestOccurrence(unittest.TestCase):
         self.assertEqual(result, "Created successfully!")
         self.assertEqual(status, 201)
         token = jwt.encode(
-            {'user': user['username']}, 'secret', algorithm='HS256')
+            {'username': user['username']}, SECRET_KEY, algorithm='HS256')
 
         self.header = {
             'Authorization': token
