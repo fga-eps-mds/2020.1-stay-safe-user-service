@@ -45,10 +45,16 @@ def get_ratings():
 
     return create_response(response, status)
 
-@rating_blueprint.route('/rating/<int:id_rating>', methods=['GET'])
+@rating_blueprint.route('/rating/<int:id_rating>', methods=['GET', 'DELETE'])
 @validate_header
 def rating_by_id(id_rating):
-    response, status = controller.get_one_rating(id_rating)
+    if request.method == 'GET':
+        response, status = controller.get_one_rating(id_rating)
+    
+    elif request.method == 'DELETE':
+        response, status = controller.delete_rating(id_rating)
+
+    elif request.method == 'PATCH':
+        response, status = controller.update_rating(id_rating)
 
     return create_response(response, status)
-    
