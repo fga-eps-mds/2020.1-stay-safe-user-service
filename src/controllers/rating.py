@@ -49,5 +49,17 @@ def delete_rating(id):
     return result, code
 
 
-def update_rating(id):
-    pass
+def update_rating(id, body):
+    params = {}
+    fields = ['rating', 'details']
+
+    for field in fields:
+        if field in body:
+            params[field] = body[field]
+
+    result, code = db.update(Rating, id, params)
+
+    if code == 200:  # if successful, returns the data
+        rating = get_row_dict(result)  # converts row to dict
+        return rating, code
+    return result, code
