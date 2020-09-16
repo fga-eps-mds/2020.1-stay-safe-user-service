@@ -41,3 +41,13 @@ def get_one_rating(id):
         rating = get_row_dict(result)
         return rating, 200
     return result, code
+
+
+def delete_rating(id):
+    result, code = db.delete(Rating, id)
+
+    return result, code
+
+
+def update_rating(id):
+    pass
