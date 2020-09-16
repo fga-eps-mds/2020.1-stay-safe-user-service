@@ -1,7 +1,7 @@
 import datetime
 from sqlalchemy import (
     Column, String, Integer, Float,
-    ForeignKey, DateTime, Boolean, ARRAY, Enum
+    ForeignKey, DateTime, Boolean, ARRAY, Enum, Sequence
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -20,6 +20,7 @@ class User(Base):
     password = Column(String(60), nullable=False)
     full_name = Column(String(200), nullable=False)
     occurrence = relationship("Occurrence")
+    rating = relationship("Rating")
 
     def __init__(self, username, email, password, full_name):
         self.username = username,
@@ -47,6 +48,31 @@ class Occurrence(Base):
         Enum('Latrocínio', 'Roubo a transeunte', 'Roubo de Veículo',
              'Roubo de Residência', 'Estupro', name='occurrence_type'),
         nullable=False)
+
+
+class Neighborhood(Base):
+    __tablename__ = 'neighborhood_stay_safe'
+
+    id_neighborhood = Column(Integer, primary_key=True)
+    neighborhood = Column(String, nullable=False)
+    city = Column(String, nullable=False)
+    state = Column(String, nullable=False)
+    rating = relationship("Rating")
+
+
+class Rating(Base):
+    __tablename__ = 'rating_stay_safe'
+    
+    id_rating = Column(Integer, primary_key=True)
+    user = Column(String, ForeignKey(User.username))
+    id_neighborhood = Column(Integer, ForeignKey(Neighborhood.id_neighborhood))
+    rating = Column(Integer, nullable=False)
+    details = Column(
+        Enum("bad lighting", "low movement of people", "few police rounds",
+             "good lighting", "good movement of people",
+             "frequent police rounds", name='details'),
+        nullable=False)
+
 
 
 Base.metadata.create_all(db)
