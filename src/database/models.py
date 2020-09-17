@@ -66,7 +66,7 @@ class Rating(Base):
     id_rating = Column(Integer, primary_key=True)
     user = Column(String, ForeignKey(User.username))
     id_neighborhood = Column(Integer, ForeignKey(Neighborhood.id_neighborhood))
-    rating = Column(Integer, nullable=False)
+    rating_neighborhood = Column(Integer, nullable=False)
     details = Column(
         Enum("bad lighting", "low movement of people", "few police rounds",
              "good lighting", "good movement of people",
