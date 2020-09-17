@@ -38,12 +38,14 @@ def post_rating(id_neighborhood):
 
     return create_response(response, status)
 
+
 @rating_blueprint.route('/rating/', methods=['GET'])
 @validate_header 
 def get_ratings():
     response, status = controller.get_all_ratings()
 
     return create_response(response, status)
+
 
 @rating_blueprint.route('/rating/<int:id_rating>', methods=['GET', 'DELETE', 'PATCH'])
 @validate_header
