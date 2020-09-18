@@ -80,8 +80,8 @@ def validate_header(func):
 
 def validate_token(func):
     @wraps(func)
-    def decorated_function(username, header, *args):
-        auth = header.get('Authorization')
+    def decorated_function(*args, **kwargs):
+        auth = request.headers.get('Authorization')
 
         if not auth:
             return 'Provide a valid authorization', 403
@@ -90,7 +90,7 @@ def validate_token(func):
             username = jwt.decode(
                     auth, SECRET_KEY, algorithms=['HS256']
             )['username']
-            return func(username, header, *args)
+            return func(username, *args)
         except jwt.InvalidTokenError:
             return 'Invalid token', 401
 
