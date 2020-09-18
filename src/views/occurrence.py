@@ -3,33 +3,46 @@ from flask_cors import CORS
 
 from controllers import occurrence as controller
 from utils.formatters import create_response
-from utils.validators.general import validate_header
+from utils.validators.general import validate_header, validate_token
+
+from settings import logger
 
 occurrence_blueprint = Blueprint('occurrence', __name__, url_prefix='/api')
 CORS(occurrence_blueprint)
 
 
-@occurrence_blueprint.route('/occurrences/', methods=['GET', 'POST'])
+@occurrence_blueprint.route('/occurrences/', methods=['POST'])
 @validate_header
-def get_post_rubric():
-    if request.method == 'GET':
-        response, status = controller.get_all_occurrences()
+@validate_token
+def post_occurrence(username):
+    response, status = controller.create_occurrence(username, request.json)
 
-    elif request.method == 'POST':
-        response, status = controller.create_occurrence(request.json,
-                                                        request.headers)
+    return create_response(response, status)
+
+
+@occurrence_blueprint.route('/occurrences/', methods=['GET'])
+def get_all_occurrences():
+    response, status = controller.get_all_occurrences()
 
     return create_response(response, status)
 
 
 @occurrence_blueprint.route('/occurrences/<int:occurrence_id>',
-                            methods=['GET', 'PATCH', 'DELETE'])
-@validate_header
+                            methods=['GET'])
 def occurrence_by_id(occurrence_id):
-    if request.method == 'GET':
-        response, status = controller.get_one_occurrence(occurrence_id)
+    response, status = controller.get_one_occurrence(occurrence_id)
 
-    elif request.method == 'DELETE':
+    return create_response(response, status)
+
+
+@occurrence_blueprint.route('/occurrences/<int:occurrence_id>',
+                            methods=['PATCH', 'DELETE'])
+@validate_header
+@validate_token
+def delete_patch_occurrence(username, occurrence_id):
+    logger.info("#########")
+    logger.info(occurrence_id)
+    if request.method == 'DELETE':
         response, status = controller.delete_occurrence(occurrence_id)
 
     elif request.method == 'PATCH':

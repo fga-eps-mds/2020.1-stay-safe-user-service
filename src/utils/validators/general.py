@@ -2,7 +2,7 @@ from functools import wraps
 from flask import request
 import jwt
 
-from settings import SECRET_KEY
+from settings import SECRET_KEY, logger
 from utils.formatters import create_response
 
 
@@ -81,6 +81,9 @@ def validate_header(func):
 def validate_token(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
+        logger.info("&&&&&&&&&")
+        logger.info(args)
+        logger.info(kwargs)
         auth = request.headers.get('Authorization')
 
         if not auth:
@@ -90,7 +93,7 @@ def validate_token(func):
             username = jwt.decode(
                     auth, SECRET_KEY, algorithms=['HS256']
             )['username']
-            return func(username, *args)
+            return func(username, *args, **kwargs)
         except jwt.InvalidTokenError:
             return 'Invalid token', 401
 
