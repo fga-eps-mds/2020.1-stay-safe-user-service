@@ -30,3 +30,9 @@ def get_all_neighborhoods():
             return neighborhoods, code
         return result, code  # else, returns database error and error code
     return [], 200
+
+
+def delete_neighborhood(id):
+    result, code = db.delete(Neighborhood, id)
+
+    return result, code
