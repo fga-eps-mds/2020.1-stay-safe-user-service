@@ -1,6 +1,4 @@
 import unittest
-import jwt
-from settings import SECRET_KEY
 
 from controllers import (
     occurrence as controller,
@@ -27,16 +25,11 @@ class TestOccurrence(unittest.TestCase):
         result, status = user_controller.create_user(user)
         self.assertEqual(result, "Created successfully!")
         self.assertEqual(status, 201)
-        token = jwt.encode(
-            {'username': user['username']}, SECRET_KEY, algorithm='HS256')
 
-        self.header = {
-            'Authorization': token
-        }
         # creates 3 occurrences
         for occurrence in correct_occurrences:
             result, status = controller.create_occurrence(
-                occurrence, self.header)
+                user['username'], occurrence)
             self.assertEqual(result, "Created successfully!")
             self.assertEqual(status, 201)
 
@@ -74,7 +67,7 @@ class TestOccurrence(unittest.TestCase):
         # tests whether invalid occurrences will not be created
         for occurrence in wrong_occurrences:
             response, status = controller.create_occurrence(
-                occurrence, self.header)
+                user['username'], occurrence)
             self.assertEqual(status, 400)
 
     def test_get_all_occurrences(self):

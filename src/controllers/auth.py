@@ -1,14 +1,7 @@
 import jwt
-import string
-import random
-import datetime
-from werkzeug.security import safe_str_cmp
 
-from settings import logger, SECRET_KEY
-from flask import request
+from settings import SECRET_KEY, BCRYPT
 from .user import get_one_user
-from views import user
-from utils.formatters import create_response
 
 
 def authentication(auth):
@@ -16,23 +9,23 @@ def authentication(auth):
         return 'Login required', 401
 
     result, status = get_one_user(auth['username'])
-    
+
     if status != 200:
-        return result,status
+        return result, status
 
-    user =  result
+    user = result
 
-    if safe_str_cmp(auth['password'].encode('utf-8'), user['password'].encode('utf-8')):
+    if BCRYPT.check_password_hash(user['password'], auth['password']):
         token = jwt.encode(
             {
                 'username': user['username'],
             },
-            SECRET_KEY
+            SECRET_KEY,
+            algorithm='HS256'
         )
-        return  {
-                    'msg': 'Validated successfully',
-                    'token': token.decode('UTF-8'),
-                }, 200
+        return {
+            'msg': 'Validated successfully',
+            'token': token.decode('utf-8'),
+        }, 200
 
     return 'Invalid password', 401
-

@@ -1,24 +1,22 @@
+import datetime
+
 from database.models import Occurrence
 from database import db
 from utils.formatters import get_row_dict
-import datetime
-import jwt
 from utils.validators.occurrence import (
     validate_create_occurrence,
     validate_update_occurrence
 )
-from settings import logger, SECRET_KEY
+from settings import logger
 
 
-def create_occurrence(body, header):
+def create_occurrence(username, body):
 
     errors = validate_create_occurrence(body)
     if errors:
         return errors, 400
 
     try:
-        username = jwt.decode(header['Authorization'], SECRET_KEY, algorithms=[
-                              'HS256'])['username']
         occurrence = Occurrence(
             user=username,
             occurrence_date_time=datetime.datetime.strptime(
@@ -49,8 +47,8 @@ def get_all_occurrences():
     return [], 200
 
 
-def get_one_occurrence(id):
-    result, code = db.get_one(Occurrence, id)
+def get_one_occurrence(id_occurrence):
+    result, code = db.get_one(Occurrence, id_occurrence)
 
     if code == 200:  # if successful, returns the data
         occurrence = get_row_dict(result)  # converts row to dict
@@ -58,7 +56,8 @@ def get_one_occurrence(id):
     return result, code  # else, returns database error and error code
 
 
-def update_occurrence(id, body):
+def update_occurrence(id_occurrence, body):
+    logger.info(id_occurrence)
     params = {}
     fields = ['occurrence_date_time', 'physical_aggression',
               'victim', 'police_report', 'gun', 'location', 'occurrence_type']
@@ -71,7 +70,7 @@ def update_occurrence(id, body):
     if errors:
         return errors, 400
 
-    result, code = db.update(Occurrence, id, params)
+    result, code = db.update(Occurrence, id_occurrence, params)
 
     if code == 200:  # if successful, returns the data
         occurrence = get_row_dict(result)  # converts row to dict
@@ -79,7 +78,7 @@ def update_occurrence(id, body):
     return result, code  # else, returns database error and error code
 
 
-def delete_occurrence(id):
-    result, code = db.delete(Occurrence, id)
+def delete_occurrence(id_occurrence):
+    result, code = db.delete(Occurrence, id_occurrence)
 
     return result, code
