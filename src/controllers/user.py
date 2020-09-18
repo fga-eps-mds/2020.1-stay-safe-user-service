@@ -12,10 +12,10 @@ def create_user(body):
         return errors, 400
 
     user = User(
-        username=body['username'],
-        email=body['email'],
-        password=body['password'],
-        full_name=body['full_name']
+        body['username'],
+        body['email'],
+        body['password'],
+        body['full_name']
     )
     result, code = db.insert_one(user)
 

@@ -1,5 +1,6 @@
 import logging
 import os
+from flask_bcrypt import Bcrypt
 
 
 def load_configuration():
@@ -18,6 +19,7 @@ def load_configuration():
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
+BCRYPT = Bcrypt()
 
 logging.basicConfig(
     format=('%(asctime)s,%(msecs)-3d - %(name)-12s - %(levelname)-8s => '

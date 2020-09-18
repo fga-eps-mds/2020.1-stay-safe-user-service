@@ -7,6 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 from .db import db
+from settings import BCRYPT
 
 Base = declarative_base()
 
@@ -16,9 +17,16 @@ class User(Base):
 
     username = Column(String(20), primary_key=True)
     email = Column(String(50), nullable=False, unique=True)
-    password = Column(String(20), nullable=False)
+    password = Column(String(60), nullable=False)
     full_name = Column(String(200), nullable=False)
     occurrence = relationship("Occurrence")
+
+    def __init__(self, username, email, password, full_name):
+        self.username = username,
+        self.email = email,
+        self.password = BCRYPT.generate_password_hash(
+            password).decode('utf-8'),
+        self.full_name = full_name
 
 
 class Occurrence(Base):

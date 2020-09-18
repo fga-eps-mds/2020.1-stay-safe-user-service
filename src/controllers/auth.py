@@ -1,7 +1,6 @@
 import jwt
-from werkzeug.security import safe_str_cmp
 
-from settings import SECRET_KEY
+from settings import SECRET_KEY, BCRYPT
 from .user import get_one_user
 
 
@@ -16,9 +15,7 @@ def authentication(auth):
 
     user = result
 
-    user_password = user['password'].encode('utf-8')
-    auth_password = auth['password'].encode('utf-8')
-    if safe_str_cmp(auth_password, user_password):
+    if BCRYPT.check_password_hash(user['password'], auth['password']):
         token = jwt.encode(
             {
                 'username': user['username'],
@@ -28,7 +25,7 @@ def authentication(auth):
         )
         return {
             'msg': 'Validated successfully',
-            'token': token.decode('UTF-8'),
+            'token': token.decode('utf-8'),
         }, 200
 
     return 'Invalid password', 401
