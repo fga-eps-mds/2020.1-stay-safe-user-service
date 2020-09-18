@@ -9,6 +9,8 @@ from tests.mock_users import (
 from database import db
 from database.models import User
 
+from settings import BCRYPT
+
 
 class TestUser(unittest.TestCase):
     def setUp(self):
@@ -59,7 +61,15 @@ class TestUser(unittest.TestCase):
         for user in correct_users:
             result, status = controller.get_one_user(user['username'])
             self.assertEqual(status, 200)
-            self.assertEqual(result, user)
+            self.assertEqual(
+                BCRYPT.check_password_hash(result['password'],
+                                           user['password']),
+                True
+            )
+            user_without_pswd = user.copy()
+            del user_without_pswd['password']
+            del result["password"]
+            self.assertEqual(result, user_without_pswd)
 
         result, status = controller.get_one_user("unexisted#username")
         self.assertEqual(status, 404)
