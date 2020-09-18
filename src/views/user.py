@@ -30,10 +30,12 @@ def user_by_username(user_username):
 
     elif request.method == 'DELETE':
         response, status = controller.delete_user(
-                user_username, request.headers
+            user_username, request.headers
         )
 
     elif request.method == 'PATCH':
-        response, status = controller.update_user(user_username, request.json)
+        response, status = controller.update_user(
+            user_username, request.headers, request.json
+        )
 
     return create_response(response, status)

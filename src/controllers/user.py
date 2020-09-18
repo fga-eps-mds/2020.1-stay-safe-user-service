@@ -41,7 +41,8 @@ def get_one_user(username):
     return result, code  # else, returns database error and error code
 
 
-def update_user(username, body):
+@validate_token
+def update_user(username, header, body):
     params = {}
     fields = ['email', 'username', 'full_name', 'password']
 
