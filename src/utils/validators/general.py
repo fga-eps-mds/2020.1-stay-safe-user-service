@@ -1,3 +1,11 @@
+from functools import wraps
+from flask import request
+import jwt
+
+from settings import SECRET_KEY
+from utils.formatters import create_response
+
+
 def validate_fields(json, fields):
     '''Validates if the json has the right attributes
     To verify a dict inside a dict, separate the keys with /
@@ -46,3 +54,44 @@ def validate_fields_types(json, params):
         if not isinstance(json[field], value_type):
             errors.append(field)
     return errors
+
+
+def validate_header(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        type_error = ('Provide a Json', 415)
+        header_values = ['*/*', 'application/json']
+        header_keys = ['Accept', 'Content-Type']
+        header = request.headers
+        rm = request.method
+        methods = ['POST', 'PUT', 'PATCH']
+        if rm in methods:
+            if not request.data:
+                return create_response(*type_error)
+            if not all(h in header for h in header_keys):
+                return create_response(*type_error)
+            if not all(header[h] in header_values for h in header_keys):
+                return create_response(*type_error)
+
+        return func(*args, **kwargs)
+
+    return decorated_function
+
+
+def validate_token(func):
+    @wraps(func)
+    def decorated_function(username, header):
+        auth = header.get('Authorization')
+
+        if not auth:
+            return 'Provide a valid authorization', 403
+
+        try:
+            username = jwt.decode(
+                    auth, SECRET_KEY, algorithms=['HS256']
+            )['username']
+            return func(username, header)
+        except jwt.InvalidTokenError:
+            return 'Invalid token', 401
+
+    return decorated_function

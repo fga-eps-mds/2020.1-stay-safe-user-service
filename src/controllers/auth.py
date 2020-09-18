@@ -23,7 +23,8 @@ def authentication(auth):
             {
                 'username': user['username'],
             },
-            SECRET_KEY
+            SECRET_KEY,
+            algorithm='HS256'
         )
         return {
             'msg': 'Validated successfully',

@@ -2,6 +2,7 @@ from database.models import User
 from database import db
 from utils.formatters import get_row_dict
 from utils.validators.user import validate_create_user, validate_update_user
+from utils.validators.general import validate_token
 
 
 def create_user(body):
@@ -60,7 +61,8 @@ def update_user(username, body):
     return result, code  # else, returns database error and error code
 
 
-def delete_user(username):
+@validate_token
+def delete_user(username, header):
     result, code = db.delete(User, username)
 
     return result, code
