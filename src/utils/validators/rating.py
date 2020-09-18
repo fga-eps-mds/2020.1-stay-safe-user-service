@@ -1,5 +1,6 @@
 from utils.validators.general import validate_fields, validate_fields_types
 
+
 def validate_create_rating(body):
     fields = [('rating_neighborhood', int), ('details', str)]
 
@@ -22,7 +23,7 @@ def validate_create_rating(body):
     if 'details' in body:
         if not validate_details(body['details'], body['rating_neighborhood']):
             return 'Detalhe da avaliação inválido.'
-    
+
     return None
 
 
@@ -66,11 +67,11 @@ def validate_details(details, rating):
 
     if details not in available_details:
         return False
-    
+
     if rating <= 2 and details not in available_details[0:3]:
         return False
-    
+
     if rating >= 4 and details not in available_details[3:6]:
         return False
-    
+
     return True

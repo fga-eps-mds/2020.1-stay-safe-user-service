@@ -24,11 +24,10 @@ def create_neighborhood(body, header):
 def get_all_neighborhoods():
     result, code = db.get_all(Neighborhood)
     if result:
-        if code == 200:  # if successful, returns the data
-            neighborhoods = [get_row_dict(u)
-                           for u in result]  # converts rows to dict
+        if code == 200:
+            neighborhoods = [get_row_dict(u) for u in result]
             return neighborhoods, code
-        return result, code  # else, returns database error and error code
+        return result, code
     return [], 200
 
 

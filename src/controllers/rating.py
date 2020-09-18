@@ -8,8 +8,9 @@ from utils.validators.rating import (
 )
 from settings import logger, SECRET_KEY
 
+
 def create_rating(body, header, id):
-    
+
     neighborhood = db.get_one(Neighborhood, id)
 
     if neighborhood[1] == 404:
@@ -39,18 +40,17 @@ def create_rating(body, header, id):
 def get_all_ratings():
     result, code = db.get_all(Rating)
     if result:
-        if code == 200:  # if successful, returns the data
-            ratings_neighborhood = [get_row_dict(u)
-                           for u in result]  # converts rows to dict
+        if code == 200:
+            ratings_neighborhood = [get_row_dict(u) for u in result]
             return ratings_neighborhood, code
-        return result, code  # else, returns database error and error code
+        return result, code
     return [], 200
 
 
 def get_one_rating(id):
     result, code = db.get_one(Rating, id)
 
-    if code == 200: 
+    if code == 200:
         rating = get_row_dict(result)
         return rating, 200
     return result, code
@@ -69,15 +69,15 @@ def update_rating(id, body):
     for field in fields:
         if field in body:
             params[field] = body[field]
-    
+
     errors = validate_update_rating(body, params)
     if errors:
         return errors, 400
 
     result, code = db.update(Rating, id, params)
 
-    if code == 200:  # if successful, returns the data
-        rating = get_row_dict(result)  # converts row to dict
+    if code == 200:
+        rating = get_row_dict(result)
         return rating, code
 
     return result, code

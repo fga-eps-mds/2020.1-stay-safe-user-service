@@ -34,9 +34,11 @@ def validate_header(func):
 @neighborhood_blueprint.route('/neighborhood/', methods=['POST'])
 @validate_header
 def get_post_rubric():
-    response, status = controller.create_neighborhood(request.json, request.headers)
+    response, status = controller.create_neighborhood(
+        request.json, request.headers)
 
     return create_response(response, status)
+
 
 @neighborhood_blueprint.route('/neighborhood/', methods=['GET'])
 @validate_header

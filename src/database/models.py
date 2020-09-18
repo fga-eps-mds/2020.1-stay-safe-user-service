@@ -62,7 +62,7 @@ class Neighborhood(Base):
 
 class Rating(Base):
     __tablename__ = 'rating_stay_safe'
-    
+
     id_rating = Column(Integer, primary_key=True)
     user = Column(String, ForeignKey(User.username))
     id_neighborhood = Column(Integer, ForeignKey(Neighborhood.id_neighborhood))
@@ -72,7 +72,6 @@ class Rating(Base):
              "good lighting", "good movement of people",
              "frequent police rounds", name='details'),
         nullable=False)
-
 
 
 Base.metadata.create_all(db)

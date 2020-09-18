@@ -37,7 +37,8 @@ class TestRating(unittest.TestCase):
             'Authorization': token
         }
         # create neighborhood
-        result, status = neighborhood_controller.create_neighborhood(neighborhood, self.header)
+        result, status = neighborhood_controller.create_neighborhood(
+            neighborhood, self.header)
         self.assertEqual(result, "Created successfully!")
         self.assertEqual(status, 201)
 
@@ -60,7 +61,6 @@ class TestRating(unittest.TestCase):
             correct_ratings[index]['id_rating'] = \
                 result[index + self.db_len]['id_rating']
 
-
     def tearDown(self):
         # deleting all 3 ratings
         for rating in correct_ratings:
@@ -68,9 +68,9 @@ class TestRating(unittest.TestCase):
                 rating['id_rating'])
             self.assertEqual(status, 204)
             self.assertEqual(result, "Deleted successfully!")
-        
-        #deleting the neighborhood
-        result, status = neighborhood_controller.delete_neighborhood(neighborhood['id_neighborhood'])
+
+        result, status = neighborhood_controller.delete_neighborhood(
+            neighborhood['id_neighborhood'])
         self.assertEqual(status, 204)
         self.assertEqual(result, "Deleted successfully!")
 
@@ -134,7 +134,7 @@ class TestRating(unittest.TestCase):
 
         self.assertEqual(status, 200)
         self.assertEqual(
-            result['rating_neighborhood'], 
+            result['rating_neighborhood'],
             correct_update_rating['rating_neighborhood'])
         self.assertEqual(result['details'], correct_update_rating['details'])
 
