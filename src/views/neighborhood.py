@@ -46,7 +46,8 @@ def get_all_neighborhoods():
     return create_response(response, status)
 
 
-@neighborhood_blueprint.route('/neighborhood/<int:id_neighborhood>', methods=['GET'])
+@neighborhood_blueprint.route(
+    '/neighborhood/<int:id_neighborhood>', methods=['DELETE'])
 @validate_header
 def delete_neighborhood(id_neighborhood):
     response, status = controller.delete_neighborhood(id_neighborhood)
