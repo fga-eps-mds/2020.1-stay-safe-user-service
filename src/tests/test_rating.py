@@ -51,7 +51,7 @@ class TestRating(unittest.TestCase):
         # creates 3 ratings
         for rating in correct_ratings:
             result, status = controller.create_rating(
-                rating, self.header, neighborhood['id_neighborhood'])
+                rating, user['username'], neighborhood['id_neighborhood'])
             self.assertEqual(result, "Created successfully!")
             self.assertEqual(status, 201)
 
@@ -93,7 +93,7 @@ class TestRating(unittest.TestCase):
         # tests if invalid ratings will not be created
         for rating in wrong_ratings:
             response, status = controller.create_rating(
-                rating, self.header, neighborhood['id_neighborhood'])
+                rating, user['username'], neighborhood['id_neighborhood'])
             self.assertEqual(status, 400)
 
     def test_get_all_ratings(self):
