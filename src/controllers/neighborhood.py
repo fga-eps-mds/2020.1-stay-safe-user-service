@@ -1,8 +1,7 @@
 from database.models import Neighborhood
 from database import db
 from utils.formatters import get_row_dict
-import jwt
-from settings import logger, SECRET_KEY
+from settings import logger
 
 
 def create_neighborhood(body, header):

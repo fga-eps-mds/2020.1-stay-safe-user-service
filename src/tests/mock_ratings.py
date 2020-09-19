@@ -7,50 +7,50 @@ user = {
 
 neighborhood = {
     "neighborhood": "Lago Sul",
-	"city": "Brasília",
-	"state": "DF"
+    "city": "Brasília",
+    "state": "DF"
 }
 
 correct_ratings = [
     {
         "rating_neighborhood": 4,
-	    "details": "good lighting",
+        "details": "good lighting",
         "id_rating": -1
     },
     {
         "rating_neighborhood": 3,
-	    "details": "good movement of people",
+        "details": "good movement of people",
         "id_rating": -1
     },
     {
         "rating_neighborhood": 1,
-	    "details": "bad lighting",
+        "details": "bad lighting",
         "id_rating": -1
     },
 ]
 
 wrong_ratings = [
     {
-        #Invalid detail to rating 4
+        # Invalid detail to rating 4
         "rating_neighborhood": 4,
-	    "details": "bad lighting"
+        "details": "bad lighting"
     },
     {
-        #Invalid detail to rating 1
+        # Invalid detail to rating 1
         "rating_neighborhood": 1,
-	    "details": "good lighting"
+        "details": "good lighting"
     },
     {
-        #Without details
+        # Without details
         "rating_neighborhood": 4
     },
     {
-        #Without rating
+        # Without rating
         "details": "good lighting"
     },
 ]
 
 correct_update_rating = {
-	"rating_neighborhood": 2,
-	"details": "bad lighting"
+    "rating_neighborhood": 2,
+    "details": "bad lighting"
 }

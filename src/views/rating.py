@@ -1,11 +1,10 @@
-from functools import wraps
 from flask import Blueprint, request
 from flask_cors import CORS
 
 from controllers import rating as controller
 from utils.formatters import create_response
 
-from utils.validators.general import validate_header, validate_token 
+from utils.validators.general import validate_header, validate_token
 
 rating_blueprint = Blueprint('rating', __name__, url_prefix='/api')
 CORS(rating_blueprint)

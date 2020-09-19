@@ -1,12 +1,11 @@
 from database.models import Rating, Neighborhood
 from database import db
 from utils.formatters import get_row_dict
-import jwt
 from utils.validators.rating import (
     validate_create_rating,
     validate_update_rating
 )
-from settings import logger, SECRET_KEY
+from settings import logger
 
 
 def create_rating(body, username, id):

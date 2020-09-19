@@ -43,7 +43,8 @@ def validate_update_rating(params):
             return 'Nota inválida.'
 
     if 'details' in params:
-        if not validate_details(params['details'], params['rating_neighborhood']):
+        if not validate_details(params['details'],
+                                params['rating_neighborhood']):
             return 'Detalhe da avaliação inválido.'
 
     return None
@@ -55,8 +56,8 @@ def validate_rating(rating):
 
 def validate_details(details, rating):
     available_details = ["bad lighting", "low movement of people",
-                        "few police rounds", "good lighting",
-                        "good movement of people", "frequent police rounds"]
+                         "few police rounds", "good lighting",
+                         "good movement of people", "frequent police rounds"]
 
     if details not in available_details:
         return False
