@@ -5,30 +5,10 @@ from flask_cors import CORS
 from controllers import rating as controller
 from utils.formatters import create_response
 
+from utils.validators.general import validate_header 
+
 rating_blueprint = Blueprint('rating', __name__, url_prefix='/api')
 CORS(rating_blueprint)
-
-
-def validate_header(func):
-    @wraps(func)
-    def decorated_function(*args, **kwargs):
-        type_error = ('Unsupported media type', 415)
-        header_values = ['*/*', 'application/json']
-        header_keys = ['Accept', 'Content-Type']
-        header = request.headers
-        rm = request.method
-        methods = ['POST', 'PUT', 'PATCH']
-        if rm in methods:
-            if not request.data:
-                return create_response(*type_error)
-            if not all(h in header for h in header_keys):
-                return create_response(*type_error)
-            if not all(header[h] in header_values for h in header_keys):
-                return create_response(*type_error)
-
-        return func(*args, **kwargs)
-
-    return decorated_function
 
 
 @rating_blueprint.route('/rating/<int:id_neighborhood>', methods=['POST'])
