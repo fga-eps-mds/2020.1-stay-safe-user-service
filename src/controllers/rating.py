@@ -9,7 +9,7 @@ from utils.validators.rating import (
 from settings import logger, SECRET_KEY
 
 
-def create_rating(body, header, id):
+def create_rating(body, username, id):
 
     neighborhood = db.get_one(Neighborhood, id)
 
@@ -21,8 +21,6 @@ def create_rating(body, header, id):
         return errors, 400
 
     try:
-        username = jwt.decode(header['Authorization'], SECRET_KEY, algorithms=[
-                              'HS256'])['username']
         rating = Rating(
             user=username,
             id_neighborhood=id,
