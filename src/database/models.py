@@ -54,9 +54,9 @@ class Neighborhood(Base):
     __tablename__ = 'neighborhood_stay_safe'
 
     id_neighborhood = Column(Integer, primary_key=True)
-    neighborhood = Column(String, nullable=False)
-    city = Column(String, nullable=False)
-    state = Column(String, nullable=False)
+    neighborhood = Column(String(80), nullable=False)
+    city = Column(String(80), nullable=False)
+    state = Column(String(2), nullable=False)
     rating = relationship("Rating")
 
 
