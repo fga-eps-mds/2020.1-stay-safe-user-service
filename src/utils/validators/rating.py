@@ -27,30 +27,23 @@ def validate_create_rating(body):
     return None
 
 
-def validate_update_rating(body, params):
+def validate_update_rating(params):
     fields = [
         ('rating_neighborhood', int),
         ('details', str)
     ]
 
-    required_fields = [f[0] for f in fields]
-
-    wrong_fields = validate_fields(body, required_fields)
-    if wrong_fields:
-        wrong_fields = ", ".join(wrong_fields)
-        return f'Os seguintes campos estão faltando: {wrong_fields}'
-
-    wrong_fields = validate_fields_types(body, fields)
+    wrong_fields = validate_fields_types(params, fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
         return f'Campos com tipo inválido: {wrong_fields}'
 
-    if 'rating_neighborhood' in body:
-        if not validate_rating(body['rating_neighborhood']):
+    if 'rating_neighborhood' in params:
+        if not validate_rating(params['rating_neighborhood']):
             return 'Nota inválida.'
 
-    if 'details' in body:
-        if not validate_details(body['details'], body['rating_neighborhood']):
+    if 'details' in params:
+        if not validate_details(params['details'], params['rating_neighborhood']):
             return 'Detalhe da avaliação inválido.'
 
     return None

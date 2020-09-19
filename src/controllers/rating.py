@@ -64,11 +64,21 @@ def update_rating(id, body):
     params = {}
     fields = ['rating_neighborhood', 'details']
 
+    result, status = db.get_one(Rating, id)
+    rating_before_update = get_row_dict(result)
+
+    if status == 404:
+        return 'Avaliação não existe', 404
+
     for field in fields:
         if field in body:
             params[field] = body[field]
+        else:
+            params[field] = rating_before_update[field]
 
-    errors = validate_update_rating(body, params)
+    logger.info(params)
+
+    errors = validate_update_rating(params)
     if errors:
         return errors, 400
 
