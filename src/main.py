@@ -5,11 +5,15 @@ from settings import logger, load_configuration
 from views.user import user_blueprint
 from views.occurrence import occurrence_blueprint
 from views.auth import auth_blueprint
+from views.neighborhood import neighborhood_blueprint
+from views.rating import rating_blueprint
 
 app = Flask(__name__)
 app.register_blueprint(user_blueprint)
 app.register_blueprint(occurrence_blueprint)
 app.register_blueprint(auth_blueprint)
+app.register_blueprint(neighborhood_blueprint)
+app.register_blueprint(rating_blueprint)
 
 CORS(app, automatic_options=True)
 
