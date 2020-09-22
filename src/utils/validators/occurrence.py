@@ -6,7 +6,8 @@ def validate_create_occurrence(body):
     fields = [
         ('physical_aggression', bool), ('victim', bool),
         ('police_report', bool), ('gun', str),
-        ('location', list), ('occurrence_type', str)
+        ('location', list), ('occurrence_type', str),
+        ('occurrence_date_time', str)
     ]
 
     required_fields = [f[0] for f in fields]
@@ -22,8 +23,7 @@ def validate_create_occurrence(body):
         return f'Campos com tipo inválido: {wrong_fields}'
 
     if not validate_occurrence_date_time(body['occurrence_date_time']):
-        # return validate_occurrence_date_time(body['occurrence_date_time']
-        return "Data de Ocorrẽncia inválida."
+        return "Data de Ocorrência inválida."
 
     if not validate_gun(body['gun']):
         return "Arma inválida."
