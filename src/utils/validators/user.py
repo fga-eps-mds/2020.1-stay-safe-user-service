@@ -43,6 +43,9 @@ def validate_update_user(body, params):
     for param in params:
         fields.append((param, str))
 
+    if 'username' in body:
+        return 'Username não pode ser atualizado.'
+
     wrong_fields = validate_fields_types(body, fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
@@ -56,11 +59,6 @@ def validate_update_user(body, params):
     if 'email' in body:
         if not validate_email(body['email']):
             return "Email inválido"
-
-    if 'username' in body:
-        username_is_invalid = validate_username(body['username'])
-        if username_is_invalid:
-            return username_is_invalid
 
     if 'password' in body:
         if body['password'].isalpha():
