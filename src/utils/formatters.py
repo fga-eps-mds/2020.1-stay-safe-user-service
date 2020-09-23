@@ -31,6 +31,8 @@ def get_row_dict(row):
     for column in row.__table__.columns:
         attr = getattr(row, column.name)
         if (type(attr) == datetime.datetime):
+            if (column.name == "register_date_time"):
+                attr -= datetime.timedelta(hours=3)
             d[column.name] = str(attr)
         else:
             d[column.name] = attr
