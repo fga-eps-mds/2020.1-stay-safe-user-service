@@ -7,7 +7,7 @@ from settings import logger
 
 
 db_url = os.environ.get("SQLALCHEMY_DB_URL")
-db = create_engine(db_url, echo=True)
+db = create_engine(db_url)
 
 Session = sessionmaker(db)
 session = Session()

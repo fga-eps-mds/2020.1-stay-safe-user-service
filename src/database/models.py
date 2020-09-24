@@ -53,13 +53,13 @@ class Occurrence(Base):
         occurrence = {
             'id_occurrence': self.id_occurrence,
             'occurrence_type': self.occurrence_type,
-            'occurrence_date_time': self.occurrence_date_time,
+            'occurrence_date_time': str(self.occurrence_date_time),
             'physical_aggression': self.physical_aggression,
             'victim': self.victim,
             'police_report': self.police_report,
             'gun': self.gun,
             'location': self.location,
-            'register_date_time': self.register_date_time,
+            'register_date_time': str(self.register_date_time)
         }
 
         return occurrence
