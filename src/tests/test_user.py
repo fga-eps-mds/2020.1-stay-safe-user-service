@@ -4,7 +4,8 @@ from controllers import user as controller
 from tests.mock_users import (
     correct_users,
     wrong_users,
-    correct_user_update
+    correct_user_update,
+    wrong_user_update
 )
 from database import db
 from database.models import User
@@ -97,6 +98,14 @@ class TestUser(unittest.TestCase):
         del user_without_pswd['password']
         del result["password"]
         self.assertEqual(result, user_without_pswd)
+
+        result, status = controller.update_user(
+            user['username'],
+            wrong_user_update
+        )
+
+        self.assertEqual(status, 400)
+        self.assertEqual(result,  "Username não pode ser atualizado.")
 
         for w_user in wrong_users:
             result, status = controller.update_user(
