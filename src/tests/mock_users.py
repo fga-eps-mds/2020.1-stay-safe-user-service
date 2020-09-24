@@ -45,3 +45,10 @@ correct_user_update = {
     'full_name': 'Gixu Duribo',
     'password': 'vusmouke13'
 }
+
+wrong_user_update = {
+    'username': 'Vonosthur#',
+    'email': 'duriboelel@gmail.com',
+    'full_name': 'Gixu Duribo',
+    'password': 'vusmouke13'
+}
