@@ -87,8 +87,17 @@ class TestUser(unittest.TestCase):
         )
 
         self.assertEqual(status, 200)
+        self.assertEqual(
+            BCRYPT.check_password_hash(result['password'],
+                                       correct_user_update['password']),
+            True
+        )
+
         correct_user_update['username'] = user['username']
-        self.assertEqual(result, correct_user_update)
+        user_without_pswd = correct_user_update.copy()
+        del user_without_pswd['password']
+        del result["password"]
+        self.assertEqual(result, user_without_pswd)
 
         result, status = controller.update_user(
             user['username'],

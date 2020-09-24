@@ -2,6 +2,7 @@ from database.models import User
 from database import db
 from utils.formatters import get_row_dict
 from utils.validators.user import validate_create_user, validate_update_user
+from settings import BCRYPT
 
 
 def create_user(body):
@@ -51,6 +52,10 @@ def update_user(username, body):
     errors = validate_update_user(body, params)
     if errors:
         return errors, 400
+
+    if 'password' in params:
+        params['password'] = BCRYPT.generate_password_hash(
+            params['password']).decode('utf-8'),
 
     result, code = db.update(User, username, params)
 
