@@ -38,10 +38,11 @@ def create_occurrence(username, body):
 
 def get_all_occurrences():
     result, code = db.get_all(Occurrence)
+
     if result:
         if code == 200:  # if successful, returns the data
-            occurrences = [get_row_dict(u)
-                           for u in result]  # converts rows to dict
+            # converts rows to dict
+            occurrences = [occurrence.to_dict() for occurrence in result]
             return occurrences, code
         return result, code  # else, returns database error and error code
     return [], 200
@@ -51,7 +52,7 @@ def get_one_occurrence(id_occurrence):
     result, code = db.get_one(Occurrence, id_occurrence)
 
     if code == 200:  # if successful, returns the data
-        occurrence = get_row_dict(result)  # converts row to dict
+        occurrence = result.to_dict()  # converts row to dict
         return occurrence, 200
     return result, code  # else, returns database error and error code
 

@@ -49,6 +49,21 @@ class Occurrence(Base):
              'Roubo de Residência', 'Estupro', name='occurrence_type'),
         nullable=False)
 
+    def to_dict(self):
+        occurrence = {
+            'id_occurrence': self.id_occurrence,
+            'occurrence_type': self.occurrence_type,
+            'occurrence_date_time': self.occurrence_date_time,
+            'physical_aggression': self.physical_aggression,
+            'victim': self.victim,
+            'police_report': self.police_report,
+            'gun': self.gun,
+            'location': self.location,
+            'register_date_time': self.register_date_time,
+        }
+
+        return occurrence
+
 
 class Neighborhood(Base):
     __tablename__ = 'neighborhood_stay_safe'
