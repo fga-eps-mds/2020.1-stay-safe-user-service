@@ -22,6 +22,14 @@
     {
       "name": "occurrences",
       "description": "Operations about occurrences"
+    },
+    {
+      "name": "ratings",
+      "description": "Operations about ratings"
+    },
+    {
+      "name": "neighborhoods",
+      "description": "Operations about neighborhoods"
     }
   ],
   "schemes": [
@@ -108,6 +116,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
           "400": {
             "description": "Invalid user supplied"
           },
@@ -135,6 +146,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "Successful Operation"
+          },
           "401": {
             "description": "Invalid Token"
           },
@@ -281,7 +295,7 @@
             "in": "path",
             "description": "The id of occurrence that needs to be fetched",
             "required": true,
-            "type": "string"
+            "type": "integer"
           }
         ],
         "responses": {
@@ -305,6 +319,9 @@
         "produces": [
           "application/json"
         ],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -318,7 +335,7 @@
             "in": "path",
             "description": "The id of occurrence that needs to be fetched",
             "required": true,
-            "type": "string"
+            "type": "integer"
           },
           {
             "in": "body",
@@ -331,6 +348,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
           "400": {
             "description": "Invalid occurrence supplied"
           },
@@ -361,12 +381,271 @@
             "in": "path",
             "description": "The id of occurrence that needs to be fetched",
             "required": true,
-            "type": "string"
+            "type": "integer"
           }
         ],
         "responses": {
+          "204": {
+            "description": "Successful Operation"
+          },
           "401": {
             "description": "Invalid Token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/rating/{id_neighborhoods}": {
+      "post": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Create a rating",
+        "description": "This can only be done by the logged in user.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id_neighborhoods",
+            "in": "path",
+            "description": "The id of rated neighborhood",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created rating object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Rating-post"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully!"
+          },
+          "404": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/rating/": {
+      "get": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Get all ratings",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Rating-get"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rating/{id}": {
+      "get": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Get a rating by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of rating that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "$ref": "#/definitions/Rating-get"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Updated rating",
+        "description": "This can only be done by the logged in user.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of rating that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated rating object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Rating-post"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Invalid rating supplied"
+          },
+          "401": {
+            "description": "Invalid Token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Delete rating",
+        "description": "This can only be done by the logged in user.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of rating that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Operation"
+          },
+          "401": {
+            "description": "Invalid Token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/neighborhood": {
+      "post": {
+        "tags": [
+          "neighborhoods"
+        ],
+        "summary": "Create a neighborhood",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created neighborhood object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Neighborhood-post"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully!"
+          },
+          "404": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "neighborhoods"
+        ],
+        "summary": "Get all neighborhoods",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Neighborhood-get"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/neighborhood/{id}": {
+      "delete": {
+        "tags": [
+          "neighborhoods"
+        ],
+        "summary": "Delete neighborhood",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of neighborhood that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Operation"
           },
           "404": {
             "description": "Not found"
@@ -489,6 +768,84 @@
         "register_date_time": {
           "type": "string",
           "example": "2020-08-17 23:20:20"
+        }
+      }
+    },
+    "Rating-post": {
+      "type": "object",
+      "properties": {
+        "rating_neighborhood": {
+          "type": "integer"
+        },
+        "details": {
+          "type": "string",
+          "enum": [
+            "bad lighting",
+            "low movement of people",
+            "few police rounds",
+            "good lighting",
+            "good movement of people",
+            "frequent police rounds"
+          ]
+        }
+      }
+    },
+    "Rating-get": {
+      "type": "object",
+      "properties": {
+        "rating_neighborhood": {
+          "type": "integer"
+        },
+        "details": {
+          "type": "string",
+          "enum": [
+            "bad lighting",
+            "low movement of people",
+            "few police rounds",
+            "good lighting",
+            "good movement of people",
+            "frequent police rounds"
+          ]
+        },
+        "id_neighborhood": {
+          "type": "integer"
+        },
+        "id_rating": {
+          "type": "integer"
+        },
+        "user": {
+          "type": "string"
+        }
+      }
+    },
+    "Neighborhood-post": {
+      "type": "object",
+      "properties": {
+        "neighborhood": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "Neighborhood-get": {
+      "type": "object",
+      "properties": {
+        "id_neighborhood": {
+          "type": "integer"
+        },
+        "neighborhood": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
         }
       }
     }
