@@ -36,9 +36,8 @@ def create_occurrence(username, body):
         return str(error), 401
 
 
-def get_all_occurrences():
-    result, code = db.get_all(Occurrence)
-
+def get_all_occurrences(user = None):
+    result, code = db.get_all(Occurrence, user)
     if result:
         if code == 200:  # if successful, returns the data
             # converts rows to dict
