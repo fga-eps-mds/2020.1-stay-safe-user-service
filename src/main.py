@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_swagger_ui import get_swaggerui_blueprint
 from flask_cors import CORS
 
 from settings import logger, load_configuration
@@ -8,12 +9,21 @@ from views.auth import auth_blueprint
 from views.neighborhood import neighborhood_blueprint
 from views.rating import rating_blueprint
 
+swagger_blueprint = get_swaggerui_blueprint(
+    '/api/docs',
+    '/static/swagger.json',
+    config={
+        'app_name': "User Service - Stay Safe"
+    }
+)
+
 app = Flask(__name__)
 app.register_blueprint(user_blueprint)
 app.register_blueprint(occurrence_blueprint)
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(neighborhood_blueprint)
 app.register_blueprint(rating_blueprint)
+app.register_blueprint(swagger_blueprint, url_prefix='/api/docs')
 
 CORS(app, automatic_options=True)
 
