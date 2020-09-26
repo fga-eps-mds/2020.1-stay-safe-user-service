@@ -14,7 +14,7 @@ CORS(neighborhood_blueprint)
 @validate_header
 def get_post_rubric():
     response, status = controller.create_neighborhood(
-        request.json, request.headers)
+        request.json)
 
     return create_response(response, status)
 

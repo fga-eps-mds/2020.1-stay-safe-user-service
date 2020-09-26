@@ -8,9 +8,9 @@ from utils.validators.rating import (
 from settings import logger
 
 
-def create_rating(body, username, id):
+def create_rating(body, username, neighborhood_id):
 
-    neighborhood = db.get_one(Neighborhood, id)
+    neighborhood = db.get_one(Neighborhood, neighborhood_id)
 
     if neighborhood[1] == 404:
         return 'Bairro não existe', 404
@@ -22,7 +22,7 @@ def create_rating(body, username, id):
     try:
         rating = Rating(
             user=username,
-            id_neighborhood=id,
+            id_neighborhood=neighborhood_id,
             rating_neighborhood=body['rating_neighborhood'],
             details=body['details'],
         )
@@ -44,8 +44,8 @@ def get_all_ratings():
     return [], 200
 
 
-def get_one_rating(id):
-    result, code = db.get_one(Rating, id)
+def get_one_rating(rating_id):
+    result, code = db.get_one(Rating, rating_id)
 
     if code == 200:
         rating = get_row_dict(result)
@@ -53,17 +53,17 @@ def get_one_rating(id):
     return result, code
 
 
-def delete_rating(id):
-    result, code = db.delete(Rating, id)
+def delete_rating(rating_id):
+    result, code = db.delete(Rating, rating_id)
 
     return result, code
 
 
-def update_rating(id, body):
+def update_rating(rating_id, body):
     params = {}
     fields = ['rating_neighborhood', 'details']
 
-    result, status = db.get_one(Rating, id)
+    result, status = db.get_one(Rating, rating_id)
     rating_before_update = get_row_dict(result)
 
     if status == 404:
@@ -81,7 +81,7 @@ def update_rating(id, body):
     if errors:
         return errors, 400
 
-    result, code = db.update(Rating, id, params)
+    result, code = db.update(Rating, rating_id, params)
 
     if code == 200:
         rating = get_row_dict(result)

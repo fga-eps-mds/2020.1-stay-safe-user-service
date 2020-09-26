@@ -4,7 +4,7 @@ from utils.formatters import get_row_dict
 from settings import logger
 
 
-def create_neighborhood(body, header):
+def create_neighborhood(body):
 
     try:
         neighborhood = Neighborhood(
@@ -30,7 +30,7 @@ def get_all_neighborhoods():
     return [], 200
 
 
-def delete_neighborhood(id):
-    result, code = db.delete(Neighborhood, id)
+def delete_neighborhood(neighborhood_id):
+    result, code = db.delete(Neighborhood, neighborhood_id)
 
     return result, code

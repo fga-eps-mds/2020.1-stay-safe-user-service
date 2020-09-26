@@ -55,7 +55,7 @@ def update_user(username, body):
 
     if 'password' in params:
         params['password'] = BCRYPT.generate_password_hash(
-            params['password']).decode('utf-8'),
+            params['password']).decode('utf-8')
 
     result, code = db.update(User, username, params)
 
