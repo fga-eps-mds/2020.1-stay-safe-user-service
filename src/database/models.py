@@ -6,8 +6,8 @@ from sqlalchemy import (
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-from .db import db
 from settings import BCRYPT
+from database.db import db
 
 Base = declarative_base()
 
@@ -23,10 +23,10 @@ class User(Base):
     rating = relationship("Rating")
 
     def __init__(self, username, email, password, full_name):
-        self.username = username,
-        self.email = email,
+        self.username = username
+        self.email = email
         self.password = BCRYPT.generate_password_hash(
-            password).decode('utf-8'),
+            password).decode('utf-8')
         self.full_name = full_name
 
 

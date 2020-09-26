@@ -11,7 +11,7 @@ class TestAuth(unittest.TestCase):
             'email': 'derfel.baj@gmail.com',
             'password': 'Tempestadegigante1'
         }
-        result, status = user.create_user(self.user)
+        user.create_user(self.user)
 
     def tearDown(self):
         user.delete_user(self.user['username'])

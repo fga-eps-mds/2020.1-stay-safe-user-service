@@ -1,7 +1,7 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
-import os
 
 from settings import logger
 
@@ -77,8 +77,6 @@ def update(model, identifier, params):
 
 
 def delete(model, identifier):
-    session = Session()
-
     try:
         data = session.query(model).get(identifier)
 

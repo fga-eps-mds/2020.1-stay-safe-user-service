@@ -17,3 +17,4 @@ pytest==6.0.1
 pyjwt==1.7.1
 Flask-Bcrypt==0.7.1
 flask-swagger-ui==3.25.0
+pylint==2.6.0

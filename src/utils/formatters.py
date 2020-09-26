@@ -1,5 +1,6 @@
-from flask import jsonify
 import datetime
+
+from flask import jsonify
 
 
 def create_response(content, status=500):
@@ -27,12 +28,12 @@ def get_row_dict(row):
         Converts the model object into a dictionary
     """
 
-    d = {}
+    model_dict = {}
     for column in row.__table__.columns:
         attr = getattr(row, column.name)
-        if (type(attr) == datetime.datetime):
-            d[column.name] = str(attr)
+        if type(attr) == datetime.datetime:
+            model_dict[column.name] = str(attr)
         else:
-            d[column.name] = attr
+            model_dict[column.name] = attr
 
-    return d
+    return model_dict

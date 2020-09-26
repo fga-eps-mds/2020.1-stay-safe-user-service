@@ -1,7 +1,7 @@
 import jwt
 
 from settings import SECRET_KEY, BCRYPT
-from .user import get_one_user
+from controllers.user import get_one_user
 
 
 def authentication(auth):

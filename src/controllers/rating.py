@@ -44,8 +44,8 @@ def get_all_ratings(user = None):
     return [], 200
 
 
-def get_one_rating(id_rating):
-    result, code = db.get_one(Rating, id_rating)
+def get_one_rating(rating_id):
+    result, code = db.get_one(Rating, rating_id)
 
     if code == 200:
         rating = get_row_dict(result)
@@ -53,17 +53,17 @@ def get_one_rating(id_rating):
     return result, code
 
 
-def delete_rating(id_rating):
-    result, code = db.delete(Rating, id_rating)
+def delete_rating(rating_id):
+    result, code = db.delete(Rating, rating_id)
 
     return result, code
 
 
-def update_rating(id_rating, body):
+def update_rating(rating_id, body):
     params = {}
     fields = ['rating_neighborhood', 'details']
 
-    result, status = db.get_one(Rating, id_rating)
+    result, status = db.get_one(Rating, rating_id)
     rating_before_update = get_row_dict(result)
 
     if status == 404:
@@ -81,7 +81,7 @@ def update_rating(id_rating, body):
     if errors:
         return errors, 400
 
-    result, code = db.update(Rating, id_rating, params)
+    result, code = db.update(Rating, rating_id, params)
 
     if code == 200:
         rating = get_row_dict(result)

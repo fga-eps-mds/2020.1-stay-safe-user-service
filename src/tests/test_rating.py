@@ -26,19 +26,14 @@ class TestRating(unittest.TestCase):
         self.db_len = len(db.session.query(Rating).all())
         db_len_neighborhood = len(db.session.query(Neighborhood).all())
 
-        # creates an user and generate the jwt token
+        # creates an user
         result, status = user_controller.create_user(user)
         self.assertEqual(result, "Created successfully!")
         self.assertEqual(status, 201)
-        token = jwt.encode(
-            {'username': user['username']}, SECRET_KEY, algorithm='HS256')
 
-        self.header = {
-            'Authorization': token
-        }
         # create neighborhood
         result, status = neighborhood_controller.create_neighborhood(
-            neighborhood, self.header)
+            neighborhood)
         self.assertEqual(result, "Created successfully!")
         self.assertEqual(status, 201)
 
