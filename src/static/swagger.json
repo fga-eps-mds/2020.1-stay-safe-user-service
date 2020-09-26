@@ -1,0 +1,853 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Stay Safe app user service",
+    "version": "1.0.0",
+    "title": "User Service - Stay Safe",
+    "license": {
+      "name": "GPL",
+      "url": "https://github.com/fga-eps-mds/2020.1-stay-safe-user-service/blob/develop/LICENSE"
+    }
+  },
+  "host": "localhost:8083",
+  "tags": [
+    {
+      "name": "users",
+      "description": "Operations about user"
+    },
+    {
+      "name": "login",
+      "description": "Authentication of user"
+    },
+    {
+      "name": "occurrences",
+      "description": "Operations about occurrences"
+    },
+    {
+      "name": "ratings",
+      "description": "Operations about ratings"
+    },
+    {
+      "name": "neighborhoods",
+      "description": "Operations about neighborhoods"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/user": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create user",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully!"
+          },
+          "404": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get all users",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Updated user",
+        "description": "This can only be done by the logged in user.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "401": {
+            "description": "Invalid Token"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete user",
+        "description": "This can only be done by the logged in user.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Operation"
+          },
+          "401": {
+            "description": "Invalid Token"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/api/user/{username}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get user by username",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The name that needs to be fetched",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/auth": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "Logs user into the system with basic",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "header",
+            "description": "The username for login",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "header",
+            "description": "The password for login in clear text",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Validated successfully",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "401": {
+            "description": "Invalid password"
+          }
+        }
+      }
+    },
+    "/api/occurrences": {
+      "post": {
+        "tags": [
+          "occurrences"
+        ],
+        "summary": "Create a occurrence",
+        "description": "This can only be done by the logged in user.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created occurrence object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Occurrence-post"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully!"
+          },
+          "404": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "occurrences"
+        ],
+        "summary": "Get all occurrences",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Occurrence-get"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/occurrences/{id}": {
+      "get": {
+        "tags": [
+          "occurrences"
+        ],
+        "summary": "Get an occurrence by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of occurrence that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "$ref": "#/definitions/Occurrence-get"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "occurrences"
+        ],
+        "summary": "Updated occurrence",
+        "description": "This can only be done by the logged in user.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of occurrence that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated occurrence object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Occurrence-post"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Invalid occurrence supplied"
+          },
+          "401": {
+            "description": "Invalid Token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "occurrences"
+        ],
+        "summary": "Delete occurrence",
+        "description": "This can only be done by the logged in user.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of occurrence that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Operation"
+          },
+          "401": {
+            "description": "Invalid Token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/rating/{id_neighborhoods}": {
+      "post": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Create a rating",
+        "description": "This can only be done by the logged in user.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id_neighborhoods",
+            "in": "path",
+            "description": "The id of rated neighborhood",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created rating object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Rating-post"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully!"
+          },
+          "404": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/rating/": {
+      "get": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Get all ratings",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Rating-get"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rating/{id}": {
+      "get": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Get a rating by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of rating that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "$ref": "#/definitions/Rating-get"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Updated rating",
+        "description": "This can only be done by the logged in user.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of rating that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated rating object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Rating-post"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Invalid rating supplied"
+          },
+          "401": {
+            "description": "Invalid Token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Delete rating",
+        "description": "This can only be done by the logged in user.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of rating that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Operation"
+          },
+          "401": {
+            "description": "Invalid Token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/neighborhood": {
+      "post": {
+        "tags": [
+          "neighborhoods"
+        ],
+        "summary": "Create a neighborhood",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created neighborhood object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Neighborhood-post"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully!"
+          },
+          "404": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "neighborhoods"
+        ],
+        "summary": "Get all neighborhoods",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Neighborhood-get"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/neighborhood/{id}": {
+      "delete": {
+        "tags": [
+          "neighborhoods"
+        ],
+        "summary": "Delete neighborhood",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of neighborhood that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Operation"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Occurrence-post": {
+      "type": "object",
+      "properties": {
+        "police_report": {
+          "type": "boolean"
+        },
+        "gun": {
+          "type": "string",
+          "enum": [
+            "Fire",
+            "White",
+            null
+          ]
+        },
+        "location": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "example": [
+              232.433,
+              232.454
+            ]
+          }
+        },
+        "occurrence_type": {
+          "type": "string",
+          "enum": [
+            "Latrocínio",
+            "Roubo a transeunte",
+            "Roubo de Veículo",
+            "Roubo de Residência",
+            "Estupro"
+          ]
+        },
+        "victim": {
+          "type": "boolean"
+        },
+        "physical_aggression": {
+          "type": "boolean"
+        },
+        "occurrence_date_time": {
+          "type": "string",
+          "example": "2020-08-17 23:20:20"
+        }
+      }
+    },
+    "Occurrence-get": {
+      "type": "object",
+      "properties": {
+        "id_occurrence": {
+          "type": "integer"
+        },
+        "police_report": {
+          "type": "boolean"
+        },
+        "gun": {
+          "type": "string",
+          "enum": [
+            "Fire",
+            "White",
+            null
+          ]
+        },
+        "location": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "example": [
+              232.433,
+              232.454
+            ]
+          }
+        },
+        "occurrence_type": {
+          "type": "string",
+          "enum": [
+            "Latrocínio",
+            "Roubo a transeunte",
+            "Roubo de Veículo",
+            "Roubo de Residência",
+            "Estupro"
+          ]
+        },
+        "victim": {
+          "type": "boolean"
+        },
+        "physical_aggression": {
+          "type": "boolean"
+        },
+        "occurrence_date_time": {
+          "type": "string",
+          "example": "2020-08-17 23:20:20"
+        },
+        "register_date_time": {
+          "type": "string",
+          "example": "2020-08-17 23:20:20"
+        }
+      }
+    },
+    "Rating-post": {
+      "type": "object",
+      "properties": {
+        "rating_neighborhood": {
+          "type": "integer"
+        },
+        "details": {
+          "type": "string",
+          "enum": [
+            "bad lighting",
+            "low movement of people",
+            "few police rounds",
+            "good lighting",
+            "good movement of people",
+            "frequent police rounds"
+          ]
+        }
+      }
+    },
+    "Rating-get": {
+      "type": "object",
+      "properties": {
+        "rating_neighborhood": {
+          "type": "integer"
+        },
+        "details": {
+          "type": "string",
+          "enum": [
+            "bad lighting",
+            "low movement of people",
+            "few police rounds",
+            "good lighting",
+            "good movement of people",
+            "frequent police rounds"
+          ]
+        },
+        "id_neighborhood": {
+          "type": "integer"
+        },
+        "id_rating": {
+          "type": "integer"
+        },
+        "user": {
+          "type": "string"
+        }
+      }
+    },
+    "Neighborhood-post": {
+      "type": "object",
+      "properties": {
+        "neighborhood": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "Neighborhood-get": {
+      "type": "object",
+      "properties": {
+        "id_neighborhood": {
+          "type": "integer"
+        },
+        "neighborhood": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

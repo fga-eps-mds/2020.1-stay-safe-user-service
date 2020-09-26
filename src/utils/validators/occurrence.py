@@ -82,7 +82,7 @@ def validate_gun(gun):
 
 
 def validate_occurrence_type(occurrence_type):
-    available_occurrence_type = ['Latrocínio', 'Roubo a transeunte',
+    available_occurrence_type = ['Latrocínio', 'Roubo a Transeunte',
                                  'Roubo de Veículo', 'Roubo de Residência',
                                  'Estupro']
     if (occurrence_type not in available_occurrence_type):

@@ -7,7 +7,7 @@ from settings import logger
 
 
 db_url = os.environ.get("SQLALCHEMY_DB_URL")
-db = create_engine(db_url, echo=True)
+db = create_engine(db_url)
 
 Session = sessionmaker(db)
 session = Session()
@@ -26,8 +26,12 @@ def insert_one(element):
         return str(error), 400
 
 
-def get_all(model):
+def get_all(model, identifier = None):
     try:
+        if(identifier):
+            data = session.query(model).filter(model.user == identifier)
+            session.commit()
+            return data, 200
         data = session.query(model).all()
         session.commit()
         return data, 200
