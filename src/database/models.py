@@ -45,9 +45,24 @@ class Occurrence(Base):
     gun = Column(Enum('None', 'Fire', 'White', name='gun'), nullable=False)
     location = Column(ARRAY(Float), nullable=False)
     occurrence_type = Column(
-        Enum('Latrocínio', 'Roubo a transeunte', 'Roubo de Veículo',
+        Enum('Latrocínio', 'Roubo a Transeunte', 'Roubo de Veículo',
              'Roubo de Residência', 'Estupro', name='occurrence_type'),
         nullable=False)
+
+    def to_dict(self):
+        occurrence = {
+            'id_occurrence': self.id_occurrence,
+            'occurrence_type': self.occurrence_type,
+            'occurrence_date_time': str(self.occurrence_date_time),
+            'physical_aggression': self.physical_aggression,
+            'victim': self.victim,
+            'police_report': self.police_report,
+            'gun': self.gun,
+            'location': self.location,
+            'register_date_time': str(self.register_date_time)
+        }
+
+        return occurrence
 
 
 class Neighborhood(Base):

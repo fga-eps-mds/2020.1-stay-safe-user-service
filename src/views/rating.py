@@ -22,7 +22,9 @@ def post_rating(username, id_neighborhood):
 
 @rating_blueprint.route('/rating/', methods=['GET'])
 def get_ratings():
-    response, status = controller.get_all_ratings()
+    user = request.args.get('user')
+
+    response, status = controller.get_all_ratings(user)
 
     return create_response(response, status)
 

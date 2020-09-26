@@ -20,13 +20,14 @@ class TestOccurrence(unittest.TestCase):
     def setUp(self):
         # getting the db size before tests
         self.db_len = len(db.session.query(Occurrence).all())
+        self.qnt_occurrence = len(correct_occurrences)
 
         # creates an user and generate the jwt token
         result, status = user_controller.create_user(user)
         self.assertEqual(result, "Created successfully!")
         self.assertEqual(status, 201)
 
-        # creates 3 occurrences
+        # creates occurrences
         for occurrence in correct_occurrences:
             result, status = controller.create_occurrence(
                 user['username'], occurrence)
@@ -62,7 +63,7 @@ class TestOccurrence(unittest.TestCase):
         """
 
         new_db_len = len(db.session.query(Occurrence).all())
-        self.assertEqual(new_db_len, self.db_len+3)
+        self.assertEqual(new_db_len, self.db_len+self.qnt_occurrence)
 
         # tests whether invalid occurrences will not be created
         for occurrence in wrong_occurrences:
@@ -78,7 +79,7 @@ class TestOccurrence(unittest.TestCase):
         self.assertEqual(status, 200)
 
         new_db_len = len(result)
-        self.assertEqual(new_db_len, self.db_len + 3)
+        self.assertEqual(new_db_len, self.db_len + self.qnt_occurrence)
 
     def test_get_one_occurrence(self):
         """
@@ -88,8 +89,11 @@ class TestOccurrence(unittest.TestCase):
             result, status = controller.get_one_occurrence(
                 occurrence['id_occurrence'])
             self.assertEqual(status, 200)
+
             del result['register_date_time']
-            self.assertEqual(result, occurrence)
+            occurrence_without_user = occurrence.copy()
+            del occurrence_without_user['user']
+            self.assertEqual(result, occurrence_without_user)
 
         result, status = controller.get_one_occurrence(-1)
         self.assertEqual(status, 404)
