@@ -19,4 +19,4 @@ jobs:
           
       - name: Analysing the code with pylint
         run: |
-          docker-compose run api sh -c "pylint **/*.py"
+          docker-compose run api sh -c "pylint --fail-under=8 **/*.py"
