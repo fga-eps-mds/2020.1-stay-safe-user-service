@@ -13,10 +13,10 @@ jobs:
         run: |
           docker-compose --file docker-compose.yml build
 
-      - name: Run tests
-        run: |
-          docker-compose --file docker-compose.yml run api pytest
-          
       - name: Analysing the code with pylint
         run: |
           docker-compose run api sh -c "pylint --fail-under=8 **/*.py"
+
+      - name: Run tests
+        run: |
+          docker-compose --file docker-compose.yml run api pytest
