@@ -73,7 +73,7 @@ def update_occurrence(id_occurrence, body):
     result, code = db.update(Occurrence, id_occurrence, params)
 
     if code == 200:  # if successful, returns the data
-        occurrence = get_row_dict(result)  # converts row to dict
+        occurrence = result.to_dict()  # converts row to dict
         return occurrence, code
     return result, code  # else, returns database error and error code
 

@@ -113,8 +113,10 @@ class TestOccurrence(unittest.TestCase):
         occurrence['occurrence_type'] = 'Roubo de Residência'
         del result['register_date_time']
 
+        occurrence_without_user = occurrence.copy()
+        del occurrence_without_user['user']
         self.assertEqual(status, 200)
-        self.assertEqual(result, occurrence)
+        self.assertEqual(result, occurrence_without_user)
 
         for wrong_occurrence in wrong_occurrences:
             result, status = controller.update_occurrence(
