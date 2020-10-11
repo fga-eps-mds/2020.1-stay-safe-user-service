@@ -4,6 +4,12 @@ User service of Stay Safe project
 ## Run
 
 ### Flask
+#### Build
+```bash
+$ sudo docker-compose build
+```
+
+#### Run api
 ```bash
 $ sudo docker-compose up
 ```
