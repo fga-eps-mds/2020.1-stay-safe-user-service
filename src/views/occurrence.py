@@ -23,8 +23,9 @@ def post_occurrence(username):
 @occurrence_blueprint.route('/occurrences/', methods=['GET'])
 def get_all_occurrences():
     user = request.args.get('user')
+    occurrence_type = request.args.get('occurrence_type')
 
-    response, status = controller.get_all_occurrences(user)
+    response, status = controller.get_all_occurrences(user, occurrence_type)
 
     return create_response(response, status)
 

@@ -36,8 +36,11 @@ def create_occurrence(username, body):
         return str(error), 401
 
 
-def get_all_occurrences(user = None):
-    result, code = db.get_all(Occurrence, user)
+def get_all_occurrences(user = None, occurrence_type = None):
+    occurrence_types = occurrence_type.split(',')
+    occurrence_types = list(map(lambda o: o.strip(), occurrence_types)) # strip white spaces from start and end
+
+    result, code = db.get_all(Occurrence, user, occurrence_types)
     if result:
         if code == 200:  # if successful, returns the data
             # converts rows to dict
