@@ -34,7 +34,7 @@ def create_rating(body, username, neighborhood_id):
         return str(error), 401
 
 
-def get_all_ratings(user = None):
+def get_all_ratings(user=None):
     result, code = db.get_all(Rating, user)
     if result:
         if code == 200:

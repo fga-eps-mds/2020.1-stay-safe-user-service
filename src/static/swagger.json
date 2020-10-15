@@ -266,6 +266,22 @@
         "tags": [
           "occurrences"
         ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "url",
+            "description": "The username of the user to be get all occurrences for",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "occurrences_types",
+            "in": "url",
+            "description": "The occurrences types vailables to get the occurrences. If it is more than one, it has to be separated by ','.",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "summary": "Get all occurrences",
         "produces": [
           "application/json"

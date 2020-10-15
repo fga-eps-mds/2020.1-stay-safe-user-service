@@ -1,6 +1,4 @@
 import unittest
-import jwt
-from settings import SECRET_KEY
 
 from controllers import (
     rating as controller,

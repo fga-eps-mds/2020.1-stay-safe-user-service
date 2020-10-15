@@ -2,10 +2,10 @@ import datetime
 
 from database.models import Occurrence
 from database import db
-from utils.formatters import get_row_dict
 from utils.validators.occurrence import (
     validate_create_occurrence,
-    validate_update_occurrence
+    validate_update_occurrence,
+    validate_occurrence_type
 )
 from settings import logger
 
@@ -36,10 +36,17 @@ def create_occurrence(username, body):
         return str(error), 401
 
 
-def get_all_occurrences(user = None, occurrences_types = None):
+def get_all_occurrences(user=None, occurrences_types=None):
+    # formating occurrences_types query param
     if (occurrences_types):
         occurrences_types = occurrences_types.split(',')
-        occurrences_types = list(map(lambda o: o.strip(), occurrences_types)) # strip white spaces from start and end
+        # strip white spaces from start and end
+        occurrences_types = list(map(lambda o: o.strip(), occurrences_types))
+        # validating occurrences_types
+        if (False in
+                [validate_occurrence_type(occur_type)
+                 for occur_type in occurrences_types]):
+            return "occurrence_type inválido", 400
 
     result, code = db.get_all(Occurrence, user, occurrences_types)
     if result:

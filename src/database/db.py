@@ -1,6 +1,6 @@
 import os
 
-from sqlalchemy import create_engine, any_
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from settings import logger
@@ -26,17 +26,19 @@ def insert_one(element):
         return str(error), 400
 
 
-def get_all(model, user = None, occurrence_types = None):
+def get_all(model, user=None, occurrence_types=None):
     try:
         if (user):
             data = session.query(model).filter(model.user == user)
             session.commit()
             return data, 200
         if (occurrence_types):
-            data = session.query(model).filter(model.occurrence_type == occurrence_types[0])
+            data = session.query(model)\
+                    .filter(model.occurrence_type.in_(occurrence_types))\
+                    .all()
             session.commit()
             return data, 200
-            
+
         data = session.query(model).all()
         session.commit()
         return data, 200
