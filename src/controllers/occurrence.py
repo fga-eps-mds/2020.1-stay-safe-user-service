@@ -36,19 +36,27 @@ def create_occurrence(username, body):
         return str(error), 401
 
 
-def get_all_occurrences(user=None, occurrences_types=None):
-    # formating occurrences_types query param
-    if (occurrences_types):
-        occurrences_types = occurrences_types.split(',')
+def get_all_occurrences(user=None, occurrence_type=None):
+    filter = None
+    # formating occurrence_type query param
+    if (occurrence_type):
+        occurrence_type = occurrence_type.split(',')
+
         # strip white spaces from start and end
-        occurrences_types = list(map(lambda o: o.strip(), occurrences_types))
-        # validating occurrences_types
+        occurrence_type = [o.strip() for o in occurrence_type]
+
+        # validating occurrence_type
         if (False in
                 [validate_occurrence_type(occur_type)
-                 for occur_type in occurrences_types]):
+                 for occur_type in occurrence_type]):
             return "occurrence_type inválido", 400
 
-    result, code = db.get_all(Occurrence, user, occurrences_types)
+        filter = {"occurrence_type": occurrence_type}
+
+    if (user):
+        filter = {'user': [user]}
+
+    result, code = db.get_all(Occurrence, filter)
     if result:
         if code == 200:  # if successful, returns the data
             # converts rows to dict

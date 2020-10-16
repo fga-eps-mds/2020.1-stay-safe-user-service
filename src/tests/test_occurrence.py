@@ -77,16 +77,16 @@ class TestOccurrence(unittest.TestCase):
         result, status = controller.get_all_occurrences(user=user['username'])
         self.assertEqual(status, 200)
 
-        new_db_len = len(correct_occurrences)
+        new_db_len = len(correct_occurrences) + self.db_len
         self.assertEqual(new_db_len, self.db_len + self.qnt_occurrence)
 
         result, status = controller.get_all_occurrences(
-                            occurrences_types="Furto de Veículo"
+                            occurrence_type="Furto de Veículo"
                          )
         self.assertEqual(status, 200)
 
         result, status = controller.get_all_occurrences(
-                            occurrences_types="Furto de Bicicleta"
+                            occurrence_type="Furto de Bicicleta"
                          )
         self.assertEqual(status, 400)
 

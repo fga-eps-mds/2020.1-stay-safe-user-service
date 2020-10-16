@@ -275,7 +275,7 @@
             "type": "string"
           },
           {
-            "name": "occurrences_types",
+            "name": "occurrence_type",
             "in": "url",
             "description": "The occurrences types vailables to get the occurrences. If it is more than one, it has to be separated by ','.",
             "required": false,
