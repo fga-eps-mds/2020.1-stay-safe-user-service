@@ -32,7 +32,6 @@ def get_all(model, filter=None):
         if (filter):
             attr, value = list(filter.items())[0]
             if (not hasattr(model, attr)):
-                return str(attr), 201
                 return "The object does not have the attribute\
                         passed on query param", 400
             query = query.filter(getattr(model, attr).in_(value))
