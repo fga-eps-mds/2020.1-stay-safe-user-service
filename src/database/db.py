@@ -28,11 +28,11 @@ def insert_one(element):
 
 def get_all(model, user=None, occurrence_types=None):
     try:
-        if (user):
+        if (user and (model.__name__ == "Occurrence" or model.__name__ == "Rating")):
             data = session.query(model).filter(model.user == user)
             session.commit()
             return data, 200
-        if (occurrence_types):
+        if (occurrence_types and model.__name__ == "Occurrence"):
             data = session.query(model)\
                     .filter(model.occurrence_type.in_(occurrence_types))\
                     .all()
