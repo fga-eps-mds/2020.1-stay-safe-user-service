@@ -29,7 +29,7 @@ correct_occurrences = [
             -48.044175
         ],
         "occurrence_date_time": "2020-04-08 00:00:00",
-        "occurrence_type": "Roubo de Veículo",
+        "occurrence_type": "Furto de Veículo",
         "physical_aggression": False,
         "police_report": True,
         "victim": False

@@ -61,7 +61,6 @@ class TestOccurrence(unittest.TestCase):
         """
         Testing create occurrence
         """
-
         new_db_len = len(db.session.query(Occurrence).all())
         self.assertEqual(new_db_len, self.db_len+self.qnt_occurrence)
 
@@ -75,6 +74,22 @@ class TestOccurrence(unittest.TestCase):
         """
         Testing get all occurrences
         """
+        result, status = controller.get_all_occurrences(user=user['username'])
+        self.assertEqual(status, 200)
+
+        new_db_len = len(correct_occurrences) + self.db_len
+        self.assertEqual(new_db_len, self.db_len + self.qnt_occurrence)
+
+        result, status = controller.get_all_occurrences(
+                            occurrence_type="Furto de Veículo"
+                         )
+        self.assertEqual(status, 200)
+
+        result, status = controller.get_all_occurrences(
+                            occurrence_type="Furto de Bicicleta"
+                         )
+        self.assertEqual(status, 400)
+
         result, status = controller.get_all_occurrences()
         self.assertEqual(status, 200)
 

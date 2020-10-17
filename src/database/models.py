@@ -46,7 +46,8 @@ class Occurrence(Base):
     location = Column(ARRAY(Float), nullable=False)
     occurrence_type = Column(
         Enum('Latrocínio', 'Roubo a Transeunte', 'Roubo de Veículo',
-             'Roubo de Residência', 'Estupro', name='occurrence_type'),
+             'Roubo de Residência', 'Estupro', 'Furto a Transeunte',
+             'Furto de Veículo', name='occurrence_type'),
         nullable=False)
 
     def to_dict(self):

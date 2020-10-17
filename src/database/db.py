@@ -26,13 +26,16 @@ def insert_one(element):
         return str(error), 400
 
 
-def get_all(model, identifier = None):
+def get_all(model, filter=None):
     try:
-        if(identifier):
-            data = session.query(model).filter(model.user == identifier)
-            session.commit()
-            return data, 200
-        data = session.query(model).all()
+        query = session.query(model)
+        if (filter):
+            attr, value = list(filter.items())[0]
+            if (not hasattr(model, attr)):
+                return "The object does not have the attribute\
+                        passed on query param", 400
+            query = query.filter(getattr(model, attr).in_(value))
+        data = query.all()
         session.commit()
         return data, 200
     except Exception as error:
