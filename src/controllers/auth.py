@@ -5,8 +5,8 @@ from controllers.user import get_one_user
 
 
 def authentication(auth):
-    if not auth or not auth['username'] or not auth['password']:
-        return 'Login required', 401
+    if not auth['username'] or not auth['password']:
+        return "Username and password are required", 401
 
     result, status = get_one_user(auth['username'])
 
