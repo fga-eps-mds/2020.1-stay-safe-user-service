@@ -10,9 +10,9 @@ from settings import logger
 
 def create_rating(body, username, neighborhood_id):
 
-    neighborhood = db.get_one(Neighborhood, neighborhood_id)
+    neighborhood, code = db.get_one(Neighborhood, neighborhood_id)
 
-    if neighborhood[1] == 404:
+    if code == 404:
         return 'Bairro não existe', 404
 
     errors = validate_create_rating(body)
@@ -34,8 +34,15 @@ def create_rating(body, username, neighborhood_id):
         return str(error), 401
 
 
-def get_all_ratings(user=None):
-    result, code = db.get_all(Rating, user)
+def get_all_ratings(user=None, neighborhood=None):
+    # formatting filters
+    filter = None
+    if(neighborhood):
+        filter = {'id_neighborhood': [neighborhood]}
+    if(user):
+        filter = {'user': [user]}
+
+    result, code = db.get_all(Rating, filter)
     if result:
         if code == 200:
             ratings_neighborhood = [get_row_dict(u) for u in result]

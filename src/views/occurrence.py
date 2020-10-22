@@ -43,8 +43,6 @@ def occurrence_by_id(occurrence_id):
 @validate_header
 @validate_token
 def delete_patch_occurrence(username, occurrence_id):
-    logger.info("#########")
-    logger.info(occurrence_id)
     if request.method == 'DELETE':
         response, status = controller.delete_occurrence(occurrence_id)
 
