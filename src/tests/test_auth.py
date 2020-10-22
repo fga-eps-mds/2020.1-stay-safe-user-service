@@ -34,3 +34,7 @@ class TestAuth(unittest.TestCase):
         )
         self.assertEqual(status, 200)
         self.assertEqual(result['msg'], 'Validated successfully')
+
+        result, status = authentication()
+        self.assertEqual(status, 401)
+        self.assertEqual(result, 'Login is required')
