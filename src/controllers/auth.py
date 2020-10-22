@@ -4,7 +4,10 @@ from settings import SECRET_KEY, BCRYPT
 from controllers.user import get_one_user
 
 
-def authentication(auth):
+def authentication(auth=None):
+    if not auth:
+        return "Login is required", 401
+
     if not auth['username'] or not auth['password']:
         return "Username and password are required", 401
 
