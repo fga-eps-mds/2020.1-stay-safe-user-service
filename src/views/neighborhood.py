@@ -35,6 +35,7 @@ def get_one_neighborhood(id_neighborhood):
 
     return create_response(response, status)
 
+
 def delete_neighborhood(id_neighborhood):
     response, status = controller.delete_neighborhood(id_neighborhood)
 
