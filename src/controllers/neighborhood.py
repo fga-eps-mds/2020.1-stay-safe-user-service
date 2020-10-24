@@ -38,12 +38,14 @@ def get_one_neighborhood(neighborhood_id):
     filter = {"id_neighborhood": [neighborhood_id]}
     ratings, status = db.get_all(Rating, filter)
     ratings = [get_row_dict(rat) for rat in ratings]
-    statistics = get_neighborhood_statistics(ratings)
 
     if code == 200:
         neighborhood = get_row_dict(result)
-        neighborhood.update(statistics)
+        if (ratings):
+            statistics = get_neighborhood_statistics(ratings)
+            neighborhood.update(statistics)
         return neighborhood, 200
+    return result, code
 
 
 def delete_neighborhood(neighborhood_id):

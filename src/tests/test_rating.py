@@ -97,7 +97,7 @@ class TestRating(unittest.TestCase):
         self.assertEqual(status, 200)
 
         new_db_len = len(result)
-        self.assertEqual(new_db_len, self.db_len + 3)
+        self.assertEqual(new_db_len, self.db_len + len(correct_ratings))
 
     def test_get_one_rating(self):
         """
@@ -114,6 +114,16 @@ class TestRating(unittest.TestCase):
         result, status = controller.get_one_rating(-1)
         self.assertEqual(status, 404)
         self.assertEqual(result, "Not Found!")
+
+    def test_get_ratings_by_neighborhood(self):
+        """
+        Testing get ratings by neighborhood
+        """
+
+        result, status = controller.get_all_ratings(
+                neighborhood=neighborhood['id_neighborhood'])
+        self.assertEqual(status, 200)
+        self.assertEqual(len(result), self.db_len + len(correct_ratings))
 
     def test_update_rating(self):
         """
