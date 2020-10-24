@@ -110,4 +110,8 @@ class TestNeighborhoodRating(unittest.TestCase):
         self.assertTrue('lighting' in result)
         self.assertTrue('movement' in result)
         self.assertTrue('police' in result)
+        self.assertAlmostEqual(result['average'], 2.7)
+        self.assertEqual(result['lighting'], 2) 
+        self.assertEqual(result['movement'], 3) 
+        self.assertEqual(result['police'], 0)
         self.assertIsInstance(result, type(neighborhood))
