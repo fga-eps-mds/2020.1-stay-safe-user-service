@@ -467,6 +467,15 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "neighborhood",
+            "in": "path",
+            "description": "The id of the neighborhood that has the ratings wanted",
+            "required": false,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Operation",
@@ -645,6 +654,32 @@
       }
     },
     "/api/neighborhood/{id}": {
+      "get": {
+        "tags": [
+          "neighborhoods"
+        ],
+        "summary": "Get one neighborhood by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of neighborhood that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "$ref": "#/definitions/Neighborhood-get"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "neighborhoods"
