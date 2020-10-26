@@ -1,7 +1,7 @@
 import unittest
 
 from controllers import user as controller
-from tests.mock_users import (
+from tests.mocks.mock_users import (
     correct_users,
     wrong_users,
     correct_user_update,

@@ -5,7 +5,7 @@ from controllers import (
     neighborhood as neighborhood_controller,
     user as user_controller
 )
-from tests.mock_ratings import (
+from tests.mocks.mock_ratings import (
     correct_ratings,
     wrong_ratings,
     user,

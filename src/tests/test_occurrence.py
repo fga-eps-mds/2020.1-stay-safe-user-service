@@ -4,7 +4,7 @@ from controllers import (
     occurrence as controller,
     user as user_controller
 )
-from tests.mock_occurrences import (
+from tests.mocks.mock_occurrences import (
     correct_occurrences,
     wrong_occurrences,
     correct_occurrence_update,

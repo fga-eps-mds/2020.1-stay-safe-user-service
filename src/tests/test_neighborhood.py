@@ -5,13 +5,13 @@ from controllers import (
     neighborhood as controller,
     user as user_controller
 )
-from tests.mock_ratings import (
+from tests.mocks.mock_ratings import (
     correct_ratings,
     user,
     neighborhood as rating_neighborhood
 )
 
-from tests.mock_neighborhood import neighborhoods
+from tests.mocks.mock_neighborhood import neighborhoods
 
 from database import db
 from database.models import Neighborhood
