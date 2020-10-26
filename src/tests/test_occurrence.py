@@ -41,17 +41,17 @@ class TestOccurrence(unittest.TestCase):
                 result[index + self.db_len]['id_occurrence']
 
     def tearDown(self):
+        # deleting user
+        result, status = user_controller.delete_user(user['username'])
+        self.assertEqual(status, 204)
+        self.assertEqual(result, "Deleted successfully!")
+
         # deleting all 3 occurrences
         for occurrence in correct_occurrences:
             result, status = controller.delete_occurrence(
                 occurrence['id_occurrence'])
             self.assertEqual(status, 204)
             self.assertEqual(result, "Deleted successfully!")
-
-        # deleting user
-        result, status = user_controller.delete_user(user['username'])
-        self.assertEqual(status, 204)
-        self.assertEqual(result, "Deleted successfully!")
 
         # asserting db len
         new_db_len = len(db.session.query(Occurrence).all())
@@ -121,7 +121,7 @@ class TestOccurrence(unittest.TestCase):
         occurrence = correct_occurrences[0]
         result, status = controller.update_occurrence(
             occurrence['id_occurrence'],
-            correct_occurrence_update
+            correct_occurrence_update,
         )
 
         occurrence['police_report'] = True
@@ -136,7 +136,7 @@ class TestOccurrence(unittest.TestCase):
         for wrong_occurrence in wrong_occurrences:
             result, status = controller.update_occurrence(
                 occurrence['id_occurrence'],
-                wrong_occurrence
+                wrong_occurrence,
             )
             self.assertEqual(status, 400)
 

@@ -74,7 +74,8 @@ class TestNeighborhoodRating(unittest.TestCase):
         # deleting all 3 ratings
         for rating in correct_ratings:
             result, status = rating_controller.delete_rating(
-                rating['id_rating'])
+                rating['id_rating'],
+            )
             self.assertEqual(status, 204)
             self.assertEqual(result, "Deleted successfully!")
 
