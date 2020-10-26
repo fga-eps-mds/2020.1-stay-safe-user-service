@@ -30,6 +30,10 @@
     {
       "name": "neighborhoods",
       "description": "Operations about neighborhoods"
+    },
+    {
+      "name": "favorite places",
+      "description": "Operations about favorite places"
     }
   ],
   "schemes": [
@@ -703,6 +707,86 @@
           }
         }
       }
+    },
+    "/api/places": {
+      "post": {
+        "tags": [
+          "favorite places"
+        ],
+        "summary": "Create a favorite place",
+        "description": "This can only be done by the logged in user.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created favorite place object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Place-post"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully!"
+          },
+          "404": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "favorite places"
+        ],
+        "summary": "Get all favorite places from one user",
+        "description": "This can only be done by the logged in user.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Place-get"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/places/{id_place}": {
+      "delete": {
+        "tags": [
+          "favorite places"
+        ],
+        "summary": "Delete favorite place",
+        "parameters": [
+          {
+            "name": "id_place",
+            "in": "path",
+            "description": "The id of place that needs to be fetched",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -897,6 +981,34 @@
         },
         "state": {
           "type": "string"
+        }
+      }
+    },
+    "Place-post": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        }
+      }
+    },
+    "Place-get": {
+      "type": "object",
+      "properties": {
+        "id_place": {
+          "type": "integer"
+        },
+        "user": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
         }
       }
     }
