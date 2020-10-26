@@ -21,6 +21,7 @@ class User(Base):
     full_name = Column(String(200), nullable=False)
     occurrence = relationship("Occurrence")
     rating = relationship("Rating")
+    favorite_places = relationship("FavoritePlace")
 
     def __init__(self, username, email, password, full_name):
         self.username = username
@@ -88,6 +89,15 @@ class Rating(Base):
              "good lighting", "good movement of people",
              "frequent police rounds", name='details'),
         nullable=False)
+
+
+class FavoritePlace(Base):
+    __tablename__ = 'favorite_places_stay_safe'
+
+    id_place = Column(Integer, primary_key=True)
+    user = Column(String, ForeignKey(User.username))
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
 
 
 Base.metadata.create_all(db)
