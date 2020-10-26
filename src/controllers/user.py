@@ -26,7 +26,7 @@ def get_all_users():
     result, code = db.get_all(User)
     if result:
         if code == 200:  # if successful, returns the data
-            users = [get_row_dict(u) for u in result]  # converts rows to dict
+            users = [u.to_dict() for u in result]  # converts rows to dict
             return users, code
         return result, code  # else, returns database error and error code
     return [], 200
@@ -36,7 +36,7 @@ def get_one_user(username):
     result, code = db.get_one(User, username)
 
     if code == 200:  # if successful, returns the data
-        user = get_row_dict(result)  # converts row to dict
+        user = result.to_dict()  # converts row to dict
         return user, 200
     return result, code  # else, returns database error and error code
 
