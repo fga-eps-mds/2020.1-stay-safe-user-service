@@ -17,18 +17,8 @@ for state in ['DF', 'SP']:
                         data=json.dumps(neigh),
                         headers=headers
                         )
-        if(r.status_code != 201):
+        if r.status_code != 201:
             print(r.status_code)
             print(neigh['neighborhood'])
             print()
             errors.append(neigh)
-
-for i in errors:
-    r = requests.post("http://0.0.0.0:8083/api/neighborhood/",
-                      data=json.dumps(neigh),
-                      headers=headers
-                      )
-    if(r.status_code != 201):
-        print(r.status_code)
-        print(neigh['neighborhood'])
-        print()
