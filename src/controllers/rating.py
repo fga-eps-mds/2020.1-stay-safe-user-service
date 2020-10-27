@@ -36,13 +36,13 @@ def create_rating(body, username, neighborhood_id):
 
 def get_all_ratings(user=None, neighborhood=None):
     # formatting filters
-    filter = None
-    if(neighborhood):
-        filter = {'id_neighborhood': [neighborhood]}
-    if(user):
-        filter = {'user': [user]}
+    filter_ = None
+    if neighborhood:
+        filter_ = {'id_neighborhood': [neighborhood]}
+    if user:
+        filter_ = {'user': [user]}
 
-    result, code = db.get_all(Rating, filter)
+    result, code = db.get_all(Rating, filter_)
     if result:
         if code == 200:
             ratings_neighborhood = [get_row_dict(u) for u in result]

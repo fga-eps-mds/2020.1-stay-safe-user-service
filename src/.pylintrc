@@ -4,4 +4,5 @@ disable=
     C0115, # missing-class-docstring
     C0116, # missing-function-docstring
     E1101, # no-member
-    W0703, # broad-except
+    W0703, # broad-except,
+    E0611, # no-name-in-module
