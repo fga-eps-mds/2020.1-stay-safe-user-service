@@ -25,6 +25,10 @@ app.register_blueprint(auth_blueprint)
 app.register_blueprint(neighborhood_blueprint)
 app.register_blueprint(rating_blueprint)
 app.register_blueprint(favorite_places_blueprint)
+app.register_blueprint(swagger_blueprint, url_prefix='/api/docs')
+
+CORS(app, automatic_options=True)
+
 if __name__ == '__main__':
     server_config = load_configuration()
     logger.info(f"Service configurations: {server_config}")
