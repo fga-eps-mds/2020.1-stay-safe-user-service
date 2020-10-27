@@ -21,8 +21,14 @@ def create_neighborhood(body):
         return str(error), 401
 
 
-def get_all_neighborhoods():
-    result, code = db.get_all(Neighborhood)
+def get_all_neighborhoods(city=None, state=None):
+    filter = None
+    if ((city and not state) or (not city and state)):
+        return "Os filtros city e state devem ser passados juntos.", 400
+    if (city and state):
+        filter = {'city': [city], 'state': [state]}
+
+    result, code = db.get_all(Neighborhood, filter)
     if result:
         if code == 200:
             neighborhoods = [get_row_dict(u) for u in result]
