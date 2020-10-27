@@ -5,16 +5,19 @@ from controllers.user import get_one_user
 
 
 def authentication(auth=None):
+    status = 401
+    response = 'Invalid password'
     if not auth:
-        return "Login is required", 401
+        response = "Login is required"
 
     if not auth['username'] or not auth['password']:
-        return "Username and password are required", 401
+        response = "Username and password are required"
 
-    result, status = get_one_user(auth['username'])
+    result, status_ = get_one_user(auth['username'])
 
-    if status != 200:
-        return result, status
+    if status_ != 200:
+        status = status_
+        response = result
 
     user = result
 
@@ -26,9 +29,10 @@ def authentication(auth=None):
             SECRET_KEY,
             algorithm='HS256'
         )
-        return {
+        response = {
             'msg': 'Validated successfully',
             'token': token.decode('utf-8'),
-        }, 200
+        }
+        status = 200
 
-    return 'Invalid password', 401
+    return response, status
