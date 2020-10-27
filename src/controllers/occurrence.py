@@ -8,6 +8,7 @@ from utils.validators.occurrence import (
     validate_occurrence_type
 )
 from settings import logger
+from utils.utils import get_params_by_body
 
 
 def create_occurrence(username, body):
@@ -77,13 +78,10 @@ def get_one_occurrence(id_occurrence):
 
 def update_occurrence(id_occurrence, body):
     logger.info(id_occurrence)
-    params = {}
     fields = ['occurrence_date_time', 'physical_aggression',
               'victim', 'police_report', 'gun', 'location', 'occurrence_type']
 
-    for field in fields:
-        if field in body:
-            params[field] = body[field]
+    params = get_params_by_body(fields, body)
 
     errors = validate_update_occurrence(body, params)
     if errors:
