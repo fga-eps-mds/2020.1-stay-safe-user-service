@@ -2,19 +2,16 @@ import json
 import requests
 
 
-def printProgressBar(
-                      iteration,
-                      total,
-                      prefix='',
-                      suffix='',
-                      decimals=1,
-                      length=100,
-                      fill='█',
-                      printEnd="\r"
-):
+def printProgressBar(iteration, total):
     """
     Call in a loop to create terminal progress bar
     """
+    prefix='Progress'
+    suffix='Complete'
+    decimals=1
+    length=50
+    fill='█'
+    printEnd="\r"
     percent =\
         ("{0:." + str(decimals) + "f}").format(100 * (iteration/float(total)))
     filledLength = int(length * iteration // total)
@@ -36,13 +33,7 @@ headers = {
 errors = []
 
 len_neighborhoods = len(data['DF']) + len(data['SP'])
-printProgressBar(
-                 0,
-                 len_neighborhoods,
-                 prefix='Progress:',
-                 suffix='Complete',
-                 length=50
-)
+printProgressBar(0, len_neighborhoods)
 
 for i, neigh in enumerate(data['DF']):
     r = requests.post("http://0.0.0.0:8083/api/neighborhood/",
@@ -54,13 +45,7 @@ for i, neigh in enumerate(data['DF']):
         print(neigh['neighborhood'])
         print()
         errors.append(neigh)
-    printProgressBar(
-                     i+1,
-                     len_neighborhoods,
-                     prefix='Progress:',
-                     suffix='Complete',
-                     length=50
-    )
+    printProgressBar(i+1, len_neighborhoods)
 
 
 for i, neigh in enumerate(data['SP']):
@@ -73,13 +58,7 @@ for i, neigh in enumerate(data['SP']):
         print(neigh['neighborhood'])
         print()
         errors.append(neigh)
-    printProgressBar(
-                     i+1,
-                     len_neighborhoods,
-                     prefix='Progress:',
-                     suffix='Complete',
-                     length=50
-    )
+    printProgressBar(i+1+len(data['DF']), len_neighborhoods)
 
 for i in errors:
     r = requests.post("http://0.0.0.0:8083/api/neighborhood/",
