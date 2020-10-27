@@ -644,13 +644,13 @@
           {
             "in": "url",
             "name": "city",
-            "description": "The city that you want the neighborhoods from. It has to be passed with state.",
+            "description": "The city that you want the neighborhoods from.",
             "required": false
           },
           {
             "in": "url",
             "name": "state",
-            "description": "The state(UF) that you want the neighborhoods from. It has to be passed with city",
+            "description": "The state(UF) that you want the neighborhoods from.",
             "required": false
           }
         ],
