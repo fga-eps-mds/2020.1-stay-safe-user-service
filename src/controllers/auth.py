@@ -9,30 +9,26 @@ def authentication(auth=None):
     response = 'Invalid password'
     if not auth:
         response = "Login is required"
-
-    if not auth['username'] or not auth['password']:
+    elif not auth['username'] or not auth['password']:
         response = "Username and password are required"
-
-    result, status_ = get_one_user(auth['username'])
-
-    if status_ != 200:
-        status = status_
-        response = result
-
-    user = result
-
-    if BCRYPT.check_password_hash(user['password'], auth['password']):
-        token = jwt.encode(
-            {
-                'username': user['username'],
-            },
-            SECRET_KEY,
-            algorithm='HS256'
-        )
-        response = {
-            'msg': 'Validated successfully',
-            'token': token.decode('utf-8'),
-        }
-        status = 200
-
+    else:
+        result, status_ = get_one_user(auth['username'])
+        if status_ == 200:
+            user = result
+            if BCRYPT.check_password_hash(user['password'], auth['password']):
+                token = jwt.encode(
+                    {
+                        'username': user['username'],
+                    },
+                    SECRET_KEY,
+                    algorithm='HS256'
+                )
+                status = 200
+                response = {
+                    'msg': 'Validated successfully',
+                    'token': token.decode('utf-8'),
+                }
+        else:
+            response = result
+            status = status_
     return response, status
