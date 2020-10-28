@@ -1,16 +1,17 @@
+import os
 import json
-import requests
+from controllers import neighborhood as controller
 
 
 def printProgressBar(
-                      iteration,
-                      total,
-                      prefix='',
-                      suffix='',
-                      decimals=1,
-                      length=100,
-                      fill='█',
-                      printEnd="\r"
+    iteration,
+    total,
+    prefix='',
+    suffix='',
+    decimals=1,
+    length=100,
+    fill='█',
+    printEnd="\r"
 ):
     """
     Call in a loop to create terminal progress bar
@@ -25,7 +26,8 @@ def printProgressBar(
         print()
 
 
-with open("./neighborhoods.json", "r") as read_file:
+dir = os.path.dirname(__file__)
+with open(dir + "/neighborhoods.json", "r") as read_file:
     data = json.load(read_file)
 
 headers = {
@@ -37,56 +39,50 @@ errors = []
 
 len_neighborhoods = len(data['DF']) + len(data['SP'])
 printProgressBar(
-                 0,
-                 len_neighborhoods,
-                 prefix='Progress:',
-                 suffix='Complete',
-                 length=50
+    0,
+    len_neighborhoods,
+    prefix='Progress:',
+    suffix='Complete',
+    length=50
 )
 
 for i, neigh in enumerate(data['DF']):
-    r = requests.post("http://0.0.0.0:8083/api/neighborhood/",
-                      data=json.dumps(neigh),
-                      headers=headers
-                      )
-    if(r.status_code != 201):
-        print(r.status_code)
+    r, code = controller.create_neighborhood(neigh)
+
+    if(code != 201):
+        print(code)
         print(neigh['neighborhood'])
         print()
         errors.append(neigh)
     printProgressBar(
-                     i+1,
-                     len_neighborhoods,
-                     prefix='Progress:',
-                     suffix='Complete',
-                     length=50
+        i+1,
+        len_neighborhoods,
+        prefix='Progress:',
+        suffix='Complete',
+        length=50
     )
 
 
 for i, neigh in enumerate(data['SP']):
-    r = requests.post("http://0.0.0.0:8083/api/neighborhood/",
-                      data=json.dumps(neigh),
-                      headers=headers
-                      )
-    if(r.status_code != 201):
-        print(r.status_code)
+    r, code = controller.create_neighborhood(neigh)
+
+    if(code != 201):
+        print(code)
         print(neigh['neighborhood'])
         print()
         errors.append(neigh)
     printProgressBar(
-                     i+1,
-                     len_neighborhoods,
-                     prefix='Progress:',
-                     suffix='Complete',
-                     length=50
+        i+1,
+        len_neighborhoods,
+        prefix='Progress:',
+        suffix='Complete',
+        length=50
     )
 
 for i in errors:
-    r = requests.post("http://0.0.0.0:8083/api/neighborhood/",
-                      data=json.dumps(neigh),
-                      headers=headers
-                      )
-    if(r.status_code != 201):
-        print(r.status_code)
+    r, code = controller.create_neighborhood(neigh)
+
+    if(code != 201):
+        print(code)
         print(neigh['neighborhood'])
         print()
