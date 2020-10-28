@@ -58,12 +58,16 @@ def get_one(model, identifier):
         return str(error), 400
 
 
-def update(model, identifier, params):
+def update(model, identifier, params, username=None):
     try:
         data = session.query(model).get(identifier)
         session.commit()
 
         if data:
+            if username:
+                if not getattr(data, 'user') == username:
+                    return f"You cannot edit another user's {model.__name__}", 403
+
             for param in params:
                 setattr(data, param, params[param])
             session.commit()
@@ -77,11 +81,15 @@ def update(model, identifier, params):
         return str(error), 400
 
 
-def delete(model, identifier):
+def delete(model, identifier, username=None):
     try:
         data = session.query(model).get(identifier)
 
         if data:
+            if username:
+                if not getattr(data, 'user') == username:
+                    return f"You cannot delete another user's {model.__name__}", 403
+
             session.delete(data)
             session.commit()
             return "Deleted successfully!", 204

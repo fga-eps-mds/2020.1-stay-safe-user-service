@@ -5,13 +5,13 @@ from controllers import (
     neighborhood as controller,
     user as user_controller
 )
-from tests.mock_ratings import (
+from tests.mocks.mock_ratings import (
     correct_ratings,
     user,
     neighborhood as rating_neighborhood
 )
 
-from tests.mock_neighborhood import neighborhoods
+from tests.mocks.mock_neighborhood import neighborhoods
 
 from database import db
 from database.models import Neighborhood, Rating
@@ -77,7 +77,8 @@ class TestNeighborhoodRating(unittest.TestCase):
         # deleting all 3 ratings
         for rating in correct_ratings:
             result, status = rating_controller.delete_rating(
-                rating['id_rating'])
+                rating['id_rating'],
+            )
             self.assertEqual(status, 204)
             self.assertEqual(result, "Deleted successfully!")
 

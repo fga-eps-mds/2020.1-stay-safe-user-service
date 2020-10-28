@@ -5,7 +5,7 @@ from controllers import (
     neighborhood as neighborhood_controller,
     user as user_controller
 )
-from tests.mock_ratings import (
+from tests.mocks.mock_ratings import (
     correct_ratings,
     wrong_ratings,
     user,
@@ -57,7 +57,8 @@ class TestRating(unittest.TestCase):
         # deleting all 3 ratings
         for rating in correct_ratings:
             result, status = controller.delete_rating(
-                rating['id_rating'])
+                rating['id_rating'],
+            )
             self.assertEqual(status, 204)
             self.assertEqual(result, "Deleted successfully!")
 
@@ -131,7 +132,7 @@ class TestRating(unittest.TestCase):
         rating = correct_ratings[0]
         result, status = controller.update_rating(
             rating['id_rating'],
-            correct_update_rating
+            correct_update_rating,
         )
 
         self.assertEqual(status, 200)
@@ -143,14 +144,14 @@ class TestRating(unittest.TestCase):
         for wrong_rating in wrong_ratings:
             result, status = controller.update_rating(
                 rating['id_rating'],
-                wrong_rating
+                wrong_rating,
             )
             self.assertEqual(status, 400)
 
-    # def test_delete_rating(self):
-    #     """
-    #     Testing delete rating
-    #     """
-    #     result, status = controller.delete_rating(-1)
-    #     self.assertEqual(status, 404)
-    #     self.assertEqual(result, "Not Found!")
+    def test_delete_rating(self):
+        """
+        Testing delete rating
+        """
+        result, status = controller.delete_rating(-1, user["username"])
+        self.assertEqual(status, 404)
+        self.assertEqual(result, "Not Found!")

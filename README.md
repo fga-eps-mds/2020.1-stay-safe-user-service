@@ -1,5 +1,4 @@
-# 2020.1-stay-safe-user-service
-
+# User Service
 User service of Stay Safe project
 
 ## Run
@@ -9,19 +8,19 @@ User service of Stay Safe project
 #### Build
 
 ```bash
-$ sudo docker-compose build
+$ docker-compose build
 ```
 
 #### Run api
 
 ```bash
-$ sudo docker-compose up
+$ docker-compose up
 ```
 
 ### Pylint
 
 ```bash
-$ sudo docker-compose run api sh -c "pylint **/*.py"
+$ docker-compose run api sh -c "pylint **/*.py"
 ```
 
 ### Pytest / Coverage
@@ -29,13 +28,13 @@ $ sudo docker-compose run api sh -c "pylint **/*.py"
 #### To run tests
 
 ```bash
-$ sudo docker-compose run api coverage run -m pytest
+$ docker-compose run api coverage run -m pytest
 ```
 
 #### To report results with Coverage
 
 ```bash
-$ sudo docker-compose run api coverage report -m
+$ docker-compose run api coverage report -m
 ```
 
 #### To add neighborhoods to database
