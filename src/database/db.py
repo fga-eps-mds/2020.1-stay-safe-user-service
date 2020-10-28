@@ -36,7 +36,6 @@ def get_all(model, filter=None):
                             passed on query param", 400
                 query = query.filter(getattr(model, attr).in_(value))
         data = query.all()
-        session.commit()
         return data, 200
     except Exception as error:
         logger.error(error)
@@ -47,7 +46,6 @@ def get_all(model, filter=None):
 def get_one(model, identifier):
     try:
         data = session.query(model).get(identifier)
-        session.commit()
 
         if data:
             return data, 200
