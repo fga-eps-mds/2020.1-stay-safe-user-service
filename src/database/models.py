@@ -5,6 +5,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy_utils import CompositeType
 
 from settings import BCRYPT
 from database.db import db
@@ -93,10 +94,15 @@ class Rating(Base):
     id_neighborhood = Column(Integer, ForeignKey(Neighborhood.id_neighborhood))
     rating_neighborhood = Column(Integer, nullable=False)
     details = Column(
-        Enum("bad lighting", "low movement of people", "few police rounds",
-             "good lighting", "good movement of people",
-             "frequent police rounds", name='details'),
-        nullable=False)
+        CompositeType(
+            'details',
+            [
+                Column('lighting', Boolean),
+                Column('movement_of_people', Boolean),
+                Column('police_rounds', Boolean)
+            ]
+        )
+    )
 
 
 Base.metadata.create_all(db)

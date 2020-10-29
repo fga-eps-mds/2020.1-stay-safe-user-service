@@ -18,13 +18,19 @@ def create_rating(body, username, neighborhood_id):
     errors = validate_create_rating(body)
     if errors:
         return errors, 400
+    # return "aa", 200
+
+    details = {}
+    for attr in body:
+        if attr != "rating_neighborhood" :
+            details[attr] = body[attr]
 
     try:
         rating = Rating(
             user=username,
             id_neighborhood=neighborhood_id,
             rating_neighborhood=body['rating_neighborhood'],
-            details=body['details'],
+            details=details
         )
         result, code = db.insert_one(rating)
 
@@ -36,13 +42,18 @@ def create_rating(body, username, neighborhood_id):
 
 def get_all_ratings(user=None, neighborhood=None):
     # formatting filters
-    filter = None
-    if(neighborhood):
-        filter = {'id_neighborhood': [neighborhood]}
-    if(user):
-        filter = {'user': [user]}
+    filter = {} if user or neighborhood else None
+    if (user):
+        filter.update({'user': [user]})
+    if (neighborhood):
+        filter.update({'neighborhood': [neighborhood]})
 
     result, code = db.get_all(Rating, filter)
+    for i in range(len(result)):
+        result[i].details = result[i].details._asdict()
+        # for attr, value in result[i].details.items():
+        #     if value == None:
+        #         del result.details[attr]
     if result:
         if code == 200:
             ratings_neighborhood = [get_row_dict(u) for u in result]
@@ -52,9 +63,13 @@ def get_all_ratings(user=None, neighborhood=None):
 
 
 def get_one_rating(rating_id):
-    result, code = db.get_one(Rating, rating_id)
+    result, code = db.get_one(Rating, rating_id)        
 
     if code == 200:
+        result.details = result.details._asdict()
+        for attr, value in result.details.items():
+            if value == None:
+                del result.details[attr]
         rating = get_row_dict(result)
         return rating, 200
     return result, code
@@ -68,7 +83,7 @@ def delete_rating(rating_id, username=None):
 
 def update_rating(rating_id, body, username=None):
     params = {}
-    fields = ['rating_neighborhood', 'details']
+    fields = ['rating_neighborhood']
 
     result, status = db.get_one(Rating, rating_id)
     rating_before_update = get_row_dict(result)
@@ -81,8 +96,6 @@ def update_rating(rating_id, body, username=None):
             params[field] = body[field]
         else:
             params[field] = rating_before_update[field]
-
-    logger.info(params)
 
     errors = validate_update_rating(params)
     if errors:
