@@ -57,13 +57,12 @@ def get_all_occurrences(user=None, occurrence_type=None):
         filter = {'user': [user]}
 
     result, code = db.get_all(Occurrence, filter)
-    if result:
-        if code == 200:  # if successful, returns the data
-            # converts rows to dict
-            occurrences = [occurrence.to_dict() for occurrence in result]
-            return occurrences, code
-        return result, code  # else, returns database error and error code
-    return [], 200
+
+    if code == 200:  # if successful, returns the data
+        # converts rows to dict
+        occurrences = [occurrence.to_dict() for occurrence in result]
+        return occurrences, code
+    return result, code
 
 
 def get_one_occurrence(id_occurrence):

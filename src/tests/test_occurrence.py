@@ -81,13 +81,13 @@ class TestOccurrence(unittest.TestCase):
         self.assertEqual(new_db_len, self.db_len + self.qnt_occurrence)
 
         result, status = controller.get_all_occurrences(
-                            occurrence_type="Furto de Veículo"
-                         )
+            occurrence_type="Furto de Veículo"
+        )
         self.assertEqual(status, 200)
 
         result, status = controller.get_all_occurrences(
-                            occurrence_type="Furto de Bicicleta"
-                         )
+            occurrence_type="Furto de Bicicleta"
+        )
         self.assertEqual(status, 400)
 
         result, status = controller.get_all_occurrences()
@@ -147,3 +147,13 @@ class TestOccurrence(unittest.TestCase):
         result, status = controller.delete_occurrence(-1)
         self.assertEqual(status, 404)
         self.assertEqual(result, "Not Found!")
+
+    def test_update_inexisting_occurrence(self):
+        occurrence = correct_occurrences[0]
+        result, status = controller.update_occurrence(
+            -2,
+            correct_occurrence_update,
+        )
+
+        self.assertEqual(status, 404)
+        self.assertEqual(result, 'Not Found!')
