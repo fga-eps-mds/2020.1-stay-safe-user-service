@@ -149,6 +149,9 @@ class TestOccurrence(unittest.TestCase):
         self.assertEqual(result, "Not Found!")
 
     def test_update_inexisting_occurrence(self):
+        """
+        Testing update inexisting occurrence
+        """
         occurrence = correct_occurrences[0]
         result, status = controller.update_occurrence(
             -2,
@@ -157,3 +160,30 @@ class TestOccurrence(unittest.TestCase):
 
         self.assertEqual(status, 404)
         self.assertEqual(result, 'Not Found!')
+
+    def test_update_occurrence_from_another_user(self):
+        """
+        Testing update occurrence from another user
+        """
+        occurrence = correct_occurrences[0]
+        result, status = controller.update_occurrence(
+            occurrence['id_occurrence'],
+            correct_occurrence_update,
+            'aaaaaaaaaaaaa'
+        )
+
+        self.assertEqual(status, 403)
+        self.assertTrue("You cannot edit another user's" in result)
+
+    def test_delete_occurrence_from_another_user(self):
+        """
+        Testing delete occurrence from another user
+        """
+        occurrence = correct_occurrences[0]
+        result, status = controller.delete_occurrence(
+            occurrence['id_occurrence'],
+            'aaaaaaaaaaaaa'
+        )
+
+        self.assertEqual(status, 403)
+        self.assertTrue("You cannot delete another user's" in result)

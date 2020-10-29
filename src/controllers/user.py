@@ -22,8 +22,13 @@ def create_user(body):
     return result, code
 
 
-def get_all_users():
+def get_all_users(filter=None):
+    if filter:
+        result, code = db.get_all(User, {"invalid": 5})
+        return result, code
+
     result, code = db.get_all(User)
+
     if code == 200:  # if successful, returns the data
         users = [u.to_dict() for u in result]  # converts rows to dict
         return users, code

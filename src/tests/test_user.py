@@ -126,3 +126,12 @@ class TestUser(unittest.TestCase):
         )
         self.assertEqual(status, 404)
         self.assertEqual(result, "Not Found!")
+
+    def test_get_users_with_inexisting_filter(self):
+        """
+        Testing get users with inexisting param
+        """
+        result, status = controller.get_all_users(True)
+        self.assertEqual(status, 400)
+        self.assertEqual(result, "The object does not have the attribute\
+                            passed on query param")
