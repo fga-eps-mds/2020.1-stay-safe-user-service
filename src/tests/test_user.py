@@ -115,3 +115,14 @@ class TestUser(unittest.TestCase):
         result, status = controller.delete_user('unexisted#username')
         self.assertEqual(status, 404)
         self.assertEqual(result, "Not Found!")
+
+    def test_update_inexisting_user(self):
+        """
+        Testing update inexisting user
+        """
+        result, status = controller.update_user(
+            'retriveu2503',
+            correct_user_update
+        )
+        self.assertEqual(status, 404)
+        self.assertEqual(result, "Not Found!")
