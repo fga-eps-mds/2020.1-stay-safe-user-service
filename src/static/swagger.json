@@ -902,6 +902,21 @@
         "id_neighborhood": {
           "type": "integer"
         },
+        "statistics": {
+          "type": "object",
+          "average": {
+            "type": "float"
+          },
+          "lighting": {
+            "type": "integer"
+          },
+          "movement_of_people": {
+            "type": "integer"
+          },
+          "police_rounds": {
+            "type": "integer"
+          }
+        },
         "neighborhood": {
           "type": "string"
         },
