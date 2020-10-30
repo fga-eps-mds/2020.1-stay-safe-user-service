@@ -25,7 +25,7 @@ correct_ratings = [
         "police_rounds": False
     },
     {
-        "rating_neighborhood": 2,
+        "rating_neighborhood": 4,
         "lighting": False,
         "movement_of_people": False,
         "police_rounds": True
@@ -48,8 +48,8 @@ wrong_ratings = [
         "police_rounds": False,
     },
     {
-        # Without rating
-        "lighting": False,
+        # Invalid detail name
+        "lightinggg": False,
         "movement_of_people": False,
         "police_rounds": False,
     },

@@ -55,7 +55,11 @@ class TestNeighborhoodRating(unittest.TestCase):
 
         # creates 3 ratings
         for rating in correct_ratings:
-            rating = dict(filter(lambda x: x[0] != 'id_neighborhood' and x[0] != 'id_rating', rating.items()))
+            rating = dict(filter(lambda x: x[0] != 'id_neighborhood'
+                                 and x[0] != 'id_rating',
+                                 rating.items()
+                                 )
+                          )
             result, status = rating_controller.create_rating(
                 rating, user['username'],
                 rating_neighborhood['id_neighborhood']
@@ -144,8 +148,8 @@ class TestNeighborhoodRating(unittest.TestCase):
         self.assertTrue('lighting' in result['statistics'])
         self.assertTrue('movement_of_people' in result['statistics'])
         self.assertTrue('police_rounds' in result['statistics'])
-        self.assertAlmostEqual(result['statistics']['average'], 3.0)
+        self.assertAlmostEqual(result['statistics']['average'], 4)
         self.assertEqual(result['statistics']['lighting'], 1)
         self.assertEqual(result['statistics']['movement_of_people'], 2)
-        self.assertEqual(result['statistics']['police_rounds'], 1)
+        self.assertEqual(result['statistics']['police_rounds'], 2)
         self.assertIsInstance(result, type(neighborhood))

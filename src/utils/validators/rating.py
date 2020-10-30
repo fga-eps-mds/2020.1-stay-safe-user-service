@@ -5,6 +5,7 @@ fields = [
             ('movement_of_people', bool), ('police_rounds', bool)
          ]
 
+
 def validate_create_rating(body):
     required_fields = [fields[0][0]]
 
@@ -19,14 +20,16 @@ def validate_create_rating(body):
         wrong_fields = ", ".join(wrong_fields)
         return f'Campos com tipo inválido: {wrong_fields}'
 
-    if not validate_rating(body['rating_neighborhood']):
-        return 'Nota inválida.'
+    if 'rating_neighborhood' in body:
+        if not validate_rating(body['rating_neighborhood']):
+            return 'Nota inválida.'
 
-    rating = body['rating_neighborhood']
-    body_copy = dict(body)
-    del body_copy['rating_neighborhood']
-    if body_copy:
-        if not validate_details(body_copy, rating):
+    details = dict(filter(lambda x: x[0] != 'rating_neighborhood',
+                          body.items()
+                          )
+                   )
+    if details:
+        if not validate_details(details, body['rating_neighborhood']):
             return 'Detalhes da avaliação inválido.'
 
     return None
@@ -44,13 +47,16 @@ def validate_update_rating(params, current_rating):
         wrong_fields = ", ".join(wrong_fields)
         return f'Campos com tipo inválido: {wrong_fields}'
 
-    if not validate_rating(params['rating_neighborhood']):
-        return 'Nota inválida.'
+    if 'rating_neighborhood' in params:
+        if not validate_rating(params['rating_neighborhood']):
+            return 'Nota inválida.'
 
-    params_copy = dict(params)
-    del params_copy['rating_neighborhood']
-    if params_copy:
-        if not validate_details(params_copy, rating):
+    details = dict(filter(lambda x: x[0] != 'rating_neighborhood',
+                          params.items()
+                          )
+                   )
+    if details:
+        if not validate_details(details, rating):
             return 'Detalhes da avaliação inválido.'
 
     return None
@@ -64,8 +70,8 @@ def validate_details(body, rating):
     for field, value in body.items():
         if (field, bool) not in fields:
             return False
-        if (rating == 5 and value == False):
+        if (rating == 5 and value is False):
             return False
-        if (rating == 1 and value == True):
+        if (rating == 1 and value is True):
             return False
     return True

@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy_utils import CompositeType
 
 from settings import BCRYPT
-from database.db import db, session
+from database.db import db
 from utils.formatters import get_row_dict
 
 Base = declarative_base()
@@ -30,7 +30,7 @@ class User(Base):
         self.password = BCRYPT.generate_password_hash(
             password).decode('utf-8')
         self.full_name = full_name
-    
+
     def to_dict(self):
         user = {
             'username': self.username,
@@ -112,11 +112,11 @@ class Rating(Base):
         for field in self.details._fields:
             value = self.details.__getattribute__(field)
             if del_null_attr:
-                if value != None:
+                if value is not None:
                     details.update({field: value})
             else:
                 details.update({field: value})
-        
+
         rating = {
             'details': details,
             'id_rating': self.id_rating,

@@ -1,6 +1,5 @@
 from database.models import Rating, Neighborhood
 from database import db
-from utils.formatters import get_row_dict
 from utils.validators.rating import (
     validate_create_rating,
     validate_update_rating
@@ -18,7 +17,11 @@ def create_rating(body, username, neighborhood_id):
     if errors:
         return errors, 400
 
-    details = dict(filter(lambda x: x[0] != 'rating_neighborhood', body.items()))
+    details = dict(filter(
+                          lambda x: x[0] != 'rating_neighborhood',
+                          body.items()
+                         )
+                   )
 
     try:
         rating = Rating(
@@ -41,7 +44,7 @@ def get_all_ratings(user=None, neighborhood=None):
     if (user):
         filter.update({'user': [user]})
     if (neighborhood):
-        filter.update({'neighborhood': [neighborhood]})
+        filter.update({'id_neighborhood': [neighborhood]})
 
     result, code = db.get_all(Rating, filter)
 

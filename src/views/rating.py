@@ -47,6 +47,8 @@ def rating_by_id(username, id_rating):
         response, status = controller.delete_rating(id_rating, username)
 
     elif request.method == 'PATCH':
-        response, status = controller.update_rating(id_rating, request.json, username)
+        response, status = controller.update_rating(id_rating,
+                                                    request.json,
+                                                    username)
 
     return create_response(response, status)

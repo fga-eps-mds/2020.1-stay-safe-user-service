@@ -42,7 +42,9 @@ class TestRating(unittest.TestCase):
 
         # creates 3 ratings
         for rating in correct_ratings:
-            rating = dict(filter(lambda x: x[0] != 'id_neighborhood' and x[0] != 'id_rating', rating.items()))
+            rating = dict(filter(lambda x: x[0] != 'id_neighborhood'
+                                 and x[0] != 'id_rating',
+                                 rating.items()))
             result, status = controller.create_rating(
                 rating, user['username'], neighborhood['id_neighborhood'])
             self.assertEqual(result, "Created successfully!")
@@ -126,33 +128,32 @@ class TestRating(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(len(result), len(correct_ratings))
 
-    # def test_update_rating(self):
-    #     """
-    #     Testing update rating
-    #     """
-    #     rating = correct_ratings[0]
-    #     result, status = controller.update_rating(
-    #         rating['id_rating'],
-    #         correct_update_rating,
-    #     )
+    def test_update_rating(self):
+        """
+        Testing update rating
+        """
+        rating = correct_ratings[0]
+        result, status = controller.update_rating(
+            rating['id_rating'],
+            correct_update_rating,
+        )
 
-    #     self.assertEqual(status, 200)
-    #     self.assertEqual(
-    #         result['rating_neighborhood'],
-    #         correct_update_rating['rating_neighborhood'])
-    #     self.assertEqual(result['details'], correct_update_rating['details'])
+        self.assertEqual(status, 200)
+        self.assertEqual(
+            result['rating_neighborhood'],
+            correct_update_rating['rating_neighborhood'])
 
-    #     for wrong_rating in wrong_ratings:
-    #         result, status = controller.update_rating(
-    #             rating['id_rating'],
-    #             wrong_rating,
-    #         )
-    #         self.assertEqual(status, 400)
+        for wrong_rating in wrong_ratings:
+            result, status = controller.update_rating(
+                rating['id_rating'],
+                wrong_rating,
+            )
+            self.assertEqual(status, 400)
 
-    # def test_delete_rating(self):
-    #     """
-    #     Testing delete rating
-    #     """
-    #     result, status = controller.delete_rating(-1, user["username"])
-    #     self.assertEqual(status, 404)
-    #     self.assertEqual(result, "Not Found!")
+    def test_delete_rating(self):
+        """
+        Testing delete rating
+        """
+        result, status = controller.delete_rating(-1, user["username"])
+        self.assertEqual(status, 404)
+        self.assertEqual(result, "Not Found!")
