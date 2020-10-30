@@ -32,7 +32,7 @@ def get_all_neighborhoods(city=None, state=None):
         if code == 200:
             neighborhoods = [get_row_dict(u) for u in result]
             # getting statistics
-            for index in enumerate(neighborhoods):
+            for index, neigh in enumerate(neighborhoods):
                 filter = {
                           "id_neighborhood": [
                                 neighborhoods[index]['id_neighborhood']
