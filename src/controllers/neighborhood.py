@@ -23,26 +23,26 @@ def create_neighborhood(body):
 
 def get_all_neighborhoods(city=None, state=None):
     filter = {} if state or city else None
-    if (city):
+    if city:
         filter.update({'city': [city]})
-    if (state):
+    if state:
         filter.update({'state': [state]})
     result, code = db.get_all(Neighborhood, filter)
     if result:
         if code == 200:
             neighborhoods = [get_row_dict(u) for u in result]
             # getting statistics
-            for i in range(0, len(neighborhoods)):
+            for index in enumerate(neighborhoods):
                 filter = {
                           "id_neighborhood": [
-                                neighborhoods[i]['id_neighborhood']
+                                neighborhoods[index]['id_neighborhood']
                           ]
                          }
                 ratings, status = db.get_all(Rating, filter)
                 ratings = [r.to_dict() for r in ratings]
-                if (ratings):
+                if ratings:
                     statistics = get_neighborhood_statistics(ratings)
-                    neighborhoods[i].update({'statistics': statistics})
+                    neighborhoods[index].update({'statistics': statistics})
 
             return neighborhoods, code
         return result, code
@@ -59,7 +59,7 @@ def get_one_neighborhood(neighborhood_id):
 
     if code == 200:
         neighborhood = get_row_dict(result)
-        if (ratings):
+        if ratings:
             statistics = get_neighborhood_statistics(ratings)
             neighborhood.update({'statistics': statistics})
         return neighborhood, 200

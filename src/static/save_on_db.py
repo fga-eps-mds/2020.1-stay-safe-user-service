@@ -40,7 +40,7 @@ printProgressBar(0, len_neighborhoods)
 for i, neigh in enumerate(data['DF']):
     r, code = controller.create_neighborhood(neigh)
 
-    if(code != 201):
+    if code != 201:
         print(code)
         print(neigh['neighborhood'])
         print()
@@ -51,7 +51,7 @@ for i, neigh in enumerate(data['DF']):
 for i, neigh in enumerate(data['SP']):
     r, code = controller.create_neighborhood(neigh)
 
-    if(code != 201):
+    if code != 201:
         print(code)
         print(neigh['neighborhood'])
         print()
@@ -61,7 +61,7 @@ for i, neigh in enumerate(data['SP']):
 for i in errors:
     r, code = controller.create_neighborhood(neigh)
 
-    if(code != 201):
+    if code != 201:
         print(code)
         print(neigh['neighborhood'])
         print()
