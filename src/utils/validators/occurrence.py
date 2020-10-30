@@ -66,7 +66,7 @@ def validate_update_occurrence(body, params):
 
 def validate_occurrence_date_time(occurrence_date_time):
     delta_time = datetime.datetime.now() - datetime.datetime.strptime(
-                            occurrence_date_time, '%Y-%m-%d %H:%M:%S')
+        occurrence_date_time, '%Y-%m-%d %H:%M:%S')
     if (delta_time.days > 365):
         return False
     if (delta_time.days < 0):
@@ -89,25 +89,3 @@ def validate_occurrence_type(occurrence_type):
     if (occurrence_type not in available_occurrence_type):
         return False
     return True
-
-
-def validate_fields_length(json):
-    errors = []
-
-    if 'username' in json:
-        if len(json['username']) < 3 or len(json['username']) > 20:
-            errors.append('username')
-
-    if 'email' in json:
-        if len(json['email']) < 6 or len(json['email']) > 50:
-            errors.append('email')
-
-    if 'password' in json:
-        if len(json['password']) < 6 or len(json['password']) > 20:
-            errors.append('password')
-
-    if 'full_name' in json:
-        if len(json['full_name']) < 1 or len(json['full_name']) > 200:
-            errors.append('full_name')
-
-    return errors
