@@ -8,7 +8,8 @@ from sqlalchemy.orm import relationship
 from sqlalchemy_utils import CompositeType
 
 from settings import BCRYPT
-from database.db import db
+from database.db import db, session
+from utils.formatters import get_row_dict
 
 Base = declarative_base()
 
@@ -92,6 +93,7 @@ class Rating(Base):
     id_rating = Column(Integer, primary_key=True)
     user = Column(String, ForeignKey(User.username))
     id_neighborhood = Column(Integer, ForeignKey(Neighborhood.id_neighborhood))
+    neighborhood = relationship("Neighborhood", back_populates="rating")
     rating_neighborhood = Column(Integer, nullable=False)
     details = Column(
         CompositeType(
@@ -103,6 +105,27 @@ class Rating(Base):
             ]
         )
     )
+
+    def to_dict(self, del_null_attr=True):
+        # getting the details
+        details = {}
+        for field in self.details._fields:
+            value = self.details.__getattribute__(field)
+            if del_null_attr:
+                if value != None:
+                    details.update({field: value})
+            else:
+                details.update({field: value})
+        
+        rating = {
+            'details': details,
+            'id_rating': self.id_rating,
+            'user': self.user,
+            'rating_neighborhood': self.rating_neighborhood,
+            'neighborhood': get_row_dict(self.neighborhood)
+        }
+
+        return rating
 
 
 Base.metadata.create_all(db)

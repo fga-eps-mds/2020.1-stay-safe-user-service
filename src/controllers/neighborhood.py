@@ -39,10 +39,10 @@ def get_all_neighborhoods(city=None, state=None):
                           ]
                          }
                 ratings, status = db.get_all(Rating, filter)
-                ratings = [get_row_dict(rat) for rat in ratings]
+                ratings = [r.to_dict() for r in ratings]
                 if (ratings):
                     statistics = get_neighborhood_statistics(ratings)
-                    neighborhoods[i].update(statistics)
+                    neighborhoods[i].update({'statistics': statistics})
 
             return neighborhoods, code
         return result, code
@@ -55,13 +55,13 @@ def get_one_neighborhood(neighborhood_id):
     # formating filter
     filter = {"id_neighborhood": [neighborhood_id]}
     ratings, status = db.get_all(Rating, filter)
-    ratings = [get_row_dict(rat) for rat in ratings]
+    ratings = [r.to_dict() for r in ratings]
 
     if code == 200:
         neighborhood = get_row_dict(result)
         if (ratings):
             statistics = get_neighborhood_statistics(ratings)
-            neighborhood.update(statistics)
+            neighborhood.update({'statistics': statistics})
         return neighborhood, 200
     return result, code
 

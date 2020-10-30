@@ -13,44 +13,51 @@ neighborhood = {
 
 correct_ratings = [
     {
-        "rating_neighborhood": 4,
-        "details": "good lighting",
-        "id_rating": -1
+        "rating_neighborhood": 5,
+        "lighting": True,
+        "movement_of_people": True,
+        "police_rounds": True
     },
     {
         "rating_neighborhood": 3,
-        "details": "good movement of people",
-        "id_rating": -1
+        "lighting": False,
+        "movement_of_people": True,
+        "police_rounds": False
     },
     {
-        "rating_neighborhood": 1,
-        "details": "bad lighting",
-        "id_rating": -1
+        "rating_neighborhood": 2,
+        "lighting": False,
+        "movement_of_people": False,
+        "police_rounds": True
     },
 ]
 
 wrong_ratings = [
     {
-        # Invalid detail to rating 4
-        "rating_neighborhood": 4,
-        "details": "bad lighting"
+        # Invalid detail to rating 5
+        "rating_neighborhood": 5,
+        "lighting": True,
+        "movement_of_people": True,
+        "police_rounds": False,
     },
     {
         # Invalid detail to rating 1
         "rating_neighborhood": 1,
-        "details": "good lighting"
-    },
-    {
-        # Without details
-        "rating_neighborhood": 4
+        "lighting": True,
+        "movement_of_people": False,
+        "police_rounds": False,
     },
     {
         # Without rating
-        "details": "good lighting"
+        "lighting": False,
+        "movement_of_people": False,
+        "police_rounds": False,
     },
 ]
 
 correct_update_rating = {
     "rating_neighborhood": 2,
-    "details": "bad lighting"
+    "lighting": False,
+    "movement_of_people": False,
+    "police_rounds": True,
 }
