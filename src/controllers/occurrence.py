@@ -8,6 +8,7 @@ from utils.validators.occurrence import (
     validate_occurrence_type
 )
 from settings import logger
+from utils.utils import get_params_by_body
 
 
 def create_occurrence(username, body):
@@ -37,9 +38,9 @@ def create_occurrence(username, body):
 
 
 def get_all_occurrences(user=None, occurrence_type=None):
-    filter = None
+    filter_ = None
     # formating occurrence_type query param
-    if (occurrence_type):
+    if occurrence_type:
         occurrence_type = occurrence_type.split(',')
 
         # strip white spaces from start and end
@@ -51,12 +52,12 @@ def get_all_occurrences(user=None, occurrence_type=None):
                  for occur_type in occurrence_type]):
             return "occurrence_type inválido", 400
 
-        filter = {"occurrence_type": occurrence_type}
+        filter_ = {"occurrence_type": occurrence_type}
 
-    if (user):
-        filter = {'user': [user]}
+    if user:
+        filter_ = {'user': [user]}
 
-    result, code = db.get_all(Occurrence, filter)
+    result, code = db.get_all(Occurrence, filter_)
     if result:
         if code == 200:  # if successful, returns the data
             # converts rows to dict
@@ -75,21 +76,18 @@ def get_one_occurrence(id_occurrence):
     return result, code  # else, returns database error and error code
 
 
-def update_occurrence(id_occurrence, body):
+def update_occurrence(id_occurrence, body, username=None):
     logger.info(id_occurrence)
-    params = {}
     fields = ['occurrence_date_time', 'physical_aggression',
               'victim', 'police_report', 'gun', 'location', 'occurrence_type']
 
-    for field in fields:
-        if field in body:
-            params[field] = body[field]
+    params = get_params_by_body(fields, body)
 
     errors = validate_update_occurrence(body, params)
     if errors:
         return errors, 400
 
-    result, code = db.update(Occurrence, id_occurrence, params)
+    result, code = db.update(Occurrence, id_occurrence, params, username)
 
     if code == 200:  # if successful, returns the data
         occurrence = result.to_dict()  # converts row to dict
@@ -97,7 +95,7 @@ def update_occurrence(id_occurrence, body):
     return result, code  # else, returns database error and error code
 
 
-def delete_occurrence(id_occurrence):
-    result, code = db.delete(Occurrence, id_occurrence)
+def delete_occurrence(id_occurrence, username=None):
+    result, code = db.delete(Occurrence, id_occurrence, username)
 
     return result, code

@@ -36,13 +36,13 @@ def create_rating(body, username, neighborhood_id):
 
 def get_all_ratings(user=None, neighborhood=None):
     # formatting filters
-    filter = None
-    if(neighborhood):
-        filter = {'id_neighborhood': [neighborhood]}
-    if(user):
-        filter = {'user': [user]}
+    filter_ = None
+    if neighborhood:
+        filter_ = {'id_neighborhood': [neighborhood]}
+    if user:
+        filter_ = {'user': [user]}
 
-    result, code = db.get_all(Rating, filter)
+    result, code = db.get_all(Rating, filter_)
     if result:
         if code == 200:
             ratings_neighborhood = [get_row_dict(u) for u in result]
@@ -60,13 +60,13 @@ def get_one_rating(rating_id):
     return result, code
 
 
-def delete_rating(rating_id):
-    result, code = db.delete(Rating, rating_id)
+def delete_rating(rating_id, username=None):
+    result, code = db.delete(Rating, rating_id, username)
 
     return result, code
 
 
-def update_rating(rating_id, body):
+def update_rating(rating_id, body, username=None):
     params = {}
     fields = ['rating_neighborhood', 'details']
 
@@ -88,7 +88,7 @@ def update_rating(rating_id, body):
     if errors:
         return errors, 400
 
-    result, code = db.update(Rating, rating_id, params)
+    result, code = db.update(Rating, rating_id, params, username)
 
     if code == 200:
         rating = get_row_dict(result)

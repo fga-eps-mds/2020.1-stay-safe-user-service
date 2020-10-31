@@ -29,6 +29,15 @@ class User(Base):
         self.password = BCRYPT.generate_password_hash(
             password).decode('utf-8')
         self.full_name = full_name
+    
+    def to_dict(self):
+        user = {
+            'username': self.username,
+            'full_name': self.full_name,
+            'email': self.email
+        }
+
+        return user
 
 
 class Occurrence(Base):

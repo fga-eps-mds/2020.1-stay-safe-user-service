@@ -644,6 +644,20 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "in": "url",
+            "name": "city",
+            "description": "The city that you want the neighborhoods from.",
+            "required": false
+          },
+          {
+            "in": "url",
+            "name": "state",
+            "description": "The state(UF) that you want the neighborhoods from.",
+            "required": false
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Operation",

@@ -9,62 +9,64 @@ def validate_create_user(body):
     ]
 
     required_fields = [f[0] for f in fields]
+    error = None
 
     wrong_fields = validate_fields(body, required_fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Os seguintes campos estão faltando: {wrong_fields}'
+        error = f'Os seguintes campos estão faltando: {wrong_fields}'
 
     wrong_fields = validate_fields_types(body, fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Campos com tipo inválido: {wrong_fields}'
+        error = f'Campos com tipo inválido: {wrong_fields}'
 
     wrong_fields = validate_fields_length(body)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Campos com tamanho inválido: {wrong_fields}'
+        error = f'Campos com tamanho inválido: {wrong_fields}'
 
     if not validate_email(body['email']):
-        return "Email inválido"
+        error = "Email inválido"
 
     username_is_invalid = validate_username(body['username'])
     if username_is_invalid:
-        return username_is_invalid
+        error = username_is_invalid
 
     if body['password'].isalpha():
-        return "A senha deve conter pelo menos um número."
+        error = "A senha deve conter pelo menos um número."
 
-    return None
+    return error
 
 
 def validate_update_user(body, params):
+    error = None
     fields = []
     for param in params:
         fields.append((param, str))
 
     if 'username' in body:
-        return 'Username não pode ser atualizado.'
+        error = 'Username não pode ser atualizado.'
 
     wrong_fields = validate_fields_types(body, fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Campos com tipo inválido: {wrong_fields}'
+        error = f'Campos com tipo inválido: {wrong_fields}'
 
     wrong_fields = validate_fields_length(body)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Campos com tamanho inválido: {wrong_fields}'
+        error = f'Campos com tamanho inválido: {wrong_fields}'
 
     if 'email' in body:
         if not validate_email(body['email']):
-            return "Email inválido"
+            error = "Email inválido"
 
     if 'password' in body:
         if body['password'].isalpha():
-            return "A senha deve conter pelo menos um número."
+            error = "A senha deve conter pelo menos um número."
 
-    return None
+    return error
 
 
 def validate_username(username):
