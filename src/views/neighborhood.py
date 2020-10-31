@@ -22,7 +22,10 @@ def get_post_rubric():
 @neighborhood_blueprint.route('/neighborhood/', methods=['GET'])
 @validate_header
 def get_all_neighborhoods():
-    response, status = controller.get_all_neighborhoods()
+    city = request.args.get('city')
+    state = request.args.get('state')
+
+    response, status = controller.get_all_neighborhoods(city, state)
 
     return create_response(response, status)
 

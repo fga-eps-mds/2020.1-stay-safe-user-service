@@ -5,16 +5,16 @@ from controllers import (
     neighborhood as controller,
     user as user_controller
 )
-from tests.mock_ratings import (
+from tests.mocks.mock_ratings import (
     correct_ratings,
     user,
     neighborhood as rating_neighborhood
 )
 
-from tests.mock_neighborhood import neighborhoods
+from tests.mocks.mock_neighborhood import neighborhoods
 
 from database import db
-from database.models import Neighborhood
+from database.models import Neighborhood, Rating
 
 
 class TestNeighborhoodRating(unittest.TestCase):
@@ -22,6 +22,9 @@ class TestNeighborhoodRating(unittest.TestCase):
     def setUp(self):
         # getting the db size before tests
         self.db_len = len(db.session.query(Neighborhood).all())
+        self.rating_db_len = len(db.session.query(Rating).all())
+        # the + 1 is the neighborhood on mock_ratings
+        self.qnt_neighborhoods = len(neighborhoods) + 1
 
         # creates an user
         result, status = user_controller.create_user(user)
@@ -63,7 +66,7 @@ class TestNeighborhoodRating(unittest.TestCase):
         self.assertEqual(status, 200)
         for index in range(len(correct_ratings)):
             correct_ratings[index]['id_rating'] = \
-                result[index + self.db_len]['id_rating']
+                result[index + self.rating_db_len]['id_rating']
 
     def tearDown(self):
         # deleting user
@@ -74,7 +77,8 @@ class TestNeighborhoodRating(unittest.TestCase):
         # deleting all 3 ratings
         for rating in correct_ratings:
             result, status = rating_controller.delete_rating(
-                rating['id_rating'])
+                rating['id_rating'],
+            )
             self.assertEqual(status, 204)
             self.assertEqual(result, "Deleted successfully!")
 
@@ -90,6 +94,35 @@ class TestNeighborhoodRating(unittest.TestCase):
                 rating_neighborhood['id_neighborhood'])
         self.assertEqual(status, 204)
         self.assertEqual(result, "Deleted successfully!")
+
+    def test_get_all_neighborhoods(self):
+        """
+        Testing get all neighborhoods
+        """
+        result, status = controller.get_all_neighborhoods(
+                            city=neighborhoods[0]['city'],
+                            state=neighborhoods[0]['state']
+                        )
+        self.assertEqual(status, 200)
+
+        new_db_len = len(result) + self.db_len
+        self.assertEqual(new_db_len, self.db_len + self.qnt_neighborhoods)
+
+        result, status = controller.get_all_neighborhoods(
+                            city=neighborhoods[0]['city']
+                         )
+        self.assertEqual(status, 200)
+
+        result, status = controller.get_all_neighborhoods(
+                            state=neighborhoods[0]['state']
+                         )
+        self.assertEqual(status, 200)
+
+        result, status = controller.get_all_neighborhoods()
+        self.assertEqual(status, 200)
+
+        new_db_len = len(result)
+        self.assertEqual(new_db_len, self.db_len + self.qnt_neighborhoods)
 
     def test_get_one_neighborhood(self):
         """
@@ -111,7 +144,7 @@ class TestNeighborhoodRating(unittest.TestCase):
         self.assertTrue('movement' in result)
         self.assertTrue('police' in result)
         self.assertAlmostEqual(result['average'], 2.7)
-        self.assertEqual(result['lighting'], 2) 
-        self.assertEqual(result['movement'], 3) 
+        self.assertEqual(result['lighting'], 2)
+        self.assertEqual(result['movement'], 3)
         self.assertEqual(result['police'], 0)
         self.assertIsInstance(result, type(neighborhood))

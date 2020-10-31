@@ -76,7 +76,7 @@ def get_one_occurrence(id_occurrence):
     return result, code  # else, returns database error and error code
 
 
-def update_occurrence(id_occurrence, body):
+def update_occurrence(id_occurrence, body, username=None):
     logger.info(id_occurrence)
     fields = ['occurrence_date_time', 'physical_aggression',
               'victim', 'police_report', 'gun', 'location', 'occurrence_type']
@@ -87,7 +87,7 @@ def update_occurrence(id_occurrence, body):
     if errors:
         return errors, 400
 
-    result, code = db.update(Occurrence, id_occurrence, params)
+    result, code = db.update(Occurrence, id_occurrence, params, username)
 
     if code == 200:  # if successful, returns the data
         occurrence = result.to_dict()  # converts row to dict
@@ -95,7 +95,7 @@ def update_occurrence(id_occurrence, body):
     return result, code  # else, returns database error and error code
 
 
-def delete_occurrence(id_occurrence):
-    result, code = db.delete(Occurrence, id_occurrence)
+def delete_occurrence(id_occurrence, username=None):
+    result, code = db.delete(Occurrence, id_occurrence, username)
 
     return result, code

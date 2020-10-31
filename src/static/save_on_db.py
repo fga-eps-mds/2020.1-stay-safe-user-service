@@ -1,7 +1,30 @@
+import os
 import json
-import requests
+from controllers import neighborhood as controller
 
-with open("./neighborhoods.json", "r") as read_file:
+
+def printProgressBar(iteration, total):
+    """
+    Call in a loop to create terminal progress bar
+    """
+    prefix = 'Progress'
+    suffix = 'Complete'
+    decimals = 1
+    length = 50
+    fill = '█'
+    printEnd = "\r"
+    percent =\
+        ("{0:." + str(decimals) + "f}").format(100 * (iteration/float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print(f'\r{prefix} |{bar}| {percent}% {suffix}', end=printEnd)
+    # Print New Line on Complete
+    if iteration == total:
+        print()
+
+
+dir = os.path.dirname(__file__)
+with open(dir + "/neighborhoods.json", "r") as read_file:
     data = json.load(read_file)
 
 headers = {
@@ -11,14 +34,16 @@ headers = {
 
 errors = []
 
+len_neighborhoods = len(data['DF']) + len(data['SP'])
+printProgressBar(0, len_neighborhoods)
+
 for state in ['DF', 'SP']:
-    for neigh in data[state]:
-        r = requests.post("http://0.0.0.0:8083/api/neighborhood/",
-                        data=json.dumps(neigh),
-                        headers=headers
-                        )
-        if r.status_code != 201:
-            print(r.status_code)
+    for i, neigh in enumerate(data[state]):
+        r, code = controller.create_neighborhood(neigh)
+        
+        if(code != 201):
+        print(code)
             print(neigh['neighborhood'])
             print()
             errors.append(neigh)
+        printProgressBar(i+1, len_neighborhoods)
