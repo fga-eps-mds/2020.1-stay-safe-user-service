@@ -5,7 +5,8 @@ from tests.mocks.mock_users import (
     correct_users,
     wrong_users,
     correct_user_update,
-    wrong_user_update
+    wrong_user_update,
+    wrong_users_update
 )
 from database import db
 from database.models import User
@@ -101,11 +102,9 @@ class TestUser(unittest.TestCase):
         self.assertEqual(status, 400)
         self.assertEqual(result,  "Username não pode ser atualizado.")
 
-        for w_user in wrong_users:
+        for wrong_user in wrong_users_update:
             result, status = controller.update_user(
-                user['username'],
-                w_user
-            )
+                user['username'], wrong_user)
             self.assertEqual(status, 400)
 
     def test_delete_user(self):
