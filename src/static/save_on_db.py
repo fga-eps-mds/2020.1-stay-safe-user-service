@@ -42,7 +42,7 @@ for state in ['DF', 'SP']:
         r, code = controller.create_neighborhood(neigh)
         
         if(code != 201):
-        print(code)
+            print(code)
             print(neigh['neighborhood'])
             print()
             errors.append(neigh)
