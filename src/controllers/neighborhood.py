@@ -53,13 +53,13 @@ def get_one_neighborhood(neighborhood_id):
     result, code = db.get_one(Neighborhood, neighborhood_id)
 
     # formating filter
-    filter = {"id_neighborhood": [neighborhood_id]}
-    ratings, status = db.get_all(Rating, filter)
+    filter_ = {"id_neighborhood": [neighborhood_id]}
+    ratings, status = db.get_all(Rating, filter_)
     ratings = [get_row_dict(rat) for rat in ratings]
 
     if code == 200:
         neighborhood = get_row_dict(result)
-        if (ratings):
+        if ratings:
             statistics = get_neighborhood_statistics(ratings)
             neighborhood.update(statistics)
         return neighborhood, 200

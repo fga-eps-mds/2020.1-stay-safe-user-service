@@ -29,9 +29,9 @@ def insert_one(element):
 def get_all(model, filter=None):
     try:
         query = session.query(model)
-        if (filter):
+        if filter:
             for attr, value in list(filter.items()):
-                if (not hasattr(model, attr)):
+                if not hasattr(model, attr):
                     return "The object does not have the attribute\
                             passed on query param", 400
                 query = query.filter(getattr(model, attr).in_(value))
