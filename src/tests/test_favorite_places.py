@@ -4,7 +4,7 @@ from controllers import (
     favorite_places as controller,
     user as user_controller
 )
-from tests.mock_favorite_places import users, places
+from tests.mocks.mock_favorite_places import users, places
 
 from database import db
 from database.models import FavoritePlace
