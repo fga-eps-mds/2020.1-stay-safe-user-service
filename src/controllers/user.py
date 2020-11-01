@@ -1,8 +1,10 @@
+from settings import BCRYPT
+
 from database.models import User
 from database import db
 from utils.formatters import get_row_dict
 from utils.validators.user import validate_create_user, validate_update_user
-from settings import BCRYPT
+from utils.utils import get_params_by_body
 
 
 def create_user(body):
@@ -41,12 +43,9 @@ def get_one_user(username):
 
 
 def update_user(username, body):
-    params = {}
     fields = ['email', 'username', 'full_name', 'password']
 
-    for field in fields:
-        if field in body:
-            params[field] = body[field]
+    params = get_params_by_body(fields, body)
 
     errors = validate_update_user(body, params)
     if errors:
