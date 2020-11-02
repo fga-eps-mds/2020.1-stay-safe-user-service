@@ -429,7 +429,7 @@
         ],
         "parameters": [
           {
-            "name": "id_neighborhoods",
+            "name": "id_neighborhood",
             "in": "path",
             "description": "The id of rated neighborhood",
             "required": true,
@@ -926,16 +926,14 @@
         "rating_neighborhood": {
           "type": "integer"
         },
-        "details": {
-          "type": "string",
-          "enum": [
-            "bad lighting",
-            "low movement of people",
-            "few police rounds",
-            "good lighting",
-            "good movement of people",
-            "frequent police rounds"
-          ]
+        "lighting": {
+          "type": "boolean"
+        },
+        "movement_of_people": {
+          "type": "boolean"
+        },
+        "police_rounds": {
+          "type": "boolean"
         }
       }
     },
@@ -946,18 +944,19 @@
           "type": "integer"
         },
         "details": {
-          "type": "string",
-          "enum": [
-            "bad lighting",
-            "low movement of people",
-            "few police rounds",
-            "good lighting",
-            "good movement of people",
-            "frequent police rounds"
-          ]
+          "type": "object",
+          "lighting": {
+            "type": "boolean"
+          },
+          "movement_of_people": {
+            "type": "boolean"
+          },
+          "police_rounds": {
+            "type": "boolean"
+          }
         },
-        "id_neighborhood": {
-          "type": "integer"
+        "neighborhood": {
+          "type": "neighborhood object"
         },
         "id_rating": {
           "type": "integer"
@@ -986,6 +985,21 @@
       "properties": {
         "id_neighborhood": {
           "type": "integer"
+        },
+        "statistics": {
+          "type": "object",
+          "average": {
+            "type": "float"
+          },
+          "lighting": {
+            "type": "integer"
+          },
+          "movement_of_people": {
+            "type": "integer"
+          },
+          "police_rounds": {
+            "type": "integer"
+          }
         },
         "neighborhood": {
           "type": "string"

@@ -5,9 +5,11 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy_utils import CompositeType
 
 from settings import BCRYPT
 from database.db import db
+from utils.formatters import get_row_dict
 
 Base = declarative_base()
 
@@ -29,7 +31,7 @@ class User(Base):
         self.password = BCRYPT.generate_password_hash(
             password).decode('utf-8')
         self.full_name = full_name
-    
+
     def to_dict(self):
         user = {
             'username': self.username,
@@ -92,12 +94,39 @@ class Rating(Base):
     id_rating = Column(Integer, primary_key=True)
     user = Column(String, ForeignKey(User.username))
     id_neighborhood = Column(Integer, ForeignKey(Neighborhood.id_neighborhood))
+    neighborhood = relationship("Neighborhood", back_populates="rating")
     rating_neighborhood = Column(Integer, nullable=False)
     details = Column(
-        Enum("bad lighting", "low movement of people", "few police rounds",
-             "good lighting", "good movement of people",
-             "frequent police rounds", name='details'),
-        nullable=False)
+        CompositeType(
+            'details',
+            [
+                Column('lighting', Boolean),
+                Column('movement_of_people', Boolean),
+                Column('police_rounds', Boolean)
+            ]
+        )
+    )
+
+    def to_dict(self, del_null_attr=True):
+        # getting the details
+        details = {}
+        for field in self.details._fields:
+            value = self.details.__getattribute__(field)
+            if del_null_attr:
+                if value is not None:
+                    details.update({field: value})
+            else:
+                details.update({field: value})
+
+        rating = {
+            'details': details,
+            'id_rating': self.id_rating,
+            'user': self.user,
+            'rating_neighborhood': self.rating_neighborhood,
+            'neighborhood': get_row_dict(self.neighborhood)
+        }
+
+        return rating
 
 
 class FavoritePlace(Base):
