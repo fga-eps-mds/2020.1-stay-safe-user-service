@@ -40,13 +40,13 @@ def create_rating(body, username, neighborhood_id):
 
 def get_all_ratings(user=None, neighborhood=None):
     # formatting filters
-    filter = {} if user or neighborhood else None
+    filter_ = {} if user or neighborhood else None
     if user:
-        filter.update({'user': [user]})
+        filter_.update({'user': [user]})
     if neighborhood:
-        filter.update({'id_neighborhood': [neighborhood]})
+        filter_.update({'id_neighborhood': [neighborhood]})
 
-    result, code = db.get_all(Rating, filter)
+    result, code = db.get_all(Rating, filter_)
 
     if result:
         if code == 200:

@@ -8,6 +8,7 @@ from views.occurrence import occurrence_blueprint
 from views.auth import auth_blueprint
 from views.neighborhood import neighborhood_blueprint
 from views.rating import rating_blueprint
+from views.favorite_places import favorite_places_blueprint
 
 swagger_blueprint = get_swaggerui_blueprint(
     '/api/docs',
@@ -23,6 +24,7 @@ app.register_blueprint(occurrence_blueprint)
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(neighborhood_blueprint)
 app.register_blueprint(rating_blueprint)
+app.register_blueprint(favorite_places_blueprint)
 app.register_blueprint(swagger_blueprint, url_prefix='/api/docs')
 
 CORS(app, automatic_options=True)
