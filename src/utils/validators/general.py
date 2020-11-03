@@ -51,7 +51,7 @@ def validate_fields_types(json, params):
     '''
     errors = []
     for field, value_type in params:
-        if not isinstance(json[field], value_type):
+        if not isinstance(json.get(field), value_type):
             errors.append(field)
     return errors
 
