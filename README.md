@@ -1,3 +1,4 @@
+<a href="https://codeclimate.com/github/fga-eps-mds/2020.1-stay-safe-user-service/maintainability"><img src="https://api.codeclimate.com/v1/badges/25f410acd5cf3449085e/maintainability" /></a>
 # User Service
 User service of Stay Safe project
 
