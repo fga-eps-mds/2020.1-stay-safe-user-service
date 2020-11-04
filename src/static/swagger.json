@@ -1015,6 +1015,9 @@
     "Place-post": {
       "type": "object",
       "properties": {
+        "name": {
+          "type": "string"
+        },
         "latitude": {
           "type": "number"
         },
@@ -1030,6 +1033,9 @@
           "type": "integer"
         },
         "user": {
+          "type": "string"
+        },
+        "name": {
           "type": "string"
         },
         "latitude": {
