@@ -134,6 +134,7 @@ class FavoritePlace(Base):
 
     id_place = Column(Integer, primary_key=True)
     user = Column(String, ForeignKey(User.username))
+    name = Column(String(30), nullable=False)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
 

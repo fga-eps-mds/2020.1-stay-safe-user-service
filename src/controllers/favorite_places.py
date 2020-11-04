@@ -1,6 +1,7 @@
 from database.models import FavoritePlace
 from database import db
 from utils.formatters import get_row_dict
+from utils.validators.favorite_places import validate_create_favorite_place
 from settings import logger
 
 def get_favorite_places(username):
@@ -14,9 +15,14 @@ def get_favorite_places(username):
     return [], 200
 
 def create_favorite_place(username, body):
+    error = validate_create_favorite_place(body)
+    if error:
+        return error, 400
+    
     try:
         place = FavoritePlace(
             user=username,
+            name=body['name'],
             latitude=body['latitude'],
             longitude=body['longitude'],
         )
