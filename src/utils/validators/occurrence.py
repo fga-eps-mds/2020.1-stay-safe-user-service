@@ -35,7 +35,14 @@ def validate_create_occurrence(body):
     return error
 
 
-def validate_update_occurrence(body, params):
+def validate_update_occurrence(body, params, current_occurrence):
+    # check if occurrence is 3 months old
+    allowed_date = datetime.datetime.utcnow()\
+                        .replace(month=datetime.datetime.utcnow().month - 3)\
+                        .date()
+    if current_occurrence.register_date_time.date() < allowed_date:
+        return "A ocorrência não pode ser mais editada."
+
     available_fields_types = {
         'physical_aggression': bool, 'victim': bool, 'police_report': bool,
         'gun': str, 'location': list, 'occurrence_type': str

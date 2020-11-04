@@ -77,13 +77,16 @@ def get_one_occurrence(id_occurrence):
 
 
 def update_occurrence(id_occurrence, body, username=None):
-    logger.info(id_occurrence)
+    current_occurrence, code = db.get_one(Occurrence, id_occurrence)
+    if (code != 200):
+        return "Erro ao achar ocorrência", code
+
     fields = ['occurrence_date_time', 'physical_aggression',
               'victim', 'police_report', 'gun', 'location', 'occurrence_type']
 
     params = get_params_by_body(fields, body)
 
-    errors = validate_update_occurrence(body, params)
+    errors = validate_update_occurrence(body, params, current_occurrence)
     if errors:
         return errors, 400
 
