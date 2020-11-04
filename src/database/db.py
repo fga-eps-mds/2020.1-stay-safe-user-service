@@ -66,8 +66,8 @@ def update(model, identifier, params, username=None):
         if data:
             if username:
                 if not getattr(data, 'user') == username:
-                    return f"You cannot edit another\
-                           user's {model.__name__}", 403
+                    return "You cannot edit another " +\
+                           f"user's {model.__name__}", 403
 
             for param in params:
                 setattr(data, param, params[param])
@@ -89,8 +89,8 @@ def delete(model, identifier, username=None):
         if data:
             if username:
                 if not getattr(data, 'user') == username:
-                    return f"You cannot delete another\
-                           user's {model.__name__}", 403
+                    return "You cannot delete another " +\
+                           f"user's {model.__name__}", 403
 
             session.delete(data)
             session.commit()
