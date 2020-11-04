@@ -70,6 +70,27 @@ class TestOccurrence(unittest.TestCase):
                 user['username'], occurrence)
             self.assertEqual(status, 400)
 
+        # tries to create more than 5 ocurrences within 7 days
+        for index, occurrence in enumerate(correct_occurrences):
+            result, status = controller.create_occurrence(
+                user['username'], occurrence)
+            if index == len(correct_occurrences) - 1:
+                self.assertEqual(result,
+                                 "O limite de ocorrências cadastradas\
+                                 em 7 dias foi atingido.")
+                self.assertEqual(status, 400)
+            else:
+                self.assertEqual(result, "Created successfully!")
+                self.assertEqual(status, 201)
+
+        occurrences, status = controller.get_all_occurrences()
+        self.assertEqual(status, 200)
+        for index in range(2):
+            result, status = controller.delete_occurrence(
+                occurrences[index + self.db_len + 3]['id_occurrence'])
+            self.assertEqual(status, 204)
+            self.assertEqual(result, "Deleted successfully!")
+
     def test_get_all_occurrences(self):
         """
         Testing get all occurrences

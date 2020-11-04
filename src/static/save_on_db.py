@@ -40,7 +40,7 @@ printProgressBar(0, len_neighborhoods)
 for state in ['DF', 'SP']:
     for i, neigh in enumerate(data[state]):
         r, code = controller.create_neighborhood(neigh)
-        
+
         if(code != 201):
             print(code)
             print(neigh['neighborhood'])

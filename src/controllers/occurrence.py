@@ -13,7 +13,12 @@ from utils.utils import get_params_by_body
 
 def create_occurrence(username, body):
 
-    errors = validate_create_occurrence(body)
+    last_occurrences, code = db.get_all(Occurrence,
+                                        filter={'user': [username]})
+    if code != 200:
+        return "Erro ao carregar ocorrências antigas"
+
+    errors = validate_create_occurrence(body, last_occurrences)
     if errors:
         return errors, 400
 
@@ -38,7 +43,7 @@ def create_occurrence(username, body):
 
 
 def get_all_occurrences(user=None, occurrence_type=None):
-    filter_ = None
+    filter_ = {} if user or occurrence_type else None
     # formating occurrence_type query param
     if occurrence_type:
         occurrence_type = occurrence_type.split(',')
@@ -52,10 +57,10 @@ def get_all_occurrences(user=None, occurrence_type=None):
                  for occur_type in occurrence_type]):
             return "occurrence_type inválido", 400
 
-        filter_ = {"occurrence_type": occurrence_type}
+        filter_.update({"occurrence_type": occurrence_type})
 
     if user:
-        filter_ = {'user': [user]}
+        filter_.update({'user': [user]})
 
     result, code = db.get_all(Occurrence, filter_)
     if result:
