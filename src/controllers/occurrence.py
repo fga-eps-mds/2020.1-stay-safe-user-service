@@ -7,8 +7,8 @@ from utils.validators.occurrence import (
     validate_update_occurrence,
     validate_occurrence_type
 )
-from settings import logger
 from utils.utils import get_params_by_body
+from settings import logger
 
 
 def create_occurrence(username, body):

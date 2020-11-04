@@ -1,9 +1,9 @@
 def get_indice(value):
     if value < 40 and value != 0:
         return 1
-    elif value >= 40 and value <= 70:
+    if 40 <= value <= 70:
         return 2
-    elif value > 70:
+    if value > 70:
         return 3
     return 0
 

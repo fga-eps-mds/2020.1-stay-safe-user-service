@@ -44,7 +44,7 @@ class TestUser(unittest.TestCase):
 
         # tests whether invalid users will not be created
         for user in wrong_users:
-            response, status = controller.create_user(user)
+            _, status = controller.create_user(user)
             self.assertEqual(status, 400)
 
     def test_get_all_users(self):

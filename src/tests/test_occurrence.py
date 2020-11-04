@@ -66,7 +66,7 @@ class TestOccurrence(unittest.TestCase):
 
         # tests whether invalid occurrences will not be created
         for occurrence in wrong_occurrences:
-            response, status = controller.create_occurrence(
+            _, status = controller.create_occurrence(
                 user['username'], occurrence)
             self.assertEqual(status, 400)
 
@@ -152,7 +152,6 @@ class TestOccurrence(unittest.TestCase):
         """
         Testing update inexisting occurrence
         """
-        occurrence = correct_occurrences[0]
         result, status = controller.update_occurrence(
             -2,
             correct_occurrence_update,

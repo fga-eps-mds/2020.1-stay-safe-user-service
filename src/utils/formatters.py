@@ -31,7 +31,7 @@ def get_row_dict(row):
     model_dict = {}
     for column in row.__table__.columns:
         attr = getattr(row, column.name)
-        if type(attr) == datetime.datetime:
+        if isinstance(attr, datetime.datetime):
             model_dict[column.name] = str(attr)
         else:
             model_dict[column.name] = attr
