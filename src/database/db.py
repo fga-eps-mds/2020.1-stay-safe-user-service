@@ -1,9 +1,11 @@
 import os
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, and_
 from sqlalchemy.orm import sessionmaker
 
 from settings import logger
+
+from datetime import datetime
 
 
 db_url = os.environ.get("SQLALCHEMY_DB_URL")
@@ -29,12 +31,20 @@ def insert_one(element):
 def get_all(model, filter=None):
     try:
         query = session.query(model)
+        if str(model.__table__) == "occurrence_stay_safe":
+            past_date = datetime.utcnow()\
+                           .replace(year=datetime.utcnow().year - 1)
+            filter_ = and_(model.occurrence_date_time >= past_date,
+                           model.occurrence_date_time <= datetime.utcnow())
+            query = query.filter(filter_)
         if filter:
             for attr, value in list(filter.items()):
                 if not hasattr(model, attr):
                     return "The object does not have the attribute\
                             passed on query param", 400
-                query = query.filter(getattr(model, attr).in_(value))
+                else:
+                    filter_ = getattr(model, attr).in_(value)
+                query = query.filter(filter_)
         data = query.all()
         return data, 200
     except Exception as error:

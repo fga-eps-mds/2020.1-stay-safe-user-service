@@ -7,8 +7,7 @@ def validate_create_occurrence(body, last_ocurrences):
         last_ocurrence = last_ocurrences[4]
         if (datetime.datetime.utcnow().date() -
                 last_ocurrence.register_date_time.date()).days < 7:
-            return "O limite de ocorrências cadastradas\
-                    em 7 dias foi atingido."
+            return "O limite de ocorrências cadastradas em 7 dias foi atingido."
 
     fields = [
         ('physical_aggression', bool), ('victim', bool),

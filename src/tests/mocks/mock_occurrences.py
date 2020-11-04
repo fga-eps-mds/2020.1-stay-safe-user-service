@@ -14,7 +14,7 @@ correct_occurrences = [
             -15.989564,
             -48.044175
         ],
-        "occurrence_date_time": "2020-09-05 00:00:00",
+        "occurrence_date_time": "2020-11-04 00:00:00",
         "occurrence_type": "Latrocínio",
         "physical_aggression": True,
         "police_report": False,
@@ -28,7 +28,7 @@ correct_occurrences = [
             -15.989564,
             -48.044175
         ],
-        "occurrence_date_time": "2020-04-08 00:00:00",
+        "occurrence_date_time": "2020-11-04 00:00:00",
         "occurrence_type": "Furto de Veículo",
         "physical_aggression": False,
         "police_report": True,
@@ -42,7 +42,35 @@ correct_occurrences = [
             -15.989564,
             -48.044175
         ],
-        "occurrence_date_time": "2020-06-04 00:00:00",
+        "occurrence_date_time": "2020-11-04 00:00:00",
+        "occurrence_type": "Roubo de Residência",
+        "physical_aggression": True,
+        "police_report": False,
+        "victim": True
+    },
+    {
+        "gun": "White",
+        "user": "ghjklasdf",
+        "id_occurrence": -1,
+        "location": [
+            -15.989564,
+            -48.044175
+        ],
+        "occurrence_date_time": "2020-11-04 00:00:00",
+        "occurrence_type": "Roubo de Residência",
+        "physical_aggression": True,
+        "police_report": False,
+        "victim": True
+    },
+    {
+        "gun": "White",
+        "user": "ghjklasdf",
+        "id_occurrence": -1,
+        "location": [
+            -15.989564,
+            -48.044175
+        ],
+        "occurrence_date_time": "2020-11-04 00:00:00",
         "occurrence_type": "Roubo de Residência",
         "physical_aggression": True,
         "police_report": False,
