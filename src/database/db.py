@@ -28,7 +28,7 @@ def insert_one(element):
         return str(error), 400
 
 
-def get_all(model, filter=None):
+def get_all(model, filters_=None):
     try:
         query = session.query(model)
         if str(model.__table__) == "occurrence_stay_safe":
@@ -37,14 +37,14 @@ def get_all(model, filter=None):
             filter_ = and_(model.occurrence_date_time >= past_date,
                            model.occurrence_date_time <= datetime.utcnow())
             query = query.filter(filter_)
-        if filter:
-            for attr, value in list(filter.items()):
+        if filters_:
+            for attr, value in list(filters_.items()):
                 if not hasattr(model, attr):
                     return "The object does not have the attribute\
                             passed on query param", 400
                 else:
-                    filter_ = getattr(model, attr).in_(value)
-                query = query.filter(filter_)
+                    filters_ = getattr(model, attr).in_(value)
+                query = query.filter(filters_)
         data = query.all()
         return data, 200
     except Exception as error:
@@ -76,8 +76,8 @@ def update(model, identifier, params, username=None):
         if data:
             if username:
                 if not getattr(data, 'user') == username:
-                    return f"You cannot edit another\
-                           user's {model.__name__}", 403
+                    return "You cannot edit another " +\
+                           f"user's {model.__name__}", 403
 
             for param in params:
                 setattr(data, param, params[param])
@@ -99,8 +99,8 @@ def delete(model, identifier, username=None):
         if data:
             if username:
                 if not getattr(data, 'user') == username:
-                    return f"You cannot delete another\
-                           user's {model.__name__}", 403
+                    return "You cannot delete another " +\
+                           f"user's {model.__name__}", 403
 
             session.delete(data)
             session.commit()

@@ -5,7 +5,8 @@ from tests.mocks.mock_users import (
     correct_users,
     wrong_users,
     correct_user_update,
-    wrong_user_update
+    wrong_user_update,
+    wrong_users_update
 )
 from database import db
 from database.models import User
@@ -43,7 +44,7 @@ class TestUser(unittest.TestCase):
 
         # tests whether invalid users will not be created
         for user in wrong_users:
-            response, status = controller.create_user(user)
+            _, status = controller.create_user(user)
             self.assertEqual(status, 400)
 
     def test_get_all_users(self):
@@ -101,11 +102,9 @@ class TestUser(unittest.TestCase):
         self.assertEqual(status, 400)
         self.assertEqual(result,  "Username não pode ser atualizado.")
 
-        for w_user in wrong_users:
+        for wrong_user in wrong_users_update:
             result, status = controller.update_user(
-                user['username'],
-                w_user
-            )
+                user['username'], wrong_user)
             self.assertEqual(status, 400)
 
     def test_delete_user(self):
@@ -113,5 +112,16 @@ class TestUser(unittest.TestCase):
         Testing delete users
         """
         result, status = controller.delete_user('unexisted#username')
+        self.assertEqual(status, 404)
+        self.assertEqual(result, "Not Found!")
+
+    def test_update_inexisting_user(self):
+        """
+        Testing update inexisting user
+        """
+        result, status = controller.update_user(
+            'retriveu2503',
+            correct_user_update
+        )
         self.assertEqual(status, 404)
         self.assertEqual(result, "Not Found!")

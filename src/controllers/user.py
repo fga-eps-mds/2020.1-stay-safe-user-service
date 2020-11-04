@@ -26,12 +26,11 @@ def create_user(body):
 
 def get_all_users():
     result, code = db.get_all(User)
-    if result:
-        if code == 200:  # if successful, returns the data
-            users = [u.to_dict() for u in result]  # converts rows to dict
-            return users, code
-        return result, code  # else, returns database error and error code
-    return [], 200
+
+    if code == 200:  # if successful, returns the data
+        users = [u.to_dict() for u in result]  # converts rows to dict
+        return users, code
+    return result, code
 
 
 def get_one_user(username):

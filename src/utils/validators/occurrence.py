@@ -17,28 +17,27 @@ def validate_create_occurrence(body, last_ocurrences):
     ]
 
     required_fields = [f[0] for f in fields]
-    error = None
 
     wrong_fields = validate_fields(body, required_fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        error = f'Os seguintes campos estão faltando: {wrong_fields}'
+        return f'Os seguintes campos estão faltando: {wrong_fields}'
 
     wrong_fields = validate_fields_types(body, fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        error = f'Campos com tipo inválido: {wrong_fields}'
+        return f'Campos com tipo inválido: {wrong_fields}'
 
     if not validate_occurrence_date_time(body['occurrence_date_time']):
-        error = "Data de Ocorrência inválida."
+        return "Data de Ocorrência inválida."
 
     if not validate_gun(body['gun']):
-        error = "Arma inválida."
+        return "Arma inválida."
 
     if not validate_occurrence_type(body['occurrence_type']):
-        error = "Tipo de Ocorrência inválida."
+        return "Tipo de Ocorrência inválida."
 
-    return error
+    return None
 
 
 def validate_update_occurrence(body, params, current_occurrence):
@@ -54,7 +53,7 @@ def validate_update_occurrence(body, params, current_occurrence):
         'gun': str, 'location': list, 'occurrence_type': str
     }
     fields = []
-    error = None
+    
     for param in params:
         if param != 'occurrence_date_time':
             fields.append((param, available_fields_types[param]))
@@ -62,26 +61,26 @@ def validate_update_occurrence(body, params, current_occurrence):
     wrong_fields = validate_fields_types(body, fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        error = f'Campos com tipo inválido: {wrong_fields}'
+        return f'Campos com tipo inválido: {wrong_fields}'
 
     if 'occurrence_date_time' in body:
         if not validate_occurrence_date_time(body['occurrence_date_time']):
-            error = "Data de Ocorrẽncia inválida."
+            return "Data de Ocorrẽncia inválida."
 
     if 'gun' in body:
         if not validate_gun(body['gun']):
-            error = "Arma inválida."
+            return "Arma inválida."
 
     if 'occurrence_type' in body:
         if not validate_occurrence_type(body['occurrence_type']):
-            error = "Tipo de Ocorrência inválida."
+            return "Tipo de Ocorrência inválida."
 
-    return error
+    return None
 
 
 def validate_occurrence_date_time(occurrence_date_time):
     delta_time = datetime.datetime.now() - datetime.datetime.strptime(
-                            occurrence_date_time, '%Y-%m-%d %H:%M:%S')
+        occurrence_date_time, '%Y-%m-%d %H:%M:%S')
     if delta_time.days > 365 or delta_time.days < 0:
         return False
     return True
@@ -102,25 +101,3 @@ def validate_occurrence_type(occurrence_type):
     if (occurrence_type not in available_occurrence_type):
         return False
     return True
-
-
-def validate_fields_length(json):
-    errors = []
-
-    if 'username' in json:
-        if len(json['username']) < 3 or len(json['username']) > 20:
-            errors.append('username')
-
-    if 'email' in json:
-        if len(json['email']) < 6 or len(json['email']) > 50:
-            errors.append('email')
-
-    if 'password' in json:
-        if len(json['password']) < 6 or len(json['password']) > 20:
-            errors.append('password')
-
-    if 'full_name' in json:
-        if len(json['full_name']) < 1 or len(json['full_name']) > 200:
-            errors.append('full_name')
-
-    return errors

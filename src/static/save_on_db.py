@@ -3,7 +3,7 @@ import json
 from controllers import neighborhood as controller
 
 
-def printProgressBar(iteration, total):
+def print_progress_bar(iteration, total):
     """
     Call in a loop to create terminal progress bar
     """
@@ -12,19 +12,19 @@ def printProgressBar(iteration, total):
     decimals = 1
     length = 50
     fill = '█'
-    printEnd = "\r"
+    print_end = "\r"
     percent =\
         ("{0:." + str(decimals) + "f}").format(100 * (iteration/float(total)))
-    filledLength = int(length * iteration // total)
-    bar = fill * filledLength + '-' * (length - filledLength)
-    print(f'\r{prefix} |{bar}| {percent}% {suffix}', end=printEnd)
+    filled_length = int(length * iteration // total)
+    progress_bar = fill * filled_length + '-' * (length - filled_length)
+    print(f'\r{prefix} |{progress_bar}| {percent}% {suffix}', end=print_end)
     # Print New Line on Complete
     if iteration == total:
         print()
 
 
-dir = os.path.dirname(__file__)
-with open(dir + "/neighborhoods.json", "r") as read_file:
+dir_ = os.path.dirname(__file__)
+with open(dir_ + "/neighborhoods.json", "r") as read_file:
     data = json.load(read_file)
 
 headers = {
@@ -35,15 +35,15 @@ headers = {
 errors = []
 
 len_neighborhoods = len(data['DF']) + len(data['SP'])
-printProgressBar(0, len_neighborhoods)
+print_progress_bar(0, len_neighborhoods)
 
 for state in ['DF', 'SP']:
     for i, neigh in enumerate(data[state]):
         r, code = controller.create_neighborhood(neigh)
 
-        if(code != 201):
+        if code != 201:
             print(code)
             print(neigh['neighborhood'])
             print()
             errors.append(neigh)
-        printProgressBar(i+1, len_neighborhoods)
+        print_progress_bar(i+1, len_neighborhoods)

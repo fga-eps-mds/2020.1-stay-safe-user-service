@@ -38,3 +38,36 @@ class TestAuth(unittest.TestCase):
         result, status = authentication()
         self.assertEqual(status, 401)
         self.assertEqual(result, 'Login is required')
+
+    def test_authentication_without_password(self):
+        result, status = authentication(
+            {
+                'username': self.user['username'],
+                'password': None
+            }
+        )
+
+        self.assertEqual(status, 401)
+        self.assertEqual(result, "Username and password are required")
+
+    def test_authentication_without_username(self):
+        result, status = authentication(
+            {
+                'username': None,
+                'password': self.user['password']
+            }
+        )
+
+        self.assertEqual(status, 401)
+        self.assertEqual(result, "Username and password are required")
+
+    def test_authentication_with_inexisting_user(self):
+        result, status = authentication(
+            {
+                'username': 'retriveu25',
+                'password': self.user['password']
+            }
+        )
+
+        self.assertEqual(status, 404)
+        self.assertEqual(result, "Not Found!")

@@ -118,6 +118,93 @@ wrong_occurrences = [
         ],
         "occurrence_type": "Roubo de Bicicleta"
     },
+    {
+        # without victim field
+        "occurrence_date_time": "2000-06-15 00:00:00",
+        "physical_aggression": True,
+        "police_report": False,
+        "gun": "Arma",
+        "location": [
+            -15.989564,
+            -48.044175
+        ],
+        "occurrence_type": "Roubo de Bicicleta"
+    },
+    {
+        # without a few fields
+        "occurrence_date_time": "2020-12-1 00:00:00",
+        "location": [
+            -15.989564,
+            -48.044175
+        ],
+        "occurrence_type": "Roubo de Chiclete"
+    },
+    {
+        # without a few fields
+        "occurrence_date_time": "2000-06-15 00:00:00",
+        "location": -9999,
+        "occurrence_type": 1.0
+    },
+    {
+        # Invalid field type
+        "gun": "White",
+        "user": "ghjklasdf",
+        "id_occurrence": -1,
+        "location": [
+            -15.989564,
+            -48.044175
+        ],
+        "occurrence_date_time": "2020-06-04 00:00:00",
+        "occurrence_type": "Roubo de Residência",
+        "physical_aggression": True,
+        "police_report": False,
+        "victim": "Stay Safe"
+    },
+    {
+        # Invalid gun
+        "gun": "Arma",
+        "user": "ghjklasdf",
+        "id_occurrence": -1,
+        "location": [
+            -15.989564,
+            -48.044175
+        ],
+        "occurrence_date_time": "2020-06-04 00:00:00",
+        "occurrence_type": "Roubo de Residência",
+        "physical_aggression": True,
+        "police_report": False,
+        "victim": True
+    },
+    {
+        # Invalid occurrence_type
+        "gun": "White",
+        "user": "ghjklasdf",
+        "id_occurrence": -1,
+        "location": [
+            -15.989564,
+            -48.044175
+        ],
+        "occurrence_date_time": "2020-06-04 00:00:00",
+        "occurrence_type": "Roubo de Chiclete",
+        "physical_aggression": True,
+        "police_report": False,
+        "victim": True
+    },
+    {
+        # Invalid date
+        "gun": "White",
+        "user": "ghjklasdf",
+        "id_occurrence": -1,
+        "location": [
+            -15.989564,
+            -48.044175
+        ],
+        "occurrence_date_time": "2020-12-12 00:00:00",
+        "occurrence_type": "Roubo de Residência",
+        "physical_aggression": True,
+        "police_report": False,
+        "victim": True
+    },
 ]
 
 correct_occurrence_update = {
