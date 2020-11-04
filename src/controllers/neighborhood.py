@@ -22,23 +22,25 @@ def create_neighborhood(body):
 
 
 def get_all_neighborhoods(city=None, state=None):
-    filter = {} if state or city else None
+    filter_ = {} if state or city else None
     if city:
-        filter.update({'city': [city]})
+        filter_.update({'city': [city]})
     if state:
-        filter.update({'state': [state]})
-    result, code = db.get_all(Neighborhood, filter)
+        filter_.update({'state': [state]})
+    result, code = db.get_all(Neighborhood, filter_)
     if result:
         if code == 200:
             neighborhoods = [get_row_dict(u) for u in result]
             # getting statistics
-            for index, neigh in enumerate(neighborhoods):
-                filter = {
+            for index, _ in enumerate(neighborhoods):
+                filter_ = {
                           "id_neighborhood": [
                                 neighborhoods[index]['id_neighborhood']
                           ]
                          }
-                ratings, status = db.get_all(Rating, filter)
+                ratings, status = db.get_all(Rating, filter_)
+                if status != 200:
+                    return ratings, status
                 ratings = [r.to_dict() for r in ratings]
                 if ratings:
                     statistics = get_neighborhood_statistics(ratings)
@@ -48,16 +50,17 @@ def get_all_neighborhoods(city=None, state=None):
         return result, code
     return [], 200
 
-
 def get_one_neighborhood(neighborhood_id):
     result, code = db.get_one(Neighborhood, neighborhood_id)
 
-    # formating filter
-    filter_ = {"id_neighborhood": [neighborhood_id]}
-    ratings, status = db.get_all(Rating, filter_)
-    ratings = [r.to_dict() for r in ratings]
-
     if code == 200:
+        # formating filter
+        filter_ = {"id_neighborhood": [neighborhood_id]}
+        ratings, status = db.get_all(Rating, filter_)
+        if status != 200:
+            return ratings, status
+        ratings = [r.to_dict() for r in ratings]
+
         neighborhood = get_row_dict(result)
         if ratings:
             statistics = get_neighborhood_statistics(ratings)

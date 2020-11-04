@@ -66,7 +66,7 @@ class TestOccurrence(unittest.TestCase):
 
         # tests whether invalid occurrences will not be created
         for occurrence in wrong_occurrences:
-            response, status = controller.create_occurrence(
+            _, status = controller.create_occurrence(
                 user['username'], occurrence)
             self.assertEqual(status, 400)
 
@@ -81,13 +81,13 @@ class TestOccurrence(unittest.TestCase):
         self.assertEqual(new_db_len, self.db_len + self.qnt_occurrence)
 
         result, status = controller.get_all_occurrences(
-                            occurrence_type="Furto de Veículo"
-                         )
+            occurrence_type="Furto de Veículo"
+        )
         self.assertEqual(status, 200)
 
         result, status = controller.get_all_occurrences(
-                            occurrence_type="Furto de Bicicleta"
-                         )
+            occurrence_type="Furto de Bicicleta"
+        )
         self.assertEqual(status, 400)
 
         result, status = controller.get_all_occurrences()
@@ -147,3 +147,42 @@ class TestOccurrence(unittest.TestCase):
         result, status = controller.delete_occurrence(-1)
         self.assertEqual(status, 404)
         self.assertEqual(result, "Not Found!")
+
+    def test_update_inexisting_occurrence(self):
+        """
+        Testing update inexisting occurrence
+        """
+        result, status = controller.update_occurrence(
+            -2,
+            correct_occurrence_update,
+        )
+
+        self.assertEqual(status, 404)
+        self.assertEqual(result, 'Not Found!')
+
+    def test_update_occurrence_from_another_user(self):
+        """
+        Testing update occurrence from another user
+        """
+        occurrence = correct_occurrences[0]
+        result, status = controller.update_occurrence(
+            occurrence['id_occurrence'],
+            correct_occurrence_update,
+            'aaaaaaaaaaaaa'
+        )
+
+        self.assertEqual(status, 403)
+        self.assertTrue("You cannot edit another user's" in result)
+
+    def test_delete_occurrence_from_another_user(self):
+        """
+        Testing delete occurrence from another user
+        """
+        occurrence = correct_occurrences[0]
+        result, status = controller.delete_occurrence(
+            occurrence['id_occurrence'],
+            'aaaaaaaaaaaaa'
+        )
+
+        self.assertEqual(status, 403)
+        self.assertTrue("You cannot delete another user's" in result)

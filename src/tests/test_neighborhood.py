@@ -46,7 +46,7 @@ class TestNeighborhoodRating(unittest.TestCase):
 
         # create the ratings neighborhood
         result, status = controller.create_neighborhood(
-                rating_neighborhood)
+            rating_neighborhood)
         self.assertEqual(result, "Created successfully!")
         self.assertEqual(status, 201)
         result, status = controller.get_all_neighborhoods()
@@ -96,7 +96,7 @@ class TestNeighborhoodRating(unittest.TestCase):
 
         # deleting ratings neighborhood
         result, status = controller.delete_neighborhood(
-                rating_neighborhood['id_neighborhood'])
+            rating_neighborhood['id_neighborhood'])
         self.assertEqual(status, 204)
         self.assertEqual(result, "Deleted successfully!")
 
@@ -105,22 +105,22 @@ class TestNeighborhoodRating(unittest.TestCase):
         Testing get all neighborhoods
         """
         result, status = controller.get_all_neighborhoods(
-                            city=neighborhoods[0]['city'],
-                            state=neighborhoods[0]['state']
-                        )
+            city=neighborhoods[0]['city'],
+            state=neighborhoods[0]['state']
+        )
         self.assertEqual(status, 200)
 
         new_db_len = len(result) + self.db_len
         self.assertEqual(new_db_len, self.db_len + self.qnt_neighborhoods)
 
         result, status = controller.get_all_neighborhoods(
-                            city=neighborhoods[0]['city']
-                         )
+            city=neighborhoods[0]['city']
+        )
         self.assertEqual(status, 200)
 
         result, status = controller.get_all_neighborhoods(
-                            state=neighborhoods[0]['state']
-                         )
+            state=neighborhoods[0]['state']
+        )
         self.assertEqual(status, 200)
 
         result, status = controller.get_all_neighborhoods()
@@ -135,14 +135,14 @@ class TestNeighborhoodRating(unittest.TestCase):
         """
         for neighborhood in neighborhoods:
             result, code = controller.get_one_neighborhood(
-                                        neighborhood['id_neighborhood']
-                                    )
+                neighborhood['id_neighborhood']
+            )
             self.assertEqual(code, 200)
             self.assertEqual(result, neighborhood)
 
         result, code = controller.get_one_neighborhood(
-                                    rating_neighborhood['id_neighborhood']
-                                )
+            rating_neighborhood['id_neighborhood']
+        )
         self.assertEqual(code, 200)
         self.assertTrue('statistics' in result)
         self.assertTrue('lighting' in result['statistics'])
@@ -153,3 +153,9 @@ class TestNeighborhoodRating(unittest.TestCase):
         self.assertEqual(result['statistics']['movement_of_people'], 2)
         self.assertEqual(result['statistics']['police_rounds'], 2)
         self.assertIsInstance(result, type(neighborhood))
+
+    def test_get_one_inexisting_neighborhood(self):
+        result, code = controller.get_one_neighborhood(-5)
+
+        self.assertEqual(code, 404)
+        self.assertEqual(result, "Not Found!")

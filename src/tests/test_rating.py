@@ -89,7 +89,7 @@ class TestRating(unittest.TestCase):
         # tests if invalid ratings will not be created
         for rating in wrong_ratings:
             print(rating)
-            response, status = controller.create_rating(
+            _, status = controller.create_rating(
                 rating, user['username'], neighborhood['id_neighborhood'])
             self.assertEqual(status, 400)
 

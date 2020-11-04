@@ -26,11 +26,11 @@ def insert_one(element):
         return str(error), 400
 
 
-def get_all(model, filter=None):
+def get_all(model, filter_=None):
     try:
         query = session.query(model)
-        if filter:
-            for attr, value in list(filter.items()):
+        if filter_:
+            for attr, value in list(filter_.items()):
                 if not hasattr(model, attr):
                     return "The object does not have the attribute\
                             passed on query param", 400
@@ -66,8 +66,8 @@ def update(model, identifier, params, username=None):
         if data:
             if username:
                 if not getattr(data, 'user') == username:
-                    return f"You cannot edit another\
-                           user's {model.__name__}", 403
+                    return "You cannot edit another " +\
+                           f"user's {model.__name__}", 403
 
             for param in params:
                 setattr(data, param, params[param])
@@ -89,8 +89,8 @@ def delete(model, identifier, username=None):
         if data:
             if username:
                 if not getattr(data, 'user') == username:
-                    return f"You cannot delete another\
-                           user's {model.__name__}", 403
+                    return "You cannot delete another " +\
+                           f"user's {model.__name__}", 403
 
             session.delete(data)
             session.commit()
