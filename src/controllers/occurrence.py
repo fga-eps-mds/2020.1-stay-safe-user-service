@@ -14,9 +14,9 @@ from settings import logger
 def create_occurrence(username, body):
 
     last_occurrences, code = db.get_all(Occurrence,
-                                        filter={'user': [username]})
+                                        {'user': [username]})
     if code != 200:
-        return "Erro ao carregar ocorrências antigas"
+        return "Error on loading previous user's past occurrences."
 
     errors = validate_create_occurrence(body, last_occurrences)
     if errors:
@@ -55,7 +55,7 @@ def get_all_occurrences(user=None, occurrence_type=None):
         if (False in
                 [validate_occurrence_type(occur_type)
                  for occur_type in occurrence_type]):
-            return "occurrence_type inválido", 400
+            return "Invalid occurrence_type.", 400
 
         filter_.update({"occurrence_type": occurrence_type})
 
@@ -84,7 +84,7 @@ def update_occurrence(id_occurrence, body, username=None):
 
     current_occurrence, code = db.get_one(Occurrence, id_occurrence)
     if (code != 200):
-        return "Erro ao achar ocorrência", code
+        return current_occurrence, code
 
     fields = ['occurrence_date_time', 'physical_aggression',
               'victim', 'police_report', 'gun', 'location', 'occurrence_type']

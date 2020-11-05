@@ -12,17 +12,17 @@ def validate_create_rating(body):
     wrong_fields = validate_fields(body, required_fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Os seguintes campos estão faltando: {wrong_fields}'
+        return f'The following fields are missing: {wrong_fields}'
 
     passed_fields = list(filter(lambda x: x[0] in body, fields))
     wrong_fields = validate_fields_types(body, passed_fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Campos com tipo inválido: {wrong_fields}'
+        return f'Fields with invalid type: {wrong_fields}'
 
     if 'rating_neighborhood' in body:
         if not validate_rating(body['rating_neighborhood']):
-            return 'Nota inválida.'
+            return 'Invalid rating number.'
 
     details = dict(filter(lambda x: x[0] != 'rating_neighborhood',
                           body.items()
@@ -30,7 +30,7 @@ def validate_create_rating(body):
                    )
     if details:
         if not validate_details(details, body['rating_neighborhood']):
-            return 'Detalhes da avaliação inválido.'
+            return 'Invalid details.'
 
     return None
 
@@ -45,11 +45,11 @@ def validate_update_rating(params, current_rating):
     wrong_fields = validate_fields_types(params, passed_fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Campos com tipo inválido: {wrong_fields}'
+        return f'Fields with invalid type: {wrong_fields}'
 
     if 'rating_neighborhood' in params:
         if not validate_rating(params['rating_neighborhood']):
-            return 'Nota inválida.'
+            return 'Invalid rating number.'
 
     details = dict(filter(lambda x: x[0] != 'rating_neighborhood',
                           params.items()
@@ -57,7 +57,7 @@ def validate_update_rating(params, current_rating):
                    )
     if details:
         if not validate_details(details, rating):
-            return 'Detalhes da avaliação inválido.'
+            return 'Invalid details.'
 
     return None
 

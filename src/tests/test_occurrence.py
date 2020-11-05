@@ -36,6 +36,7 @@ class TestOccurrence(unittest.TestCase):
 
         result, status = controller.get_all_occurrences()
         self.assertEqual(status, 200)
+        result.sort(key=lambda x: x['register_date_time'])
         for index in range(len(correct_occurrences)):
             correct_occurrences[index]['id_occurrence'] = \
                 result[index + self.db_len]['id_occurrence']
@@ -74,7 +75,7 @@ class TestOccurrence(unittest.TestCase):
         result, status = controller.create_occurrence(
             user['username'], correct_occurrences[0])
         self.assertEqual(result,
-                        "O limite de ocorrências cadastradas em 7 dias foi atingido.")
+                        "The limit of 5 occurrences within 7 days was reached.")
         self.assertEqual(status, 400)
 
     def test_get_all_occurrences(self):

@@ -100,7 +100,7 @@ class TestUser(unittest.TestCase):
         )
 
         self.assertEqual(status, 400)
-        self.assertEqual(result,  "Username não pode ser atualizado.")
+        self.assertEqual(result,  "The username cannot be updated.")
 
         for wrong_user in wrong_users_update:
             result, status = controller.update_user(
