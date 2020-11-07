@@ -13,7 +13,12 @@ from settings import logger
 
 def create_occurrence(username, body):
 
-    errors = validate_create_occurrence(body)
+    last_occurrences, code = db.get_all(Occurrence,
+                                        {'user': [username]})
+    if code != 200:
+        return "Error on loading previous user's past occurrences."
+
+    errors = validate_create_occurrence(body, last_occurrences)
     if errors:
         return errors, 400
 
@@ -38,7 +43,7 @@ def create_occurrence(username, body):
 
 
 def get_all_occurrences(user=None, occurrence_type=None):
-    filter_ = None
+    filter_ = {} if user or occurrence_type else None
     # formating occurrence_type query param
     if occurrence_type:
         occurrence_type = occurrence_type.split(',')
@@ -50,12 +55,12 @@ def get_all_occurrences(user=None, occurrence_type=None):
         if (False in
                 [validate_occurrence_type(occur_type)
                  for occur_type in occurrence_type]):
-            return "occurrence_type inválido", 400
+            return "Invalid occurrence_type.", 400
 
-        filter_ = {"occurrence_type": occurrence_type}
+        filter_.update({"occurrence_type": occurrence_type})
 
     if user:
-        filter_ = {'user': [user]}
+        filter_.update({'user': [user]})
 
     result, code = db.get_all(Occurrence, filter_)
 
@@ -76,13 +81,17 @@ def get_one_occurrence(id_occurrence):
 
 
 def update_occurrence(id_occurrence, body, username=None):
-    logger.info(id_occurrence)
+
+    current_occurrence, code = db.get_one(Occurrence, id_occurrence)
+    if (code != 200):
+        return current_occurrence, code
+
     fields = ['occurrence_date_time', 'physical_aggression',
               'victim', 'police_report', 'gun', 'location', 'occurrence_type']
 
     params = get_params_by_body(fields, body)
 
-    errors = validate_update_occurrence(body, params)
+    errors = validate_update_occurrence(body, params, current_occurrence)
     if errors:
         return errors, 400
 

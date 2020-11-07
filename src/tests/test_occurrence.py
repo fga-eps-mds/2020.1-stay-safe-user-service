@@ -36,7 +36,8 @@ class TestOccurrence(unittest.TestCase):
 
         result, status = controller.get_all_occurrences()
         self.assertEqual(status, 200)
-        for index in range(3):
+        result.sort(key=lambda x: x['register_date_time'])
+        for index in range(len(correct_occurrences)):
             correct_occurrences[index]['id_occurrence'] = \
                 result[index + self.db_len]['id_occurrence']
 
@@ -46,7 +47,7 @@ class TestOccurrence(unittest.TestCase):
         self.assertEqual(status, 204)
         self.assertEqual(result, "Deleted successfully!")
 
-        # deleting all 3 occurrences
+        # deleting all occurrences
         for occurrence in correct_occurrences:
             result, status = controller.delete_occurrence(
                 occurrence['id_occurrence'])
@@ -69,6 +70,13 @@ class TestOccurrence(unittest.TestCase):
             _, status = controller.create_occurrence(
                 user['username'], occurrence)
             self.assertEqual(status, 400)
+
+        # tries to create more than 5 ocurrences within 7 days
+        result, status = controller.create_occurrence(
+            user['username'], correct_occurrences[0])
+        self.assertEqual(result,
+                        "The limit of 5 occurrences within 7 days was reached.")
+        self.assertEqual(status, 400)
 
     def test_get_all_occurrences(self):
         """
