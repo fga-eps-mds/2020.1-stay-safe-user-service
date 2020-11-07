@@ -4,7 +4,8 @@ from controllers import (
     favorite_places as controller,
     user as user_controller
 )
-from tests.mocks.mock_favorite_places import users, places
+from tests.mocks.mock_favorite_places import (
+    users, places, place_without_name, invalid_places)
 
 from database import db
 from database.models import FavoritePlace
@@ -60,6 +61,21 @@ class TestFavoritePlaces(unittest.TestCase):
         """
         new_db_len = len(db.session.query(FavoritePlace).all())
         self.assertEqual(new_db_len, self.db_len+self.qnt_places)
+
+    def test_create_invalid_place(self):
+        """
+        Testing create invalid favorite places
+        """
+        result, status = controller.create_favorite_place(
+                users[1]['username'], place_without_name)
+        self.assertEqual(result, "Os seguintes campos estão faltando: name")
+        self.assertEqual(status, 400)
+
+        for place in invalid_places:
+            result, status = controller.create_favorite_place(
+                users[1]['username'], place)
+            self.assertEqual(result, "Campo name com tamanho inválido!")
+            self.assertEqual(status, 400)
 
     def test_get_favorite_place_from_user(self):
         """
