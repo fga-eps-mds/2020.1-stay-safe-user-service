@@ -21,22 +21,25 @@ class User(Base):
     email = Column(String(50), nullable=False, unique=True)
     password = Column(String(60), nullable=False)
     full_name = Column(String(200), nullable=False)
+    device_token = Column(String(50), nullable=True)
     occurrence = relationship("Occurrence")
     rating = relationship("Rating")
     favorite_places = relationship("FavoritePlace")
 
-    def __init__(self, username, email, password, full_name):
+    def __init__(self, username, email, password, full_name, device_token=None):
         self.username = username
         self.email = email
         self.password = BCRYPT.generate_password_hash(
             password).decode('utf-8')
         self.full_name = full_name
+        self.device_token = device_token
 
     def to_dict(self):
         user = {
             'username': self.username,
             'full_name': self.full_name,
-            'email': self.email
+            'email': self.email,
+            'device_token': self.device_token
         }
 
         return user
