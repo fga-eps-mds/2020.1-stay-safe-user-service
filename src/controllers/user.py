@@ -43,7 +43,7 @@ def get_one_user(username):
 
 
 def update_user(username, body):
-    fields = ['email', 'username', 'full_name', 'password']
+    fields = ['email', 'username', 'full_name', 'password', 'device_token']
 
     params = get_params_by_body(fields, body)
 
