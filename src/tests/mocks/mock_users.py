@@ -4,21 +4,24 @@ correct_users = [
         'username': 'Roiknebyu',
         'email': 'anderson5458@uorak.com',
         'password': '999mcXEAuz',
-        'device_token': None
+        'device_token': None,
+        'show_notifications': False
     },
     {
         'full_name': 'Katelyn Mcdaniel',
         'username': 'Pinife',
         'email': 'fmouhamedtah@netfacc.com',
         'password': 'aLwTL3yya',
-        'device_token': None
+        'device_token': None,
+        'show_notifications': False
     },
     {
         'full_name': 'Falob Gaupidir',
         'username': 'Guzil',
         'email': 'alucassouzardm@saymeow.de',
         'password': 'iGpcL3ygR',
-        'device_token': None
+        'device_token': None,
+        'show_notifications': False
     }
 ]
 
@@ -95,7 +98,8 @@ correct_user_update = {
     'email': 'duriboelel@gmail.com',
     'full_name': 'Gixu Duribo',
     'password': 'vusmouke13',
-    'device_token': 'testando notificação push'
+    'device_token': 'testando notificação push',
+    'show_notifications': True
 }
 
 wrong_user_update = {

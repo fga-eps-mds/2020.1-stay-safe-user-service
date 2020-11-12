@@ -41,7 +41,10 @@ def validate_create_user(body):
 def validate_update_user(body, params):
     fields = []
     for param in params:
-        fields.append((param, str))
+        if param is not 'show_notifications':
+            fields.append((param, str))
+        else:
+            fields.append((param, bool))
 
     if 'username' in body:
         return 'The username cannot be updated.'
