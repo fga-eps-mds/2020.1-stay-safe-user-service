@@ -49,7 +49,10 @@ def update_user(username, body):
 
     result, code = db.get_one(User, username)
 
-    user = result.to_dict()
+    if code == 404:
+        return result, code
+
+    user = get_row_dict(result)
 
     params = get_params_by_body(fields, body)
 
@@ -64,8 +67,8 @@ def update_user(username, body):
     result, code = db.update(User, username, params)
 
     if code == 200:  # if successful, returns the data
-        if body['device_token']:
-            send_notification_on_signin(user, username)
+        if 'device_token' in body:
+            send_notification_on_signin(user, username, body)
         user = get_row_dict(result)  # converts row to dict
         return user, code
     return result, code  # else, returns database error and error code

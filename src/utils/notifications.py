@@ -3,8 +3,10 @@ import requests
 from settings import logger
 
 
-def send_notification_on_signin(user, username):
-    token = user['device_token'] if user['device_token'] != '' and user['device_token'] != None else body['device_token']
+def send_notification_on_signin(user, username, body):
+    device_token = user['device_token']
+    token = device_token if device_token not in (
+        '', None) else body['device_token']
 
     message = {
         'to': token,
@@ -20,7 +22,8 @@ def send_notification_on_signin(user, username):
         "Content-Type": "application/json"
     }
 
-    a = requests.post('https://exp.host/--/api/v2/push/send',
-                      data=json.dumps(message), headers=headers)
+    response = requests.post('https://exp.host/--/api/v2/push/send',
+                             data=json.dumps(message), headers=headers)
 
     logger.info(message)
+    logger.info(response)

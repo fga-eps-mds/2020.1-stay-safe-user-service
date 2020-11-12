@@ -33,7 +33,7 @@ def get_all(model, filters_=None):
         query = session.query(model)
         if str(model.__table__) == "occurrence_stay_safe":
             past_date = datetime.utcnow()\
-                           .replace(year=datetime.utcnow().year - 1)
+                .replace(year=datetime.utcnow().year - 1)
             filter_ = and_(model.occurrence_date_time >= past_date,
                            model.occurrence_date_time <= datetime.utcnow())
             query = query.filter(filter_)

@@ -83,7 +83,7 @@ def get_one_occurrence(id_occurrence):
 def update_occurrence(id_occurrence, body, username=None):
 
     current_occurrence, code = db.get_one(Occurrence, id_occurrence)
-    if (code != 200):
+    if code != 200:
         return current_occurrence, code
 
     fields = ['occurrence_date_time', 'physical_aggression',

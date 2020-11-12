@@ -69,7 +69,7 @@ class TestNeighborhoodRating(unittest.TestCase):
 
         result, status = rating_controller.get_all_ratings()
         self.assertEqual(status, 200)
-        for index in range(len(correct_ratings)):
+        for index, correct_rating in enumerate(correct_ratings):
             correct_ratings[index]['id_rating'] = \
                 result[index + self.rating_db_len]['id_rating']
 
