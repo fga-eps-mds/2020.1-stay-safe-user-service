@@ -5,6 +5,7 @@ from database import db
 from utils.formatters import get_row_dict
 from utils.validators.user import validate_create_user, validate_update_user
 from utils.utils import get_params_by_body
+from utils.notifications import send_notification_on_signin
 
 
 def create_user(body):
@@ -43,7 +44,15 @@ def get_one_user(username):
 
 
 def update_user(username, body):
-    fields = ['email', 'username', 'full_name', 'password']
+    fields = ['email', 'username', 'full_name',
+              'password', 'device_token', 'show_notifications']
+
+    result, code = db.get_one(User, username)
+
+    if code == 404:
+        return result, code
+
+    user = get_row_dict(result)
 
     params = get_params_by_body(fields, body)
 
@@ -58,6 +67,8 @@ def update_user(username, body):
     result, code = db.update(User, username, params)
 
     if code == 200:  # if successful, returns the data
+        if 'device_token' in body:
+            send_notification_on_signin(user, username, body)
         user = get_row_dict(result)  # converts row to dict
         return user, code
     return result, code  # else, returns database error and error code

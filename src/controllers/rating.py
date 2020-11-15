@@ -18,10 +18,9 @@ def create_rating(body, username, neighborhood_id):
         return errors, 400
 
     details = dict(filter(
-                          lambda x: x[0] != 'rating_neighborhood',
-                          body.items()
-                         )
-                   )
+        lambda x: x[0] != 'rating_neighborhood',
+        body.items()
+    ))
 
     try:
         rating = Rating(
