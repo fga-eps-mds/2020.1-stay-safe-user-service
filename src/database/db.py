@@ -25,7 +25,13 @@ def insert_one(element):
         logger.error(error)
         session.rollback()
 
-        return str(error), 400
+        if "UniqueViolation" in str(error._message):
+            if "pkey" in str(error._message):
+                return "Este nome de usuário já está sendo utilizado", 400
+            elif "mail" in str(error._message):
+                return "Este e-mail já está sendo utilizado", 400
+
+        return "Algo deu errado, tente novamente mais tarde", 400
 
 
 def get_all(model, filters_=None):
@@ -49,7 +55,7 @@ def get_all(model, filters_=None):
     except Exception as error:
         logger.error(error)
         session.rollback()
-        return str(error), 400
+        return "Algo deu errado, tente novamente mais tarde", 400
 
 
 def get_one(model, identifier):
@@ -64,7 +70,7 @@ def get_one(model, identifier):
         logger.error(error)
         session.rollback()
 
-        return str(error), 400
+        return "Algo deu errado, tente novamente mais tarde", 400
 
 
 def update(model, identifier, params, username=None):
@@ -87,7 +93,7 @@ def update(model, identifier, params, username=None):
         logger.error(error)
         session.rollback()
 
-        return str(error), 400
+        return "Algo deu errado, tente novamente mais tarde", 400
 
 
 def delete(model, identifier, username=None):
@@ -108,4 +114,4 @@ def delete(model, identifier, username=None):
         logger.error(error)
         session.rollback()
 
-        return str(error), 400
+        return "Algo deu errado, tente novamente mais tarde", 400
