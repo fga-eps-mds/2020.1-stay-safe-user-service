@@ -16,7 +16,7 @@ def create_occurrence(username, body):
     last_occurrences, code = db.get_all(Occurrence,
                                         {'user': [username]})
     if code != 200:
-        return "Error on loading previous user's past occurrences."
+        return "Erro ao carregar ocorrências passadas do usuário"
 
     errors = validate_create_occurrence(body, last_occurrences)
     if errors:
@@ -55,7 +55,7 @@ def get_all_occurrences(user=None, occurrence_type=None):
         if (False in
                 [validate_occurrence_type(occur_type)
                  for occur_type in occurrence_type]):
-            return "Invalid occurrence_type.", 400
+            return "Tipo de ocorrência inválido", 400
 
         filter_.update({"occurrence_type": occurrence_type})
 

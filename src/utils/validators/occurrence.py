@@ -7,7 +7,7 @@ def validate_create_occurrence(body, last_ocurrences):
         last_ocurrence = last_ocurrences[4]
         if (datetime.datetime.utcnow().date() -
                 last_ocurrence.register_date_time.date()).days < 7:
-            return "The limit of 5 occurrences within 7 days was reached."
+            return "O limite de 5 ocorrências em 7 dias foi atingido"
 
     fields = [
         ('physical_aggression', bool), ('victim', bool),
@@ -21,21 +21,21 @@ def validate_create_occurrence(body, last_ocurrences):
     wrong_fields = validate_fields(body, required_fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'The following fields are missing: {wrong_fields}'
+        return f'Os seguintes campos estão faltando: {wrong_fields}'
 
     wrong_fields = validate_fields_types(body, fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Fields with invalid type: {wrong_fields}'
+        return f'Campos com tipo inválido: {wrong_fields}'
 
     if not validate_occurrence_date_time(body['occurrence_date_time']):
-        return "Invalid occurrence date."
+        return "Data da ocorrência inválida"
 
     if not validate_gun(body['gun']):
-        return "Invalid gun."
+        return "Tipo de arma inválido"
 
     if not validate_occurrence_type(body['occurrence_type']):
-        return "Invalid occurrence type."
+        return "Tipo de ocorrência inválido"
 
     return None
 
@@ -46,7 +46,7 @@ def validate_update_occurrence(body, params, current_occurrence):
                         .replace(month=datetime.datetime.utcnow().month - 3)\
                         .date()
     if current_occurrence.register_date_time.date() < allowed_date:
-        return "The occurrence cannot be edited."
+        return "A ocorrência não pode ser editada"
 
     available_fields_types = {
         'physical_aggression': bool, 'victim': bool, 'police_report': bool,
@@ -61,19 +61,19 @@ def validate_update_occurrence(body, params, current_occurrence):
     wrong_fields = validate_fields_types(body, fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Fields with invalid type: {wrong_fields}'
+        return f'Campos com tipo inválido: {wrong_fields}'
 
     if 'occurrence_date_time' in body:
         if not validate_occurrence_date_time(body['occurrence_date_time']):
-            return "Invalid occurrence date."
+            return "Data da ocorrência inválida"
 
     if 'gun' in body:
         if not validate_gun(body['gun']):
-            return "Invalid gun."
+            return "Tipo de arma inválido"
 
     if 'occurrence_type' in body:
         if not validate_occurrence_type(body['occurrence_type']):
-            return "Invalid occurrence type."
+            return "Tipo de ocorrência inválido"
 
     return None
 

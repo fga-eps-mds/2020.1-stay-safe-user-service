@@ -21,14 +21,14 @@ class TestFavoritePlaces(unittest.TestCase):
         # creates an users and generate the jwt token
         for user in users:
             result, status = user_controller.create_user(user)
-            self.assertEqual(result, "Created successfully!")
+            self.assertEqual(result, "Criação bem-sucedida")
             self.assertEqual(status, 201)
 
         # creates places
         for place in places:
             result, status = controller.create_favorite_place(
                 users[0]['username'], place)
-            self.assertEqual(result, "Created successfully!")
+            self.assertEqual(result, "Criação bem-sucedida")
             self.assertEqual(status, 201)
 
         result, status = controller.get_favorite_places(users[0]['username'])
@@ -43,13 +43,13 @@ class TestFavoritePlaces(unittest.TestCase):
             result, status = controller.delete_favorite_place(
                 users[0]['username'], place['id_place'])
             self.assertEqual(status, 204)
-            self.assertEqual(result, "Deleted successfully!")
+            self.assertEqual(result, "Deleção bem-sucedida")
 
         # deleting users
         for user in users:
             result, status = user_controller.delete_user(user['username'])
             self.assertEqual(status, 204)
-            self.assertEqual(result, "Deleted successfully!")
+            self.assertEqual(result, "Deleção bem-sucedida")
 
         # asserting db len
         new_db_len = len(db.session.query(FavoritePlace).all())
@@ -102,4 +102,4 @@ class TestFavoritePlaces(unittest.TestCase):
         result, status = controller.delete_favorite_place(
             users[1]['username'], places[0]['id_place'])
         self.assertEqual(status, 401)
-        self.assertEqual(result, "Unauthorized to delete this place.")
+        self.assertEqual(result, "O usuário não tem permissão para deletar esse local favorito")

@@ -28,14 +28,14 @@ class TestNeighborhoodRating(unittest.TestCase):
 
         # creates an user
         result, status = user_controller.create_user(user)
-        self.assertEqual(result, "Created successfully!")
+        self.assertEqual(result, "Criação bem-sucedida")
         self.assertEqual(status, 201)
 
         # create 3 neighborhoods
         for neighborhood in neighborhoods:
             result, status = controller.create_neighborhood(
                 neighborhood)
-            self.assertEqual(result, "Created successfully!")
+            self.assertEqual(result, "Criação bem-sucedida")
             self.assertEqual(status, 201)
 
         result, status = controller.get_all_neighborhoods()
@@ -47,7 +47,7 @@ class TestNeighborhoodRating(unittest.TestCase):
         # create the ratings neighborhood
         result, status = controller.create_neighborhood(
             rating_neighborhood)
-        self.assertEqual(result, "Created successfully!")
+        self.assertEqual(result, "Criação bem-sucedida")
         self.assertEqual(status, 201)
         result, status = controller.get_all_neighborhoods()
         self.assertEqual(status, 200)
@@ -64,7 +64,7 @@ class TestNeighborhoodRating(unittest.TestCase):
                 rating, user['username'],
                 rating_neighborhood['id_neighborhood']
             )
-            self.assertEqual(result, "Created successfully!")
+            self.assertEqual(result, "Criação bem-sucedida")
             self.assertEqual(status, 201)
 
         result, status = rating_controller.get_all_ratings()
@@ -77,7 +77,7 @@ class TestNeighborhoodRating(unittest.TestCase):
         # deleting user
         result, status = user_controller.delete_user(user['username'])
         self.assertEqual(status, 204)
-        self.assertEqual(result, "Deleted successfully!")
+        self.assertEqual(result, "Deleção bem-sucedida")
 
         # deleting all 3 ratings
         for rating in correct_ratings:
@@ -85,20 +85,20 @@ class TestNeighborhoodRating(unittest.TestCase):
                 rating['id_rating'],
             )
             self.assertEqual(status, 204)
-            self.assertEqual(result, "Deleted successfully!")
+            self.assertEqual(result, "Deleção bem-sucedida")
 
         # deleting all 3 neighborhoods
         for neighborhood in neighborhoods:
             result, status = controller.delete_neighborhood(
                 neighborhood['id_neighborhood'])
             self.assertEqual(status, 204)
-            self.assertEqual(result, "Deleted successfully!")
+            self.assertEqual(result, "Deleção bem-sucedida")
 
         # deleting ratings neighborhood
         result, status = controller.delete_neighborhood(
             rating_neighborhood['id_neighborhood'])
         self.assertEqual(status, 204)
-        self.assertEqual(result, "Deleted successfully!")
+        self.assertEqual(result, "Deleção bem-sucedida")
 
     def test_get_all_neighborhoods(self):
         """

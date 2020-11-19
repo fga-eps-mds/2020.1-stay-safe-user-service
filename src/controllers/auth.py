@@ -9,10 +9,10 @@ from utils.formatters import get_row_dict
 def authentication(auth=None):
     if not auth:
         status = 401
-        response = "Login is required"
+        response = "É necessário realizar o login"
     elif not auth['username'] or not auth['password']:
         status = 401
-        response = "Username and password are required"
+        response = "O nome de usuário e senha são obrigatórios"
     else:
         result, status_ = get_one(User, auth['username'])
         if status_ == 200:
@@ -34,7 +34,7 @@ def get_auth_response(user, auth):
             algorithm='HS256'
         )
         return {
-            'msg': 'Validated successfully',
+            'msg': 'Login bem sucedido',
             'token': token.decode('utf-8'),
         }, 200
-    return 'Invalid password', 401
+    return 'Senha inválida', 401
