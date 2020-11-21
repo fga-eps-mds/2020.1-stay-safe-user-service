@@ -43,7 +43,7 @@ def delete_favorite_place(username, id_place):
         favorite_place = get_row_dict(result)
 
         if favorite_place['user'] != username:
-            return "Unauthorized to delete this place.", 401
+            return "O usuário não tem permissão para deletar esse local favorito", 401
 
         result, code = db.delete(FavoritePlace, id_place)
 

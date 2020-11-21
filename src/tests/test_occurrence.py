@@ -24,14 +24,14 @@ class TestOccurrence(unittest.TestCase):
 
         # creates an user and generate the jwt token
         result, status = user_controller.create_user(user)
-        self.assertEqual(result, "Created successfully!")
+        self.assertEqual(result, "Criação bem-sucedida")
         self.assertEqual(status, 201)
 
         # creates occurrences
         for occurrence in correct_occurrences:
             result, status = controller.create_occurrence(
                 user['username'], occurrence)
-            self.assertEqual(result, "Created successfully!")
+            self.assertEqual(result, "Criação bem-sucedida")
             self.assertEqual(status, 201)
 
         result, status = controller.get_all_occurrences()
@@ -45,14 +45,14 @@ class TestOccurrence(unittest.TestCase):
         # deleting user
         result, status = user_controller.delete_user(user['username'])
         self.assertEqual(status, 204)
-        self.assertEqual(result, "Deleted successfully!")
+        self.assertEqual(result, "Deleção bem-sucedida")
 
         # deleting all occurrences
         for occurrence in correct_occurrences:
             result, status = controller.delete_occurrence(
                 occurrence['id_occurrence'])
             self.assertEqual(status, 204)
-            self.assertEqual(result, "Deleted successfully!")
+            self.assertEqual(result, "Deleção bem-sucedida")
 
         # asserting db len
         new_db_len = len(db.session.query(Occurrence).all())
@@ -75,7 +75,7 @@ class TestOccurrence(unittest.TestCase):
         result, status = controller.create_occurrence(
             user['username'], correct_occurrences[0])
         self.assertEqual(result,
-                         "The limit of 5 occurrences within 7 days was reached.")
+                         "O limite de 5 ocorrências em 7 dias foi atingido")
         self.assertEqual(status, 400)
 
     def test_get_all_occurrences(self):
@@ -180,7 +180,7 @@ class TestOccurrence(unittest.TestCase):
         )
 
         self.assertEqual(status, 403)
-        self.assertTrue("You cannot edit another user's" in result)
+        self.assertEqual("Você não pode editar o objeto de outro usuário", result)
 
     def test_delete_occurrence_from_another_user(self):
         """
@@ -193,4 +193,4 @@ class TestOccurrence(unittest.TestCase):
         )
 
         self.assertEqual(status, 403)
-        self.assertTrue("You cannot delete another user's" in result)
+        self.assertEqual("Você não pode deletar o objeto de outro usuário", result)

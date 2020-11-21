@@ -62,7 +62,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created successfully!"
+            "description": "Criação bem-sucedida"
           },
           "404": {
             "description": "Bad request"
@@ -224,7 +224,7 @@
             }
           },
           "401": {
-            "description": "Invalid password"
+            "description": "Senha inválida"
           }
         }
       }
@@ -259,7 +259,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created successfully!"
+            "description": "Criação bem-sucedida"
           },
           "404": {
             "description": "Bad request"
@@ -454,7 +454,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created successfully!"
+            "description": "Criação bem-sucedida"
           },
           "404": {
             "description": "Bad request"
@@ -629,7 +629,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created successfully!"
+            "description": "Criação bem-sucedida"
           },
           "404": {
             "description": "Bad request"
@@ -745,7 +745,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created successfully!"
+            "description": "Criação bem-sucedida"
           },
           "404": {
             "description": "Bad request"

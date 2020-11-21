@@ -76,7 +76,7 @@ def update_rating(rating_id, body, username=None):
     rating_before_update = result.to_dict(del_null_attr=False)
 
     if status == 404:
-        return 'Error on finding rating.', 404
+        return 'Erro ao achar avaliação', 404
 
     errors = validate_update_rating(body, rating_before_update)
     if errors:

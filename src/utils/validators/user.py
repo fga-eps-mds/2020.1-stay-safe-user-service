@@ -13,27 +13,27 @@ def validate_create_user(body):
     wrong_fields = validate_fields(body, required_fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'The following fields are missing: {wrong_fields}'
+        return f'Os seguintes campos estão faltando: {wrong_fields}'
 
     wrong_fields = validate_fields_types(body, fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Fields with invalid type: {wrong_fields}'
+        return f'Campos com tipo inválido: {wrong_fields}'
 
     wrong_fields = validate_fields_length(body)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Fields with invalid size: {wrong_fields}'
+        return f'Campos com tamanhos inválidos: {wrong_fields}'
 
     if not validate_email(body['email']):
-        return "Invalid email."
+        return "E-mail inválido"
 
     username_is_invalid = validate_username(body['username'])
     if username_is_invalid:
         return username_is_invalid
 
     if body['password'].isalpha():
-        return "The password has to contain at least one number."
+        return "A senha precisa conter pelo menos um número"
 
     return None
 
@@ -52,20 +52,20 @@ def validate_update_user(body, params):
     wrong_fields = validate_fields_types(body, fields)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Fields with invalid type: {wrong_fields}'
+        return f'Campos com tipo inválido: {wrong_fields}'
 
     wrong_fields = validate_fields_length(body)
     if wrong_fields:
         wrong_fields = ", ".join(wrong_fields)
-        return f'Fields with invalid size: {wrong_fields}'
+        return f'Campos com tamanhos inválidos: {wrong_fields}'
 
     if 'email' in body:
         if not validate_email(body['email']):
-            return "Invalid email."
+            return "E-mail inválido"
 
     if 'password' in body:
         if body['password'].isalpha():
-            return "The password has to contain at least one number."
+            return "A senha precisa conter pelo menos um número"
 
     return None
 
@@ -73,10 +73,10 @@ def validate_update_user(body, params):
 def validate_username(username):
     errors = []
     if username.count(' ') > 0:
-        errors.append("The username cannot contain spaces.")
+        errors.append("O nome de usuário não pode conter espaços")
 
     if not username.isalnum():
-        errors.append("The username can only contain letters and numbers.")
+        errors.append("O nome de usuário só pode conter letras e números")
 
     return errors
 

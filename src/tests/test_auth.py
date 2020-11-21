@@ -24,7 +24,7 @@ class TestAuth(unittest.TestCase):
             }
         )
         self.assertEqual(status, 401)
-        self.assertEqual(result, 'Invalid password')
+        self.assertEqual(result, 'Senha inválida')
 
         result, status = authentication(
             {
@@ -33,11 +33,11 @@ class TestAuth(unittest.TestCase):
             }
         )
         self.assertEqual(status, 200)
-        self.assertEqual(result['msg'], 'Validated successfully')
+        self.assertEqual(result['msg'], 'Login bem sucedido')
 
         result, status = authentication()
         self.assertEqual(status, 401)
-        self.assertEqual(result, 'Login is required')
+        self.assertEqual(result, 'É necessário realizar o login')
 
     def test_authentication_without_password(self):
         result, status = authentication(
@@ -48,7 +48,7 @@ class TestAuth(unittest.TestCase):
         )
 
         self.assertEqual(status, 401)
-        self.assertEqual(result, "Username and password are required")
+        self.assertEqual(result, "O nome de usuário e senha são obrigatórios")
 
     def test_authentication_without_username(self):
         result, status = authentication(
@@ -59,7 +59,7 @@ class TestAuth(unittest.TestCase):
         )
 
         self.assertEqual(status, 401)
-        self.assertEqual(result, "Username and password are required")
+        self.assertEqual(result, "O nome de usuário e senha são obrigatórios")
 
     def test_authentication_with_inexisting_user(self):
         result, status = authentication(

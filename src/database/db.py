@@ -20,12 +20,18 @@ def insert_one(element):
         session.add(element)
         session.commit()
 
-        return "Created successfully!", 201
+        return "Criação bem-sucedida", 201
     except Exception as error:
         logger.error(error)
         session.rollback()
 
-        return str(error), 400
+        if "UniqueViolation" in str(error._message):
+            if "pkey" in str(error._message):
+                return "Este nome de usuário já está sendo utilizado", 400
+            elif "mail" in str(error._message):
+                return "Este e-mail já está sendo utilizado", 400
+
+        return "Algo deu errado, tente novamente mais tarde", 400
 
 
 def get_all(model, filters_=None):
@@ -40,8 +46,7 @@ def get_all(model, filters_=None):
         if filters_:
             for attr, value in list(filters_.items()):
                 if not hasattr(model, attr):
-                    return "The object does not have the attribute\
-                            passed on query param", 400
+                    return "O objeto não possui o atributo passado como parâmetro", 400
                 else:
                     filters_ = getattr(model, attr).in_(value)
                 query = query.filter(filters_)
@@ -50,7 +55,7 @@ def get_all(model, filters_=None):
     except Exception as error:
         logger.error(error)
         session.rollback()
-        return str(error), 400
+        return "Algo deu errado, tente novamente mais tarde", 400
 
 
 def get_one(model, identifier):
@@ -65,7 +70,7 @@ def get_one(model, identifier):
         logger.error(error)
         session.rollback()
 
-        return str(error), 400
+        return "Algo deu errado, tente novamente mais tarde", 400
 
 
 def update(model, identifier, params, username=None):
@@ -76,8 +81,7 @@ def update(model, identifier, params, username=None):
         if data:
             if username:
                 if not getattr(data, 'user') == username:
-                    return "You cannot edit another " +\
-                           f"user's {model.__name__}", 403
+                    return f"Você não pode editar o objeto de outro usuário", 403
 
             for param in params:
                 setattr(data, param, params[param])
@@ -89,7 +93,7 @@ def update(model, identifier, params, username=None):
         logger.error(error)
         session.rollback()
 
-        return str(error), 400
+        return "Algo deu errado, tente novamente mais tarde", 400
 
 
 def delete(model, identifier, username=None):
@@ -99,16 +103,15 @@ def delete(model, identifier, username=None):
         if data:
             if username:
                 if not getattr(data, 'user') == username:
-                    return "You cannot delete another " +\
-                           f"user's {model.__name__}", 403
+                    return f"Você não pode deletar o objeto de outro usuário", 403
 
             session.delete(data)
             session.commit()
-            return "Deleted successfully!", 204
+            return "Deleção bem-sucedida", 204
 
         return "Not Found!", 404
     except Exception as error:
         logger.error(error)
         session.rollback()
 
-        return str(error), 400
+        return "Algo deu errado, tente novamente mais tarde", 400

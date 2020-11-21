@@ -26,13 +26,13 @@ class TestRating(unittest.TestCase):
 
         # creates an user
         result, status = user_controller.create_user(user)
-        self.assertEqual(result, "Created successfully!")
+        self.assertEqual(result, "Criação bem-sucedida")
         self.assertEqual(status, 201)
 
         # create neighborhood
         result, status = neighborhood_controller.create_neighborhood(
             neighborhood)
-        self.assertEqual(result, "Created successfully!")
+        self.assertEqual(result, "Criação bem-sucedida")
         self.assertEqual(status, 201)
 
         result, status = neighborhood_controller.get_all_neighborhoods()
@@ -47,7 +47,7 @@ class TestRating(unittest.TestCase):
                                  rating.items()))
             result, status = controller.create_rating(
                 rating, user['username'], neighborhood['id_neighborhood'])
-            self.assertEqual(result, "Created successfully!")
+            self.assertEqual(result, "Criação bem-sucedida")
             self.assertEqual(status, 201)
 
         result, status = controller.get_all_ratings()
@@ -63,17 +63,17 @@ class TestRating(unittest.TestCase):
                 rating['id_rating'],
             )
             self.assertEqual(status, 204)
-            self.assertEqual(result, "Deleted successfully!")
+            self.assertEqual(result, "Deleção bem-sucedida")
 
         result, status = neighborhood_controller.delete_neighborhood(
             neighborhood['id_neighborhood'])
         self.assertEqual(status, 204)
-        self.assertEqual(result, "Deleted successfully!")
+        self.assertEqual(result, "Deleção bem-sucedida")
 
         # deleting user
         result, status = user_controller.delete_user(user['username'])
         self.assertEqual(status, 204)
-        self.assertEqual(result, "Deleted successfully!")
+        self.assertEqual(result, "Deleção bem-sucedida")
 
         # asserting db len
         new_db_len = len(db.session.query(Rating).all())

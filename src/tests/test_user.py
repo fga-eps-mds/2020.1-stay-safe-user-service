@@ -23,14 +23,14 @@ class TestUser(unittest.TestCase):
         # tests whether valid users will be created
         for user in correct_users:
             result, status = controller.create_user(user)
-            self.assertEqual(result, "Created successfully!")
+            self.assertEqual(result, "Criação bem-sucedida")
             self.assertEqual(status, 201)
 
     def tearDown(self):
         for user in correct_users:  # deleting all users
             result, status = controller.delete_user(user['username'])
             self.assertEqual(status, 204)
-            self.assertEqual(result, "Deleted successfully!")
+            self.assertEqual(result, "Deleção bem-sucedida")
         new_db_len = len(db.session.query(User).all())
         self.assertEqual(new_db_len, self.db_len)
 
