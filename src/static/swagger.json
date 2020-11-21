@@ -849,7 +849,7 @@
           "type": "string",
           "enum": [
             "Latrocínio",
-            "Roubo a transeunte",
+            "Roubo a Pedestre",
             "Roubo de Veículo",
             "Roubo de Residência",
             "Estupro"
@@ -898,7 +898,7 @@
           "type": "string",
           "enum": [
             "Latrocínio",
-            "Roubo a transeunte",
+            "Roubo a Pedestre",
             "Roubo de Veículo",
             "Roubo de Residência",
             "Estupro"

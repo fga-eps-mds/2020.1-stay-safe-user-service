@@ -64,8 +64,8 @@ class Occurrence(Base):
     gun = Column(Enum('None', 'Fire', 'White', name='gun'), nullable=False)
     location = Column(ARRAY(Float), nullable=False)
     occurrence_type = Column(
-        Enum('Latrocínio', 'Roubo a Transeunte', 'Roubo de Veículo',
-             'Roubo de Residência', 'Estupro', 'Furto a Transeunte',
+        Enum('Latrocínio', 'Roubo a Pedestre', 'Roubo de Veículo',
+             'Roubo de Residência', 'Estupro', 'Furto a Pedestre',
              'Furto de Veículo', name='occurrence_type'),
         nullable=False)
 
