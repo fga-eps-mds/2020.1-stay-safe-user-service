@@ -1,0 +1,25 @@
+name: CD HOMOLOG
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: deploy
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd /home/hellslimm/2020.1-stay-safe-user-service/
+            git pull origin develop
+            sudo docker-compose build
+            sudo docker-compose restart api
+          host: ${{ secrets.HOST_HOMOLOG }}
+          user: hellslimm
+          key: ${{ secrets.HOMOLOG_PRIVATE_KEY}}
+          args: "-tt"
