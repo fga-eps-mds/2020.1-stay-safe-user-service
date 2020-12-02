@@ -3,7 +3,6 @@ import json
 
 from database.db import get_all, get_one
 from database.models import FavoritePlace, User
-from settings import logger
 from utils.formatters import get_row_dict
 from utils.utils import haversine
 
@@ -39,8 +38,5 @@ def send_notifications_near_occcurrences(occurrence, username):
 
     response = requests.post('https://exp.host/--/api/v2/push/send',
                              data=json.dumps(message), headers=headers)
-
-    logger.debug(near_favorite_places)
-    logger.debug({'data': occurrence})
 
     return occurrence, 200
