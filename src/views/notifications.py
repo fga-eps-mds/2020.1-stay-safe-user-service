@@ -8,7 +8,6 @@ from utils.validators.general import validate_header, validate_token
 
 notifications_blueprint = Blueprint(
     'notifications', __name__, url_prefix='/api')
-CORS(notifications_blueprint)
 
 
 @notifications_blueprint.route('/notification-places/', methods=['POST'])
