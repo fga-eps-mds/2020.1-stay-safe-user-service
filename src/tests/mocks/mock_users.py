@@ -5,7 +5,7 @@ correct_users = [
         'email': 'anderson5458@uorak.com',
         'password': '999mcXEAuz',
         'device_token': None,
-        'show_notifications': False
+        'show_notifications': True
     },
     {
         'full_name': 'Katelyn Mcdaniel',
@@ -13,7 +13,7 @@ correct_users = [
         'email': 'fmouhamedtah@netfacc.com',
         'password': 'aLwTL3yya',
         'device_token': None,
-        'show_notifications': False
+        'show_notifications': True
     },
     {
         'full_name': 'Falob Gaupidir',
@@ -21,7 +21,7 @@ correct_users = [
         'email': 'alucassouzardm@saymeow.de',
         'password': 'iGpcL3ygR',
         'device_token': None,
-        'show_notifications': False
+        'show_notifications': True
     }
 ]
 
@@ -99,7 +99,7 @@ correct_user_update = {
     'full_name': 'Gixu Duribo',
     'password': 'vusmouke13',
     'device_token': 'testando notificação push',
-    'show_notifications': True
+    'show_notifications': False
 }
 
 wrong_user_update = {

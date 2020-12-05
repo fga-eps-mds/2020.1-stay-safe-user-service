@@ -28,7 +28,7 @@ class User(Base):
     favorite_places = relationship("FavoritePlace")
 
     def __init__(self, username, email, password, full_name,
-                 device_token=None, show_notifications=False):
+                 device_token=None, show_notifications=True):
         self.username = username
         self.email = email
         self.password = BCRYPT.generate_password_hash(

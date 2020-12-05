@@ -801,6 +801,40 @@
           }
         }
       }
+    },
+    "api/notification-places/": {
+      "post": {
+        "tags": [
+          "notification favorite places"
+        ],
+        "summary": "Send notification to users that has favorite places near new occurrences",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created occurrence object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Occurrence-post"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
     }
   },
   "definitions": {
