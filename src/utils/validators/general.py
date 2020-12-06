@@ -4,6 +4,7 @@ import jwt
 
 from settings import SECRET_KEY
 from utils.formatters import create_response
+from controllers import user
 
 
 def validate_fields(json, fields):
@@ -90,7 +91,12 @@ def validate_token(func):
             username = jwt.decode(
                     auth, SECRET_KEY, algorithms=['HS256']
             )['username']
-            return func(username, *args, **kwargs)
+            result, code = user.get_one_user(username)
+            if code == 200:
+                return func(username, *args, **kwargs)
+            if code == 404:
+                return "Usuário não existe", code
+            return result, code
         except jwt.InvalidTokenError:
             return 'Invalid token', 401
 
