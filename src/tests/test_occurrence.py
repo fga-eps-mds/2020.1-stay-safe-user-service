@@ -180,7 +180,8 @@ class TestOccurrence(unittest.TestCase):
         )
 
         self.assertEqual(status, 403)
-        self.assertEqual("Você não pode editar o objeto de outro usuário", result)
+        self.assertEqual(
+            "Você não pode editar o objeto de outro usuário", result)
 
     def test_delete_occurrence_from_another_user(self):
         """
@@ -193,4 +194,5 @@ class TestOccurrence(unittest.TestCase):
         )
 
         self.assertEqual(status, 403)
-        self.assertEqual("Você não pode deletar o objeto de outro usuário", result)
+        self.assertEqual(
+            "Você não pode deletar o objeto de outro usuário", result)
